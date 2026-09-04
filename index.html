@@ -1,102 +1,84 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enrique Dans | Portafolio Profesional</title>
+    <title>Portafolio - Enrique Dans Vilches</title>
     <style>
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
-            padding: 20px; 
-            background-color: #f8f9fa; 
-            color: #212529; 
-            max-width: 650px; 
-            margin: 0 auto; 
-            line-height: 1.6;
-        }
-        h1 { color: #0d6efd; margin-bottom: 4px; }
-        .tagline { font-style: italic; color: #6c757d; margin-top: 0; }
-        h2 { color: #1a2a3a; border-bottom: 2px solid #0d6efd; padding-bottom: 4px; margin-top: 24px; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 0; padding: 20px; background-color: #f4f4f9; color: #333; }
+        header { text-align: center; background-color: #0d6efd; color: white; padding: 30px 15px; border-radius: 8px; }
+        header h1 { margin: 0; font-size: 1.8rem; }
+        header p { margin: 5px 0 0; font-size: 1.1rem; opacity: 0.9; }
+        .container { max-width: 800px; margin: 20px auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        details { margin-bottom: 15px; padding: 12px; border: 1px solid #ddd; border-radius: 6px; background-color: #fff; }
+        summary { font-weight: bold; font-size: 1.1rem; cursor: pointer; color: #0d6efd; }
+        details p, details ul { margin-top: 10px; }
         ul { padding-left: 20px; }
-        li { margin-bottom: 12px; }
-        
-        /* Estilos interáctivos */
-        details {
-            background: #ffffff;
-            border: 1px solid #dee2e6;
-            border-radius: 8px;
-            padding: 12px;
-            margin-top: 8px;
-        }
-        summary {
-            font-weight: bold;
-            cursor: pointer;
-            color: #0d6efd;
-        }
-        .project-img {
-            width: 100%;
-            max-width: 100%;
-            height: auto;
-            border-radius: 6px;
-            margin-top: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        .contact-btn {
-            display: inline-block;
-            background-color: #0d6efd;
-            color: white;
-            padding: 10px 16px;
-            text-decoration: none;
-            border-radius: 6px;
-            font-weight: bold;
-            margin-top: 10px;
-        }
+        .contact-btn { display: inline-block; background-color: #0d6efd; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; margin-top: 10px; text-align: center; }
+        .contact-btn:hover { background-color: #0b5ed7; }
+        .btn-pdf { background-color: #198754; }
+        .btn-pdf:hover { background-color: #157347; }
+        img.responsive-img { max-width: 100%; height: auto; border-radius: 6px; margin-top: 10px; }
     </style>
 </head>
 <body>
 
-    <h1>Enrique Dans</h1>
-    <p class="tagline">Ideas que buscan convertirse en proyectos.</p>
+    <header>
+        <h1>Enrique Dans Vilches</h1>
+        <p>Ingeniero Electromecánico & Especialista en Logística</p>
+    </header>
 
-    <h2>Sobre Mí</h2>
-    <p>Profesional enfocado en la optimización de procesos, gestión logística y aplicación estratégica de tecnología para la resolución de problemas en entornos operativos.</p>
+    <div class="container">
 
-    <h2>Áreas de Enfoque & Proyectos</h2>
-    
-    <details>
-        <summary>📦 Negocios & Cadena de Suministro: Enlace Cienfuegos del Mayab (Toca para ver)</summary>
-        <p style="margin-top: 10px;"><strong>Proyecto de Logística y Envíos Puerta a Puerta (México - Cuba):</strong></p>
-        
-        <img src="volante.jpg" alt="Volante de Envíos México - Cuba" class="project-img">
+        <!-- SOBRE MÍ -->
+        <details open>
+            <summary>👤 Sobre Mí</summary>
+            <p>Ingeniero Eléctrico con especialidad en Electroenergética y más de 40 años de trayectoria profesional. Experiencia destacada en control de inventarios, administración de almacenes, logística comercial y optimización de operaciones.</p>
+        </details>
 
-        <ul>
-            <li><strong>Operación Logística:</strong> Coordinación de envíos consolidados de paquetería, electrodomésticos, materiales de construcción y víveres.</li>
-            <li><strong>Gestión de Cadena de Suministro:</strong> Monitoreo constante de carga marítima y terrestre con cobertura regional.</li>
-            <li><strong>Red de Distribución:</strong> Coordinación de alianzas estratégicas y agentes locales para entregas garantizadas.</li>
-        </ul>
-    </details>
+        <!-- CURRÍCULUM VITAE COMPLETO (PDF) -->
+        <details>
+            <summary>📄 Currículum Vitae Completo con Fotografía</summary>
+            <div style="text-align: center; padding: 15px 0;">
+                <p>Haz clic en el siguiente botón para consultar o descargar mi CV oficial completo en formato PDF (incluye fotografía):</p>
+                <a href="CV_Enrique_Dans_Vilches.pdf" target="_blank" class="contact-btn btn-pdf">
+                    📥 Abrir / Descargar CV Completo (PDF)
+                </a>
+            </div>
+        </details>
 
-    <details>
-        <summary>⚙️ Gestión Operativa & Control</summary>
-        <p style="margin-top: 10px;">Especialización en administración de inventarios, optimización de espacios en almacén y mejora continua de flujos de trabajo.</p>
-    </details>
+        <!-- SERVICIOS Y VOLANTE PROMOCIONAL -->
+        <details>
+            <summary>📢 Servicios Comerciales & Volante Promocional</summary>
+            <p>Información complementaria y servicios integrales de comercialización y logística:</p>
+            <div style="text-align: center;">
+                <img src="volante.jpg" alt="Volante Promocional Enlace Cienfuegos del Mayab" class="responsive-img">
+            </div>
+        </details>
 
-    <details>
-        <summary>🤖 Tecnología & Automatización</summary>
-        <p style="margin-top: 10px;">Integración de herramientas de Inteligencia Artificial y soluciones digitales aplicadas a la gestión comercial e industrial.</p>
-    </details>
+        <!-- EXPERIENCIA Y COMPETENCIAS -->
+        <details>
+            <summary>💼 Experiencia y Competencias Clave</summary>
+            <ul>
+                <li><strong>Gestión de Inventarios y Almacenes:</strong> Control de stock, recepción, organización y despacho de mercancías.</li>
+                <li><strong>Logística y Operaciones:</strong> Coordinación de entradas y salidas de productos, supervisión de procedimientos.</li>
+                <li><strong>Administración:</strong> Elaboración de reportes operativos, soporte técnico y atención a clientes.</li>
+                <li><strong>Herramientas Tecnológicas:</strong> Microsoft Office (Excel, Word), herramientas de IA y entornos digitales.</li>
+            </ul>
+        </details>
 
-    <h2>Formación y Certificaciones</h2>
-    <ul>
-        <li><strong>Sistemas de Calidad & Lean Six Sigma:</strong> Capacitación en mejora continua e ISO.</li>
-        <li><strong>Comercio Digital & Importaciones:</strong> Modelos FBA y gestión logística.</li>
-    </ul>
+        <!-- CONTACTO -->
+        <details>
+            <summary>✉️ Contacto Directo y Ubicación</summary>
+            <p>¿Te interesa consultar cotizaciones de logística o colaborar profesionalmente?</p>
+            <p><strong>📍 Domicilio:</strong> Calle 66 #318, entre calle 147 esq. San José Tecoh 2, Col. San Antonio Xluch, C.P. 97290, Mérida, Yucatán, México.</p>
+            <div style="text-align: center; margin-top: 15px;">
+                <a href="mailto:kikeyucatan64@gmail.com" class="contact-btn">Enviar Correo Electrónico</a>
+            </div>
+        </details>
 
-    <h2>Contacto</h2>
-    <p>¿Te interesa colaborar o consultar cotizaciones de logística?</p>
-    <a href="mailto:tu-correo@email.com" class="contact-btn">Enviar Correo</a>
+    </div>
 
 </body>
 </html>
-
-        
+  
