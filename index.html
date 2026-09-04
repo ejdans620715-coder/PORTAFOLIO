@@ -3,82 +3,186 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portafolio - Enrique Dans Vilches</title>
+    <title>Servicios de Logística y Consultoría Operativa | Mérida, Yucatán</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 0; padding: 20px; background-color: #f4f4f9; color: #333; }
-        header { text-align: center; background-color: #0d6efd; color: white; padding: 30px 15px; border-radius: 8px; }
-        header h1 { margin: 0; font-size: 1.8rem; }
-        header p { margin: 5px 0 0; font-size: 1.1rem; opacity: 0.9; }
-        .container { max-width: 800px; margin: 20px auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        details { margin-bottom: 15px; padding: 12px; border: 1px solid #ddd; border-radius: 6px; background-color: #fff; }
-        summary { font-weight: bold; font-size: 1.1rem; cursor: pointer; color: #0d6efd; }
-        details p, details ul { margin-top: 10px; }
-        ul { padding-left: 20px; }
-        .contact-btn { display: inline-block; background-color: #0d6efd; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; margin-top: 10px; text-align: center; }
-        .contact-btn:hover { background-color: #0b5ed7; }
-        .btn-pdf { background-color: #198754; }
-        .btn-pdf:hover { background-color: #157347; }
-        img.responsive-img { max-width: 100%; height: auto; border-radius: 6px; margin-top: 10px; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #212529;
+        }
+        header {
+            background-color: #0f2b48;
+            color: #ffffff;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
+            letter-spacing: 0.5px;
+        }
+        header p {
+            margin: 10px 0 0;
+            font-size: 1.15rem;
+            color: #d1e7dd;
+            font-weight: 300;
+        }
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        .card {
+            background: #ffffff;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border-left: 5px solid #0f2b48;
+        }
+        h2 {
+            color: #0f2b48;
+            margin-top: 0;
+            font-size: 1.4rem;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 8px;
+        }
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .service-item {
+            background: #f1f5f9;
+            padding: 15px;
+            border-radius: 6px;
+        }
+        .service-item h3 {
+            margin-top: 0;
+            color: #0f2b48;
+            font-size: 1.1rem;
+        }
+        ul {
+            padding-left: 20px;
+            margin: 10px 0;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        .contact-btn {
+            display: inline-block;
+            background-color: #0f2b48;
+            color: #ffffff;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-top: 10px;
+            text-align: center;
+            transition: background-color 0.2s;
+        }
+        .contact-btn:hover {
+            background-color: #1a426e;
+        }
+        .btn-pdf {
+            background-color: #198754;
+        }
+        .btn-pdf:hover {
+            background-color: #146c43;
+        }
+        img.responsive-img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 6px;
+            margin-top: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #e9ecef;
+            font-size: 0.9rem;
+            color: #6c757d;
+            margin-top: 40px;
+        }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>Enrique Dans Vilches</h1>
-        <p>Ingeniero Electromecánico & Especialista en Logística</p>
+        <h1>GESTIÓN OPERATIVA Y LOGÍSTICA INTEGRAL</h1>
+        <p>Optimización de Procesos, Control de Inventarios y Soporte Electromecánico</p>
     </header>
 
     <div class="container">
 
-        <!-- SOBRE MÍ -->
-        <details open>
-            <summary>👤 Sobre Mí</summary>
-            <p>Ingeniero Eléctrico con especialidad en Electroenergética y más de 40 años de trayectoria profesional. Experiencia destacada en control de inventarios, administración de almacenes, logística comercial y optimización de operaciones.</p>
-        </details>
+        <!-- PROPUESTA DE VALOR / SOLUCIONES -->
+        <div class="card">
+            <h2>⚙️ Servicios y Soluciones Operativas</h2>
+            <p>Especialización en la estructuración, supervisión y mejora de operaciones en la cadena de suministro, orientadas a garantizar la eficiencia de stock y la continuidad operativa industrial y comercial.</p>
+            
+            <div class="services-grid">
+                <div class="service-item">
+                    <h3>Control de Almacenes e Inventarios</h3>
+                    <p>Implementación de metodologías de auditoría, registro y conciliación de existencias para reducir mermas, inconsistencias y tiempos de despacho.</p>
+                </div>
+                <div class="service-item">
+                    <h3>Coordinación de Operaciones y Logística</h3>
+                    <p>Supervisión de cadenas de entrada/salida de insumos, gestión de rutas de distribución y optimización de flujos de trabajo en planta o almacén.</p>
+                </div>
+                <div class="service-item">
+                    <h3>Soporte Electromecánico Industrial</h3>
+                    <p>Consultoría y supervisión técnica en sistemas electro-energéticos, garantizando un enfoque riguroso de ingeniería aplicada a la operación.</p>
+                </div>
+            </div>
+        </div>
 
-        <!-- CURRÍCULUM VITAE COMPLETO (PDF) -->
-        <details>
-            <summary>📄 Currículum Vitae Completo con Fotografía</summary>
-            <div style="text-align: center; padding: 15px 0;">
-                <p>Haz clic en el siguiente botón para consultar o descargar mi CV oficial completo en formato PDF (incluye fotografía):</p>
+        <!-- RESPALDO TÉCNICO Y PERFIL OFICIAL -->
+        <div class="card">
+            <h2>📋 Respaldo Técnico y Credenciales</h2>
+            <p>Servicios respaldados por sólidos conocimientos de ingeniería electromecánica y más de cuatro décadas de aplicación en la gestión técnica y comercial.</p>
+            <ul>
+                <li><strong>Garantía de Proceso:</strong> Apego a normativas técnicas, reportes operativos claros y métricas de desempeño.</li>
+                <li><strong>Enfoque Preventivo:</strong> Diagnóstico de cuellos de botella en la recepción y despacho de mercancías.</li>
+            </ul>
+            <div style="text-align: center; margin-top: 20px;">
+                <p>Para consultar el detalle del Perfil Técnico e Historial de Proyectos:</p>
                 <a href="CV_Enrique_Dans_Vilches.pdf" target="_blank" class="contact-btn btn-pdf">
-                    📥 Abrir / Descargar CV Completo (PDF)
+                    📄 Descargar Perfil Técnico Profesional (PDF)
                 </a>
             </div>
-        </details>
+        </div>
 
-        <!-- SERVICIOS Y VOLANTE PROMOCIONAL -->
-        <details>
-            <summary>📢 Servicios Comerciales & Volante Promocional</summary>
-            <p>Información complementaria y servicios integrales de comercialización y logística:</p>
+        <!-- CATÁLOGO PROMOCIONAL -->
+        <div class="card">
+            <h2>📢 Servicios Comerciales Integrales</h2>
+            <p>Consulte las líneas de apoyo comercial y logística regional disponibles:</p>
             <div style="text-align: center;">
-                <img src="volante.jpg" alt="Volante Promocional Enlace Cienfuegos del Mayab" class="responsive-img">
+                <img src="volante.jpg" alt="Servicios Comerciales y Logísticos" class="responsive-img">
             </div>
-        </details>
+        </div>
 
-        <!-- EXPERIENCIA Y COMPETENCIAS -->
-        <details>
-            <summary>💼 Experiencia y Competencias Clave</summary>
-            <ul>
-                <li><strong>Gestión de Inventarios y Almacenes:</strong> Control de stock, recepción, organización y despacho de mercancías.</li>
-                <li><strong>Logística y Operaciones:</strong> Coordinación de entradas y salidas de productos, supervisión de procedimientos.</li>
-                <li><strong>Administración:</strong> Elaboración de reportes operativos, soporte técnico y atención a clientes.</li>
-                <li><strong>Herramientas Tecnológicas:</strong> Microsoft Office (Excel, Word), herramientas de IA y entornos digitales.</li>
-            </ul>
-        </details>
-
-        <!-- CONTACTO -->
-        <details>
-            <summary>✉️ Contacto Directo y Ubicación</summary>
-            <p>¿Te interesa consultar cotizaciones de logística o colaborar profesionalmente?</p>
-            <p><strong>📍 Domicilio:</strong> Calle 66 #318, entre calle 147 esq. San José Tecoh 2, Col. San Antonio Xluch, C.P. 97290, Mérida, Yucatán, México.</p>
-            <div style="text-align: center; margin-top: 15px;">
-                <a href="mailto:kikeyucatan64@gmail.com" class="contact-btn">Enviar Correo Electrónico</a>
+        <!-- UBICACIÓN Y COTIZACIONES -->
+        <div class="card">
+            <h2>📍 Contacto Corporativo y Cotizaciones</h2>
+            <p>Atención directa para requerimientos de consultoría, diagnóstico de almacenes o colaboración operativa:</p>
+            <p><strong>Ubicación Base:</strong> Calle 66 #318, Col. San Antonio Xluch, C.P. 97290, Mérida, Yucatán, México.</p>
+            <div style="text-align: center; margin-top: 20px;">
+                <a href="mailto:kikeyucatan64@gmail.com" class="contact-btn">Solicitar Cotización / Información</a>
             </div>
-        </details>
+        </div>
 
     </div>
 
+    <footer>
+        <p>&copy; 2026 - Servicios de Consultoría en Logística y Operaciones Técnicas | Mérida, Yucatán.</p>
+    </footer>
+
 </body>
 </html>
+
   
