@@ -1,188 +1,865 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Servicios de Logística y Consultoría Operativa | Mérida, Yucatán</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-            background-color: #f8f9fa;
-            color: #212529;
-        }
-        header {
-            background-color: #0f2b48;
-            color: #ffffff;
-            padding: 40px 20px;
-            text-align: center;
-        }
-        header h1 {
-            margin: 0;
-            font-size: 2rem;
-            letter-spacing: 0.5px;
-        }
-        header p {
-            margin: 10px 0 0;
-            font-size: 1.15rem;
-            color: #d1e7dd;
-            font-weight: 300;
-        }
-        .container {
-            max-width: 900px;
-            margin: 30px auto;
-            padding: 0 20px;
-        }
-        .card {
-            background: #ffffff;
-            padding: 25px;
-            margin-bottom: 25px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            border-left: 5px solid #0f2b48;
-        }
-        h2 {
-            color: #0f2b48;
-            margin-top: 0;
-            font-size: 1.4rem;
-            border-bottom: 2px solid #e9ecef;
-            padding-bottom: 8px;
-        }
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
-        }
-        .service-item {
-            background: #f1f5f9;
-            padding: 15px;
-            border-radius: 6px;
-        }
-        .service-item h3 {
-            margin-top: 0;
-            color: #0f2b48;
-            font-size: 1.1rem;
-        }
-        ul {
-            padding-left: 20px;
-            margin: 10px 0;
-        }
-        li {
-            margin-bottom: 8px;
-        }
-        .contact-btn {
-            display: inline-block;
-            background-color: #0f2b48;
-            color: #ffffff;
-            padding: 12px 25px;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-            margin-top: 10px;
-            text-align: center;
-            transition: background-color 0.2s;
-        }
-        .contact-btn:hover {
-            background-color: #1a426e;
-        }
-        .btn-pdf {
-            background-color: #198754;
-        }
-        .btn-pdf:hover {
-            background-color: #146c43;
-        }
-        img.responsive-img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 6px;
-            margin-top: 15px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        footer {
-            text-align: center;
-            padding: 20px;
-            background: #e9ecef;
-            font-size: 0.9rem;
-            color: #6c757d;
-            margin-top: 40px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>JAENDA | Proyectos, Soluciones y Servicios</title>
+
+  <meta name="description"
+        content="JAENDA. Proyectos, soluciones y servicios que conectan ideas con oportunidades.">
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f5f5f2;
+      color: #171717;
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1150px;
+      margin: auto;
+    }
+
+    /* =========================
+       NAVEGACIÓN
+       ========================= */
+
+    header {
+      padding: 25px 0;
+      border-bottom: 1px solid #ddd;
+      background: #f5f5f2;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 25px;
+      font-weight: 800;
+      letter-spacing: 4px;
+    }
+
+    .menu {
+      display: flex;
+      gap: 28px;
+      font-size: 14px;
+    }
+
+    .menu a:hover {
+      opacity: .55;
+    }
+
+    /* =========================
+       PORTADA
+       ========================= */
+
+    .hero {
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+      padding: 90px 0;
+    }
+
+    .hero-content {
+      max-width: 950px;
+    }
+
+    .eyebrow {
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      font-size: 12px;
+      font-weight: bold;
+      margin-bottom: 25px;
+    }
+
+    .hero h1 {
+      font-size: clamp(52px, 9vw, 105px);
+      line-height: .92;
+      letter-spacing: -5px;
+      margin-bottom: 35px;
+    }
+
+    .hero h1 span {
+      display: block;
+      font-weight: 400;
+    }
+
+    .hero-text {
+      max-width: 720px;
+      font-size: 24px;
+      color: #555;
+      margin-bottom: 35px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 14px 25px;
+      border: 1px solid #171717;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .button:hover {
+      background: #171717;
+      color: white;
+    }
+
+    .button.dark {
+      background: #171717;
+      color: white;
+    }
+
+    .button.dark:hover {
+      background: transparent;
+      color: #171717;
+    }
+
+    /* =========================
+       SECCIONES
+       ========================= */
+
+    section {
+      padding: 100px 0;
+      border-top: 1px solid #ddd;
+    }
+
+    .section-label {
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-size: 12px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      font-size: clamp(38px, 6vw, 65px);
+      line-height: 1;
+      letter-spacing: -3px;
+      margin-bottom: 45px;
+    }
+
+    .large-text {
+      max-width: 850px;
+      font-size: 26px;
+      color: #444;
+    }
+
+    /* =========================
+       PROYECTOS
+       ========================= */
+
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .project {
+      background: white;
+      border: 1px solid #ddd;
+      overflow: hidden;
+      transition: transform .2s ease;
+    }
+
+    .project:hover {
+      transform: translateY(-5px);
+    }
+
+    .project-image {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .project-content {
+      padding: 30px;
+    }
+
+    .project-number {
+      font-size: 12px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      color: #777;
+    }
+
+    .project h3 {
+      font-size: 25px;
+      margin: 18px 0 12px;
+    }
+
+    .project p {
+      color: #666;
+    }
+
+    .project-link {
+      display: inline-block;
+      margin-top: 22px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    /* =========================
+       SERVICIOS
+       ========================= */
+
+    .services {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      background: #ccc;
+      border: 1px solid #ccc;
+    }
+
+    .service {
+      background: #f5f5f2;
+      padding: 40px;
+      min-height: 210px;
+    }
+
+    .service-number {
+      font-size: 13px;
+      color: #777;
+    }
+
+    .service h3 {
+      font-size: 25px;
+      margin: 20px 0 10px;
+    }
+
+    .service p {
+      color: #666;
+    }
+
+    /* =========================
+       MÉTODO
+       ========================= */
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 25px;
+    }
+
+    .step {
+      border-top: 3px solid #171717;
+      padding-top: 18px;
+    }
+
+    .step-number {
+      font-size: 12px;
+      color: #777;
+    }
+
+    .step h3 {
+      margin: 15px 0 10px;
+      font-size: 20px;
+    }
+
+    .step p {
+      font-size: 14px;
+      color: #666;
+    }
+
+    /* =========================
+       IDEAS
+       ========================= */
+
+    .ideas {
+      background: #171717;
+      color: white;
+      padding: 100px 8%;
+    }
+
+    .ideas .section-label {
+      color: #aaa;
+    }
+
+    .ideas h2 {
+      max-width: 850px;
+    }
+
+    .ideas p {
+      max-width: 800px;
+      font-size: 23px;
+      color: #ccc;
+    }
+
+    /* =========================
+       CONTACTO
+       ========================= */
+
+    .contact {
+      text-align: center;
+      padding: 120px 0;
+    }
+
+    .contact h2 {
+      max-width: 850px;
+      margin: 0 auto 25px;
+    }
+
+    .contact p {
+      font-size: 22px;
+      color: #666;
+      margin-bottom: 35px;
+    }
+
+    /* =========================
+       FOOTER
+       ========================= */
+
+    footer {
+      border-top: 1px solid #ddd;
+      padding: 30px 0;
+      font-size: 13px;
+      color: #777;
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    /* =========================
+       MÓVIL
+       ========================= */
+
+    @media (max-width: 800px) {
+
+      .menu {
+        display: none;
+      }
+
+      .hero {
+        min-height: 75vh;
+        padding: 60px 0;
+      }
+
+      .hero h1 {
+        font-size: 58px;
+        letter-spacing: -3px;
+      }
+
+      .hero-text {
+        font-size: 20px;
+      }
+
+      section {
+        padding: 70px 0;
+      }
+
+      .projects,
+      .services,
+      .steps {
+        grid-template-columns: 1fr;
+      }
+
+      .service {
+        min-height: auto;
+      }
+
+      .ideas {
+        padding: 70px 5%;
+      }
+
+      .ideas p {
+        font-size: 19px;
+      }
+
+      .footer-content {
+        flex-direction: column;
+      }
+    }
+
+  </style>
 </head>
+
 <body>
 
-    <header>
-        <h1>GESTIÓN OPERATIVA Y LOGÍSTICA INTEGRAL</h1>
-        <p>Optimización de Procesos, Control de Inventarios y Soporte Electromecánico</p>
-    </header>
+  <!-- =========================
+       CABECERA
+       ========================= -->
+
+  <header>
 
     <div class="container">
 
-        <!-- PROPUESTA DE VALOR / SOLUCIONES -->
-        <div class="card">
-            <h2>⚙️ Servicios y Soluciones Operativas</h2>
-            <p>Especialización en la estructuración, supervisión y mejora de operaciones en la cadena de suministro, orientadas a garantizar la eficiencia de stock y la continuidad operativa industrial y comercial.</p>
-            
-            <div class="services-grid">
-                <div class="service-item">
-                    <h3>Control de Almacenes e Inventarios</h3>
-                    <p>Implementación de metodologías de auditoría, registro y conciliación de existencias para reducir mermas, inconsistencias y tiempos de despacho.</p>
-                </div>
-                <div class="service-item">
-                    <h3>Coordinación de Operaciones y Logística</h3>
-                    <p>Supervisión de cadenas de entrada/salida de insumos, gestión de rutas de distribución y optimización de flujos de trabajo en planta o almacén.</p>
-                </div>
-                <div class="service-item">
-                    <h3>Soporte Electromecánico Industrial</h3>
-                    <p>Consultoría y supervisión técnica en sistemas electro-energéticos, garantizando un enfoque riguroso de ingeniería aplicada a la operación.</p>
-                </div>
-            </div>
+      <nav>
+
+        <div class="logo">
+          JAENDA
         </div>
 
-        <!-- RESPALDO TÉCNICO Y PERFIL OFICIAL -->
-        <div class="card">
-            <h2>📋 Respaldo Técnico y Credenciales</h2>
-            <p>Servicios respaldados por sólidos conocimientos de ingeniería electromecánica y más de cuatro décadas de aplicación en la gestión técnica y comercial.</p>
-            <ul>
-                <li><strong>Garantía de Proceso:</strong> Apego a normativas técnicas, reportes operativos claros y métricas de desempeño.</li>
-                <li><strong>Enfoque Preventivo:</strong> Diagnóstico de cuellos de botella en la recepción y despacho de mercancías.</li>
-            </ul>
-            <div style="text-align: center; margin-top: 20px;">
-                <p>Para consultar el detalle del Perfil Técnico e Historial de Proyectos:</p>
-                <a href="CV_Enrique_Dans_Vilches.pdf" target="_blank" class="contact-btn btn-pdf">
-                    📄 Descargar Perfil Técnico Profesional (PDF)
-                </a>
-            </div>
+        <div class="menu">
+          <a href="#proyectos">Proyectos</a>
+          <a href="#servicios">Servicios</a>
+          <a href="#metodo">Cómo trabajamos</a>
+          <a href="#contacto">Contacto</a>
         </div>
 
-        <!-- CATÁLOGO PROMOCIONAL -->
-        <div class="card">
-            <h2>📢 Servicios Comerciales Integrales</h2>
-            <p>Consulte las líneas de apoyo comercial y logística regional disponibles:</p>
-            <div style="text-align: center;">
-                <img src="volante.jpg" alt="Servicios Comerciales y Logísticos" class="responsive-img">
-            </div>
-        </div>
-
-        <!-- UBICACIÓN Y COTIZACIONES -->
-        <div class="card">
-            <h2>📍 Contacto Corporativo y Cotizaciones</h2>
-            <p>Atención directa para requerimientos de consultoría, diagnóstico de almacenes o colaboración operativa:</p>
-            <p><strong>Ubicación Base:</strong> Calle 66 #318, Col. San Antonio Xluch, C.P. 97290, Mérida, Yucatán, México.</p>
-            <div style="text-align: center; margin-top: 20px;">
-                <a href="mailto:kikeyucatan64@gmail.com" class="contact-btn">Solicitar Cotización / Información</a>
-            </div>
-        </div>
+      </nav>
 
     </div>
 
-    <footer>
-        <p>&copy; 2026 - Servicios de Consultoría en Logística y Operaciones Técnicas | Mérida, Yucatán.</p>
-    </footer>
+  </header>
+
+
+  <main>
+
+    <!-- =========================
+         PORTADA
+         ========================= -->
+
+    <section class="hero">
+
+      <div class="container">
+
+        <div class="hero-content">
+
+          <div class="eyebrow">
+            Proyectos · Soluciones · Servicios
+          </div>
+
+          <h1>
+            JAENDA
+            <span>Ideas que encuentran su camino.</span>
+          </h1>
+
+          <p class="hero-text">
+            Un espacio para desarrollar proyectos, conectar oportunidades
+            y encontrar las soluciones necesarias para hacerlos avanzar.
+          </p>
+
+          <div class="buttons">
+
+            <a class="button dark" href="#proyectos">
+              VER PROYECTOS
+            </a>
+
+            <a class="button" href="#contacto">
+              CONTACTAR
+            </a>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         PRESENTACIÓN
+         ========================= -->
+
+    <section>
+
+      <div class="container">
+
+        <div class="section-label">
+          Qué hacemos
+        </div>
+
+        <h2>
+          Las ideas son el comienzo.
+        </h2>
+
+        <p class="large-text">
+          JAENDA reúne proyectos, soluciones y servicios que nacen de
+          oportunidades concretas y evolucionan mediante la colaboración
+          entre personas, empresas y conocimientos especializados.
+        </p>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         PROYECTOS
+         ========================= -->
+
+    <section id="proyectos">
+
+      <div class="container">
+
+        <div class="section-label">
+          Proyectos
+        </div>
+
+        <h2>
+          Ideas en movimiento.
+        </h2>
+
+        <div class="projects">
+
+
+          <!-- PROYECTO 1 -->
+
+          <article class="project">
+
+            <img
+              src="volante.jpg"
+              alt="Enlace Cienfuegos del Mayab"
+              class="project-image"
+            >
+
+            <div class="project-content">
+
+              <div class="project-number">
+                01 · PROYECTO EMPRESARIAL
+              </div>
+
+              <h3>
+                Enlace Cienfuegos del Mayab
+              </h3>
+
+              <p>
+                Proyecto empresarial orientado al desarrollo de
+                oportunidades y soluciones entre diferentes mercados.
+              </p>
+
+              <a href="#" class="project-link">
+                CONOCER EL PROYECTO →
+              </a>
+
+            </div>
+
+          </article>
+
+
+          <!-- PROYECTO 2 -->
+
+          <article class="project">
+
+            <div
+              class="project-image"
+              style="
+                background:#ddd;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                font-weight:bold;
+                letter-spacing:2px;
+              "
+            >
+              TECNOLOGÍA
+            </div>
+
+            <div class="project-content">
+
+              <div class="project-number">
+                02 · SOLUCIONES DIGITALES
+              </div>
+
+              <h3>
+                Tecnología
+              </h3>
+
+              <p>
+                Aplicaciones y herramientas digitales orientadas a
+                resolver necesidades concretas de negocios y organizaciones.
+              </p>
+
+              <a href="#" class="project-link">
+                VER SOLUCIONES →
+              </a>
+
+            </div>
+
+          </article>
+
+
+          <!-- PROYECTO 3 -->
+
+          <article class="project">
+
+            <div
+              class="project-image"
+              style="
+                background:#ddd;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                font-weight:bold;
+                letter-spacing:2px;
+              "
+            >
+              PRÓXIMAMENTE
+            </div>
+
+            <div class="project-content">
+
+              <div class="project-number">
+                03 · EN DESARROLLO
+              </div>
+
+              <h3>
+                Nuevos proyectos
+              </h3>
+
+              <p>
+                Nuevas ideas y oportunidades que todavía están tomando forma.
+              </p>
+
+              <a href="#" class="project-link">
+                PRÓXIMAMENTE →
+              </a>
+
+            </div>
+
+          </article>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         SERVICIOS
+         ========================= -->
+
+    <section id="servicios">
+
+      <div class="container">
+
+        <div class="section-label">
+          Servicios
+        </div>
+
+        <h2>
+          Capacidades que se conectan.
+        </h2>
+
+        <div class="services">
+
+          <div class="service">
+            <div class="service-number">01</div>
+            <h3>Desarrollo de proyectos</h3>
+            <p>
+              Análisis, estructuración y desarrollo de oportunidades
+              hasta convertirlas en propuestas concretas.
+            </p>
+          </div>
+
+          <div class="service">
+            <div class="service-number">02</div>
+            <h3>Coordinación</h3>
+            <p>
+              Conexión y coordinación entre clientes, proveedores,
+              especialistas y colaboradores.
+            </p>
+          </div>
+
+          <div class="service">
+            <div class="service-number">03</div>
+            <h3>Soluciones empresariales</h3>
+            <p>
+              Servicios y herramientas diseñados alrededor de
+              necesidades específicas.
+            </p>
+          </div>
+
+          <div class="service">
+            <div class="service-number">04</div>
+            <h3>Tecnología</h3>
+            <p>
+              Aplicaciones y soluciones digitales destinadas a
+              mejorar procesos y operaciones.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         MÉTODO
+         ========================= -->
+
+    <section id="metodo">
+
+      <div class="container">
+
+        <div class="section-label">
+          Cómo trabajamos
+        </div>
+
+        <h2>
+          De la oportunidad al proyecto.
+        </h2>
+
+        <div class="steps">
+
+          <div class="step">
+            <div class="step-number">01</div>
+            <h3>Detectar</h3>
+            <p>
+              Encontrar una necesidad u oportunidad.
+            </p>
+          </div>
+
+          <div class="step">
+            <div class="step-number">02</div>
+            <h3>Analizar</h3>
+            <p>
+              Comprender qué hace falta para desarrollarla.
+            </p>
+          </div>
+
+          <div class="step">
+            <div class="step-number">03</div>
+            <h3>Conectar</h3>
+            <p>
+              Encontrar capacidades y colaboradores adecuados.
+            </p>
+          </div>
+
+          <div class="step">
+            <div class="step-number">04</div>
+            <h3>Coordinar</h3>
+            <p>
+              Integrar las diferentes capacidades.
+            </p>
+          </div>
+
+          <div class="step">
+            <div class="step-number">05</div>
+            <h3>Desarrollar</h3>
+            <p>
+              Convertir la propuesta en una solución.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         IDEAS EN DESARROLLO
+         ========================= -->
+
+    <section class="ideas">
+
+      <div class="container">
+
+        <div class="section-label">
+          Ideas en desarrollo
+        </div>
+
+        <h2>
+          No todo tiene que estar terminado para empezar.
+        </h2>
+
+        <p>
+          Algunos proyectos están consolidados.
+          Otros están comenzando.
+          Otros todavía son solamente una idea.
+          JAENDA está diseñada para que todos puedan evolucionar.
+        </p>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         CONTACTO
+         ========================= -->
+
+    <section id="contacto" class="contact">
+
+      <div class="container">
+
+        <div class="section-label">
+          Contacto
+        </div>
+
+        <h2>
+          ¿Tienes un proyecto o una oportunidad?
+        </h2>
+
+        <p>
+          Hablemos y veamos hasta dónde puede llegar.
+        </p>
+
+        <a
+          class="button dark"
+          href="mailto:contacto@ejemplo.com"
+        >
+          CONTACTAR
+        </a>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- =========================
+       PIE
+       ========================= -->
+
+  <footer>
+
+    <div class="container">
+
+      <div class="footer-content">
+
+        <div>
+          JAENDA
+        </div>
+
+        <div>
+          Proyectos · Soluciones · Servicios
+        </div>
+
+      </div>
+
+    </div>
+
+  </footer>
+
 
 </body>
 </html>
-
-  
