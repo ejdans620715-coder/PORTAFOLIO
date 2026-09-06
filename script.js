@@ -25,6 +25,89 @@ const ETIQUETAS_OFERTA = {
   "caducada": "Caducada"
 };
 
+
+const MONEDAS = {
+  USD: { simbolo: "$", locale: "en-US" },
+  EUR: { simbolo: "€", locale: "es-ES" },
+  MXN: { simbolo: "$", locale: "es-MX" }
+};
+
+let monedaSeleccionada = localStorage.getItem("jaenda_moneda") || "USD";
+let tasasCambio = { USD: 1 };
+
+function precioBaseUSD(oferta) {
+  const directo = Number(oferta.precioUSD);
+  if (Number.isFinite(directo) && directo >= 0) return directo;
+  const legado = String(oferta.precio || "").replace(/[^0-9.,-]/g, "").replace(",", ".");
+  const n = Number(legado);
+  return Number.isFinite(n) && n >= 0 ? n : null;
+}
+
+function unidadPrecio(oferta) {
+  return String(oferta.unidadPrecio || oferta.unidad || "unidad").trim() || "unidad";
+}
+
+function formatearPrecio(oferta, moneda = monedaSeleccionada) {
+  const base = precioBaseUSD(oferta);
+  if (base === null) return oferta.precio ? String(oferta.precio) : "Consultar";
+  const tasa = Number(tasasCambio[moneda]);
+  if (moneda !== "USD" && !Number.isFinite(tasa)) moneda = "USD";
+  const tasaAplicada = moneda === "USD" ? 1 : Number(tasasCambio[moneda]);
+  const valor = base * tasaAplicada;
+  const cfg = MONEDAS[moneda] || MONEDAS.USD;
+  const numero = new Intl.NumberFormat(cfg.locale, { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(valor);
+  return `${cfg.simbolo}${numero} ${moneda} / ${unidadPrecio(oferta)}`;
+}
+
+function renderOfertas() {
+  // Recalcula la vitrina completa con la moneda seleccionada.
+  // aplicarFiltros() vuelve a construir cada tarjeta y por tanto su precio.
+  aplicarFiltros();
+}
+
+async function cargarTasasCambio() {
+  const estado = document.getElementById("moneda-estado");
+  try {
+    const r = await fetch("https://open.er-api.com/v6/latest/USD", { cache: "no-store" });
+    if (!r.ok) throw new Error("No se pudo obtener la tasa de cambio");
+    const datos = await r.json();
+    if (!datos.rates) throw new Error("Respuesta de tasas inválida");
+    tasasCambio = { ...tasasCambio, ...datos.rates, USD: 1 };
+    if (estado) estado.textContent = monedaSeleccionada === "USD" ? "Base: USD" : `Conversión internacional desde USD`;
+  } catch (e) {
+    if (estado) estado.textContent = "USD disponible · conversión temporalmente no disponible";
+    console.warn("JAENDA tasas:", e);
+  }
+  renderOfertas();
+}
+
+function inicializarSelectorMoneda() {
+  const selector = document.getElementById("moneda-selector");
+  if (!selector) return;
+  if (!MONEDAS[monedaSeleccionada]) monedaSeleccionada = "USD";
+  selector.value = monedaSeleccionada;
+  selector.addEventListener("change", async () => {
+    monedaSeleccionada = selector.value;
+    localStorage.setItem("jaenda_moneda", monedaSeleccionada);
+
+    const estado = document.getElementById("moneda-estado");
+    if (monedaSeleccionada === "USD") {
+      if (estado) estado.textContent = "Base: USD";
+      renderOfertas();
+      return;
+    }
+
+    // Si todavía no tenemos la tasa solicitada, la buscamos antes de pintar.
+    if (!Number.isFinite(Number(tasasCambio[monedaSeleccionada]))) {
+      if (estado) estado.textContent = "Actualizando tasa internacional…";
+      await cargarTasasCambio();
+    } else {
+      if (estado) estado.textContent = "Conversión internacional desde USD";
+      renderOfertas();
+    }
+  });
+}
+
 const ICONO_FLECHA = `
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -155,7 +238,7 @@ function tarjetaOferta(oferta, indice, pasada) {
   indice = indice || 0;
   const etiqueta = pasada ? "Caducada" : (ETIQUETAS_OFERTA[oferta.estado] || oferta.estado);
   const departamento = (oferta.departamento || "OTROS").trim() || "OTROS";
-  const precio = (oferta.precio || "Consultar").trim();
+  const precio = formatearPrecio(oferta);
   const inicial = oferta.titulo.split(" ").slice(0, 2).map((p) => p[0]).join("").toUpperCase();
   const degradado = DEGRADADOS[indice % DEGRADADOS.length];
 
@@ -277,14 +360,17 @@ function inicializarMenu() {
   if (!burger || !menu) return;
 
   burger.addEventListener("click", () => {
-    burger.classList.toggle("open");
-    menu.classList.toggle("open");
+    const abierto = !menu.classList.contains("open");
+    burger.classList.toggle("open", abierto);
+    menu.classList.toggle("open", abierto);
+    burger.setAttribute("aria-expanded", String(abierto));
   });
 
   menu.querySelectorAll("a").forEach((enlace) => {
     enlace.addEventListener("click", () => {
       burger.classList.remove("open");
       menu.classList.remove("open");
+      burger.setAttribute("aria-expanded", "false");
     });
   });
 }
@@ -475,6 +561,13 @@ function inicializarNecesidades() {
     if (resultado) {
       resultado.className = "needs-result";
       resultado.innerHTML = "";
+    }
+
+    if (!String(payload.contacto || "").trim()) {
+      mostrarError("Escribe tu correo o teléfono para darte seguimiento.", resultado);
+      const campoContacto = document.getElementById("n-contacto");
+      if (campoContacto) campoContacto.focus();
+      return;
     }
 
     if (GOOGLE_APP_URL) {
@@ -802,7 +895,8 @@ function inicializarDetalleOfertas() {
         <div class="param"><span class="pk">Lote</span><span>${escapar(oferta.cantidad)}</span></div>
         <div class="param"><span class="pk">Llegada</span><span>${escapar(oferta.eta)}</span></div>
         ${fecha(oferta.vigenciaHasta, "Vigencia")}
-        <div class="param"><span class="pk">Precio</span><span>${escapar(oferta.precio)}</span></div>
+        <div class="param"><span class="pk">Precio</span><span>${escapar(formatearPrecio(oferta))}</span></div>
+        ${precioBaseUSD(oferta) !== null && monedaSeleccionada !== "USD" ? `<div class="param"><span class="pk">Precio base</span><span>${escapar(formatearPrecio(oferta, "USD"))}</span></div>` : ""}
         <div class="param"><span class="pk">Mercado</span><span>${escapar(mercado)}</span></div>
       </div>
       <div class="tags">
@@ -810,8 +904,9 @@ function inicializarDetalleOfertas() {
       </div>
     `;
     acciones.innerHTML = `
-        <a class="btn gold oferta-whats" href="https://wa.me/${WHATSAPP_ENLACE}?text=${mensaje}" target="_blank" rel="noopener">Me interesa</a>
-        <a class="btn ghost oferta-interes" href="#necesidades" data-producto="${escaparAtributo(oferta.titulo)}">Registrar mi interés</a>
+        <div class="oferta-gestion-enlace">Comercialización gestionada a través de <strong>Enlace Cienfuegos del Mayab S.R.L. de C.V.</strong></div>
+        <a class="btn gold oferta-whats" href="https://wa.me/${WHATSAPP_ENLACE}?text=${mensaje}" target="_blank" rel="noopener">SOLICITAR COTIZACIÓN</a>
+        <a class="btn ghost oferta-interes" href="#necesidades" data-producto="${escaparAtributo(oferta.titulo)}">REGISTRAR MI INTERÉS</a>
     `;
     panel.classList.add("abierto");
     document.body.style.overflow = "hidden";
@@ -836,6 +931,83 @@ function mostrarGestionMensaje(contenedor, error, mensaje) {
   contenedor.style.display = "block";
 }
 
+
+let ofertaGestionActual = null;
+
+function idOferta(oferta) {
+  return String(oferta.id || oferta.ID || oferta.codigo || oferta.titulo || "").trim();
+}
+
+function cargarOfertaEnGestion(oferta, duplicar = false) {
+  const panel = document.getElementById("gestion-panel");
+  const form = document.getElementById("gestion-form");
+  if (!panel || !form || !oferta) return;
+  ofertaGestionActual = duplicar ? null : oferta;
+  document.getElementById("g-modo").value = duplicar ? "crear" : "editar";
+  document.getElementById("g-id").value = duplicar ? "" : idOferta(oferta);
+  document.getElementById("g-titulo-original").value = duplicar ? "" : (oferta.titulo || "");
+  document.getElementById("gestion-titulo").textContent = duplicar ? "Duplicar oferta" : "Editar oferta";
+  document.getElementById("gestion-guardar").textContent = duplicar ? "GUARDAR COMO NUEVA" : "GUARDAR CAMBIOS";
+  document.getElementById("gestion-cancelar-edicion").style.display = "inline-flex";
+
+  const set = (id, valor) => { const e=document.getElementById(id); if(e) e.value = valor ?? ""; };
+  set("g-titulo", duplicar ? `${oferta.titulo || ""} — copia` : oferta.titulo);
+  set("g-descripcion", oferta.descripcion);
+  set("g-cantidad", oferta.cantidad);
+  set("g-precio", precioBaseUSD(oferta) ?? "");
+  set("g-unidad", unidadPrecio(oferta));
+  set("g-origen", oferta.origen);
+  set("g-destino", oferta.destino);
+  set("g-eta", oferta.eta);
+  set("g-vigencia", /^\d{4}-\d{2}-\d{2}$/.test(String(oferta.vigenciaHasta||"")) ? oferta.vigenciaHasta : "");
+  set("g-departamento", oferta.departamento || "OTROS");
+  set("g-estado", oferta.estado || "en-transito");
+  set("g-tags", Array.isArray(oferta.tags) ? oferta.tags.join(", ") : (oferta.tags || ""));
+  panel.classList.add("abierto");
+  const lista = document.getElementById("gestion-lista");
+  if (lista) lista.style.display = "none";
+  form.style.display = "grid";
+  document.body.style.overflow = "hidden";
+}
+
+function resetearGestion() {
+  const form=document.getElementById("gestion-form");
+  if (!form) return;
+  const clave=document.getElementById("g-clave")?.value || "";
+  form.reset();
+  document.getElementById("g-clave").value=clave;
+  document.getElementById("g-modo").value="crear";
+  document.getElementById("g-id").value="";
+  document.getElementById("g-titulo-original").value="";
+  document.getElementById("gestion-titulo").textContent="Administrar fichas";
+  document.getElementById("gestion-guardar").textContent="GUARDAR OFERTA";
+  document.getElementById("gestion-cancelar-edicion").style.display="none";
+  ofertaGestionActual=null;
+}
+
+
+function renderizarListaGestion() {
+  const lista = document.getElementById("gestion-lista");
+  const form = document.getElementById("gestion-form");
+  if (!lista) return;
+  const todas = [...ofertasActivas, ...ofertasPasadas];
+  lista.innerHTML = todas.length ? todas.map(o => `
+    <div class="gestion-item">
+      <div class="gestion-item-info">
+        <strong>${escapar(o.titulo || "Sin título")}</strong>
+        <span>${escapar((o.departamento || "OTROS"))} · ${escapar(formatearPrecio(o, "USD"))}</span>
+      </div>
+      <div class="gestion-item-actions">
+        <button type="button" class="btn admin-mini" data-admin-editar data-titulo="${escaparAtributo(o.titulo)}">✏️ EDITAR</button>
+        <button type="button" class="btn admin-mini" data-admin-duplicar data-titulo="${escaparAtributo(o.titulo)}">⧉ DUPLICAR</button>
+        <button type="button" class="btn admin-mini admin-delete" data-admin-eliminar data-titulo="${escaparAtributo(o.titulo)}">🗑 ELIMINAR</button>
+      </div>
+    </div>`).join("") : `<div class="gestion-vacio">No hay fichas registradas.</div>`;
+  lista.style.display = "grid";
+  if (form) form.style.display = "none";
+  document.getElementById("gestion-titulo").textContent = "MIS FICHAS";
+}
+
 function inicializarGestion() {
   const botonAbrir = document.getElementById("btn-gestion");
   const panel = document.getElementById("gestion-panel");
@@ -845,7 +1017,9 @@ function inicializarGestion() {
   if (!botonAbrir || !panel || !formulario) return;
 
   const abrir = () => {
+    resetearGestion();
     panel.classList.add("abierto");
+    renderizarListaGestion();
     document.body.style.overflow = "hidden";
     const primerCampo = formulario.querySelector("input, select");
     if (primerCampo) primerCampo.focus();
@@ -855,6 +1029,17 @@ function inicializarGestion() {
     document.body.style.overflow = "";
     if (espera) espera.style.display = "none";
   };
+
+  document.getElementById("gestion-nueva")?.addEventListener("click", () => {
+    resetearGestion();
+    document.getElementById("gestion-lista").style.display = "none";
+    formulario.style.display = "grid";
+    document.getElementById("gestion-titulo").textContent = "NUEVA FICHA";
+  });
+  document.getElementById("gestion-ver-fichas")?.addEventListener("click", () => {
+    resetearGestion();
+    renderizarListaGestion();
+  });
 
   botonAbrir.addEventListener("click", abrir);
   botonCerrar.addEventListener("click", cerrar);
@@ -868,8 +1053,10 @@ function inicializarGestion() {
 
     const d = new FormData(formulario);
     const payload = {
-      accion: "registrarOferta",
+      accion: document.getElementById("g-modo").value === "editar" ? "editarOferta" : "registrarOferta",
       clave: d.get("clave"),
+      id: d.get("id") || "",
+      tituloOriginal: d.get("tituloOriginal") || "",
       titulo: d.get("titulo"),
       descripcion: d.get("descripcion"),
       cantidad: d.get("cantidad"),
@@ -878,7 +1065,10 @@ function inicializarGestion() {
       eta: d.get("eta"),
       vigenciaHasta: d.get("vigenciaHasta"),
       estado: d.get("estado"),
-      precio: d.get("precio"),
+      precioUSD: Number(d.get("precioUSD")),
+      monedaBase: "USD",
+      unidadPrecio: d.get("unidadPrecio"),
+      precio: `$${Number(d.get("precioUSD")).toFixed(2)} USD / ${d.get("unidadPrecio")}`,
       tags: d.get("tags"),
       departamento: d.get("departamento")
     };
@@ -892,7 +1082,7 @@ function inicializarGestion() {
       const respuesta = await enviarPost(payload);
       if (respuesta.ok) {
         mostrarGestionMensaje(espera, false, (respuesta.mensaje || "Oferta guardada.") + " Se actualizó la página.");
-        formulario.reset();
+        resetearGestion();
         cerrar();
         await cargarOfertas();
       } else {
@@ -901,6 +1091,39 @@ function inicializarGestion() {
     } catch (error) {
       mostrarGestionMensaje(espera, true, "No se pudo conectar. Verifica que hayas publicado la versión nueva del script.");
       console.error("JAENDA:", error);
+    }
+  });
+
+
+  const cancelarEdicion = document.getElementById("gestion-cancelar-edicion");
+  cancelarEdicion?.addEventListener("click", resetearGestion);
+
+  document.addEventListener("click", async (evento) => {
+    const editar = evento.target.closest("[data-admin-editar]");
+    const duplicar = evento.target.closest("[data-admin-duplicar]");
+    const eliminar = evento.target.closest("[data-admin-eliminar]");
+    if (editar || duplicar) {
+      const titulo = (editar || duplicar).dataset.titulo;
+      const oferta = [...ofertasActivas, ...ofertasPasadas].find(o => o.titulo === titulo);
+      if (oferta) { document.getElementById("oferta-detalle-cerrar")?.click(); cargarOfertaEnGestion(oferta, !!duplicar); }
+      return;
+    }
+    if (eliminar) {
+      const titulo = eliminar.dataset.titulo;
+      const oferta = [...ofertasActivas, ...ofertasPasadas].find(o => o.titulo === titulo);
+      if (!oferta) return;
+      const clave = prompt(`Para eliminar "${titulo}", escribe la clave de gestión:`);
+      if (!clave) return;
+      if (!confirm(`¿Seguro que deseas eliminar "${titulo}"? Esta acción no se puede deshacer.`)) return;
+      try {
+        const r = await enviarPost({ accion:"eliminarOferta", clave, id:idOferta(oferta), tituloOriginal:oferta.titulo });
+        if (!r.ok) throw new Error(r.error || "El script todavía no admite eliminarOferta.");
+        document.getElementById("oferta-detalle-cerrar")?.click();
+        await cargarOfertas();
+        alert("Oferta eliminada.");
+      } catch (e) {
+        alert("No se pudo eliminar. Hay que actualizar Google Apps Script para admitir editarOferta/eliminarOferta. " + e.message);
+      }
     }
   });
 
@@ -917,15 +1140,64 @@ function inicializarGestion() {
   }
 }
 
+/* -------- Navegación activa, progreso y volver arriba -------- */
+
+function inicializarExperienciaPagina() {
+  const barra = document.getElementById("scroll-progress");
+  const botonArriba = document.getElementById("back-top");
+  const enlaces = [...document.querySelectorAll(".menu a[href^='#']")];
+  const secciones = enlaces
+    .map((a) => document.querySelector(a.getAttribute("href")))
+    .filter(Boolean);
+  let raf = null;
+
+  const actualizar = () => {
+    raf = null;
+    const scrollMax = document.documentElement.scrollHeight - window.innerHeight;
+    const progreso = scrollMax > 0 ? (window.scrollY / scrollMax) * 100 : 0;
+    if (barra) barra.style.width = progreso + "%";
+    if (botonArriba) botonArriba.classList.toggle("visible", window.scrollY > 650);
+  };
+
+  const pedirActualizacion = () => {
+    if (raf === null) raf = requestAnimationFrame(actualizar);
+  };
+
+  window.addEventListener("scroll", pedirActualizacion, { passive: true });
+  window.addEventListener("resize", pedirActualizacion, { passive: true });
+  actualizar();
+
+  if (botonArriba) {
+    botonArriba.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+  }
+
+  if ("IntersectionObserver" in window && secciones.length) {
+    const mapa = new Map(secciones.map((s) => [s.id, enlaces.find((a) => a.getAttribute("href") === "#" + s.id)]));
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        enlaces.forEach((a) => a.classList.remove("active"));
+        const enlace = mapa.get(entry.target.id);
+        if (enlace) enlace.classList.add("active");
+      });
+    }, { rootMargin: "-25% 0px -60% 0px", threshold: 0 });
+    secciones.forEach((s) => observer.observe(s));
+  }
+
+  document.addEventListener("keydown", (evento) => {
+    if (evento.key !== "Escape") return;
+    const detalle = document.getElementById("oferta-detalle");
+    const gestion = document.getElementById("gestion-panel");
+    if (detalle?.classList.contains("abierto")) document.getElementById("oferta-detalle-cerrar")?.click();
+    if (gestion?.classList.contains("abierto")) document.getElementById("gestion-cerrar")?.click();
+  });
+}
+
 /* -------- Año en el pie -------- */
 
 /* Fondo del inicio: usa fotos libres conocidas, con respaldo si caen */
 const FOTOS_HERO = [
-  "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Port_of_Alicante_4.jpg/1280px-Port_of_Alicante_4.jpg",
-  "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Puerto_cortes_1003.jpg/1280px-Puerto_cortes_1003.jpg",
-  "https://upload.wikimedia.org/wikipedia/commons/6/67/Ribeira_GDFL040825_054.jpg",
-  "https://upload.wikimedia.org/wikipedia/commons/7/7c/Durban_harbor.jpg",
-  "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Fdecomite_-_Goddesses_Meeting_Triptych_%28by%29.jpg/1280px-Fdecomite_-_Goddesses_Meeting_Triptych_%28by%29.jpg"
+  "portada-jaenda.png"
 ];
 
 function cargarFotoHero() {
@@ -971,17 +1243,20 @@ function anio() {
 
 document.addEventListener("DOMContentLoaded", () => {
   inicializarMenu();
+  inicializarExperienciaPagina();
   inicializarContacto();
   inicializarAliados();
   inicializarNecesidades();
   inicializarInteresOfertas();
   inicializarGestion();
   inicializarBusquedaOfertas();
+  inicializarSelectorMoneda();
   inicializarDetalleOfertas();
   anio();
   observarRevelados();
   cargarProyectos();
   cargarOfertas();
+  cargarTasasCambio();
   animacionHero();
   cargarFotoHero();
   sembrarPalabras();

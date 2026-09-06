@@ -11,7 +11,11 @@
       "descripcion": "Gestión de comercio al por mayor con el mundo: conoce las necesidades del sector privado en Cuba, las conecta con proveedores globales y estructura proyectos y licitaciones de suministro.",
       "imagen": "volante.jpg",
       "estado": "en-operacion",
-      "tags": ["Comercio al por mayor", "Gestión de necesidades", "Cuba y el mundo"],
+      "tags": [
+        "Comercio al por mayor",
+        "Gestión de necesidades",
+        "Cuba y el mundo"
+      ],
       "enlace": "#enlace"
     },
     {
@@ -21,7 +25,10 @@
       "descripcion": "Aplicaciones y herramientas digitales orientadas a resolver necesidades concretas de negocios y organizaciones.",
       "imagen": "",
       "estado": "en-desarrollo",
-      "tags": ["Aplicaciones", "Procesos"],
+      "tags": [
+        "Aplicaciones",
+        "Procesos"
+      ],
       "enlace": ""
     },
     {
@@ -31,7 +38,10 @@
       "descripcion": "Nuevas ideas y oportunidades que todavía están tomando forma.",
       "imagen": "",
       "estado": "proximamente",
-      "tags": ["Ideas", "Oportunidades"],
+      "tags": [
+        "Ideas",
+        "Oportunidades"
+      ],
       "enlace": ""
     }
   ],
@@ -66,19 +76,13 @@
       "vigenciaHasta": "2026-10-31",
       "estado": "en-transito",
       "precio": "Cotización por lote",
-      "tags": ["Energía renovable", "Embarque real"]
-    },
-    {
-      "titulo": "Ejemplo: lote de aceite de oliva",
-      "descripcion": "Fila de demostración para que veas el Historial en acción. Borra este bloque cuando quieras.",
-      "cantidad": "200 cajas",
-      "origen": "España",
-      "destino": "Cuba",
-      "eta": "Llegada: 01/09/2026",
-      "vigenciaHasta": "2026-09-01",
-      "estado": "en-bodega",
-      "precio": "Cotización por lote",
-      "tags": ["Ejemplo", "Borrar"]
+      "tags": [
+        "Energía renovable",
+        "Embarque real"
+      ],
+      "departamento": "EQUIPOS ELÉCTRICOS",
+      "monedaBase": "USD",
+      "unidadPrecio": "lote"
     }
   ]
 }
