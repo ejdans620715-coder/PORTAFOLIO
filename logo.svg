@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="JAENDA: mapa del mundo con rutas marítimas y aéreas">
+  <title>JAENDA - mapa del mundo con rutas</title>
+  <style>
+    .tierra { fill: #1c1e26; stroke: rgba(233,196,106,0.9); stroke-width: 1.8; }
+    .ruta-mar { fill: none; stroke: #ffd97a; stroke-width: 2.4; opacity: 1; stroke-linecap: round; }
+    .ruta-aire {
+      fill: none; stroke: #ffd97a; stroke-width: 1.7; opacity: 0.9;
+      stroke-dasharray: 8 6; stroke-linecap: round;
+      animation: vuelo 3.2s linear infinite;
+    }
+    .origen-anillo {
+      fill: none; stroke: #ffffff; stroke-width: 1.8; opacity: 0.9;
+      animation: pulso 2.6s ease-out infinite;
+    }
+    .origen { fill: #ffffff; }
+    .punto { fill: #ffd97a; }
+    @keyframes vuelo { to { stroke-dashoffset: -28; } }
+    @keyframes pulso {
+      0% { r: 5; opacity: 0.95; }
+      70% { r: 16; opacity: 0; }
+      100% { r: 5; opacity: 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .ruta-aire { animation: none; }
+      .origen-anillo { animation: none; }
+    }
+  </style>
+
+  <!-- Placa de fondo: emblema circular -->
+  <circle cx="320" cy="180" r="172" fill="#0d0d12" stroke="#e9c46a" stroke-opacity="0.7" stroke-width="3"/>
+  <circle cx="320" cy="180" r="162" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+  <circle cx="320" cy="180" r="124" fill="rgba(233,196,106,0.05)"/>
+
+  <!-- Mapa del mundo -->
+  <g transform="translate(320 180) scale(0.78) translate(-320 -180)">
+
+    <!-- Continentes (siluetas estilizadas) -->
+    <path class="tierra" d="M172,72 C200,58 238,62 252,80 C264,94 270,112 262,130 C258,144 262,152 268,160 C276,172 270,184 258,188 C240,194 224,192 212,186 C200,180 190,184 182,192 C170,204 152,202 146,190 C140,178 134,162 138,148 C142,132 140,114 148,100 C154,90 160,80 172,72 Z"/>
+    <path class="tierra" d="M232,196 C246,200 252,212 248,224 C244,236 232,240 226,232 C220,224 222,206 232,196 Z"/>
+    <path class="tierra" d="M182,206 C204,202 224,210 230,228 C238,250 236,276 226,294 C220,306 208,314 200,308 C192,300 186,276 184,254 C182,234 174,214 182,206 Z"/>
+    <path class="tierra" d="M306,52 C322,46 338,50 344,62 C350,74 342,84 328,88 C316,92 300,94 296,84 C290,74 288,60 306,52 Z"/>
+    <path class="tierra" d="M300,84 C312,86 322,94 324,104 C326,112 318,116 310,112 C302,108 296,98 298,90 C299,86 300,84 300,84 Z"/>
+    <path class="tierra" d="M286,112 C318,102 348,106 364,126 C378,142 382,168 374,192 C366,214 352,232 338,248 C328,258 312,258 304,244 C294,228 290,206 290,182 C290,158 280,132 286,112 Z"/>
+    <path class="tierra" d="M376,150 C384,160 390,174 388,188 C386,200 378,204 372,196 C366,186 364,170 370,158 C373,152 375,149 376,150 Z"/>
+    <path class="tierra" d="M372,54 C400,46 438,50 458,66 C474,80 484,98 480,118 C476,136 462,144 450,140 C438,136 430,144 426,158 C422,170 408,180 394,174 C380,168 370,152 364,134 C360,120 360,96 368,78 C370,68 371,60 372,54 Z"/>
+    <path class="tierra" d="M378,174 C390,186 394,200 390,210 C386,220 376,218 370,208 C364,198 362,186 368,178 C371,174 375,172 378,174 Z"/>
+    <path class="tierra" d="M494,258 C510,248 532,252 540,264 C548,276 542,292 526,296 C510,300 494,294 490,280 C488,272 488,264 494,258 Z"/>
+
+    <!-- Origen (Cuba) -->
+    <circle class="origen-anillo" cx="222" cy="196" r="5"/>
+    <circle class="origen" cx="222" cy="196" r="3.4"/>
+
+    <!-- Rutas marítimas -->
+    <path class="ruta-mar" d="M226,196 C284,170 322,132 344,116"/>
+    <path class="ruta-mar" d="M226,196 C300,128 380,92 452,74"/>
+    <path class="ruta-mar" d="M226,196 C280,180 330,150 368,128"/>
+    <path class="ruta-mar" d="M214,200 C310,220 410,240 500,262"/>
+
+    <!-- Rutas aéreas -->
+    <path class="ruta-aire" d="M210,204 C250,150 310,96 356,68"/>
+    <path class="ruta-aire" d="M232,198 C330,176 410,170 462,150"/>
+
+    <!-- Puntos destino -->
+    <circle class="punto" cx="344" cy="116" r="2.8"/>
+    <circle class="punto" cx="452" cy="74" r="2.8"/>
+    <circle class="punto" cx="368" cy="128" r="2.6"/>
+    <circle class="punto" cx="500" cy="262" r="2.6"/>
+    <circle class="punto" cx="356" cy="68" r="2.8"/>
+    <circle class="punto" cx="462" cy="150" r="2.6"/>
+
+    <!-- Avioncito -->
+    <g transform="translate(330 96) rotate(-28 0 0)">
+      <path d="M-8 0 L 8 0 M0 -6 L 0 6 L 8 0 Z" stroke="#ffffff" stroke-width="1.2" fill="none"/>
+    </g>
+  </g>
+</svg>

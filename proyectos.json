@@ -1,0 +1,84 @@
+{
+  "contacto": {
+    "email": "kikeyucatan64@gmail.com",
+    "mensaje": "Hablemos. Cuéntame qué proyecto u oportunidad tienes en mente."
+  },
+  "proyectos": [
+    {
+      "numero": "01",
+      "titulo": "Enlace Cienfuegos del Mayab",
+      "categoria": "Unidad insignia · Comercio al por mayor",
+      "descripcion": "Gestión de comercio al por mayor con el mundo: conoce las necesidades del sector privado en Cuba, las conecta con proveedores globales y estructura proyectos y licitaciones de suministro.",
+      "imagen": "volante.jpg",
+      "estado": "en-operacion",
+      "tags": ["Comercio al por mayor", "Gestión de necesidades", "Cuba y el mundo"],
+      "enlace": "#enlace"
+    },
+    {
+      "numero": "02",
+      "titulo": "Tecnología",
+      "categoria": "Soluciones digitales",
+      "descripcion": "Aplicaciones y herramientas digitales orientadas a resolver necesidades concretas de negocios y organizaciones.",
+      "imagen": "",
+      "estado": "en-desarrollo",
+      "tags": ["Aplicaciones", "Procesos"],
+      "enlace": ""
+    },
+    {
+      "numero": "03",
+      "titulo": "Nuevos proyectos",
+      "categoria": "En desarrollo",
+      "descripcion": "Nuevas ideas y oportunidades que todavía están tomando forma.",
+      "imagen": "",
+      "estado": "proximamente",
+      "tags": ["Ideas", "Oportunidades"],
+      "enlace": ""
+    }
+  ],
+  "oportunidades": [
+    {
+      "titulo": "Distribución agroalimentaria Cienfuegos – Yucatán",
+      "sector": "Agroalimentario",
+      "estado": "en-analisis",
+      "descripcion": "Oportunidad de distribución y comercialización de productos agroalimentarios entre ambos mercados."
+    },
+    {
+      "titulo": "Ruta logística del puente comercial",
+      "sector": "Logística",
+      "estado": "buscando-aliados",
+      "descripcion": "Buscamos empresas de transporte y almacenamiento para operar la ruta entre Cienfuegos y el Mayab."
+    },
+    {
+      "titulo": "Suministro de equipos y obra",
+      "sector": "Construcción e instalaciones",
+      "estado": "en-licitacion",
+      "descripcion": "Licitación en proceso que requiere proveedores y contratistas especializados."
+    }
+  ],
+  "ofertas": [
+    {
+      "titulo": "Paneles solares fotovoltaicos",
+      "descripcion": "Embarque completo en ruta desde China hacia Cuba. Paneles solares para viviendas, agricultura y negocios: capacidades al por mayor para acopiadores, cuentapropistas, MIPyMEs y proyectos.",
+      "cantidad": "500 unidades",
+      "origen": "China",
+      "destino": "Cuba",
+      "eta": "Llegada estimada: 12 días",
+      "vigenciaHasta": "2026-10-31",
+      "estado": "en-transito",
+      "precio": "Cotización por lote",
+      "tags": ["Energía renovable", "Embarque real"]
+    },
+    {
+      "titulo": "Ejemplo: lote de aceite de oliva",
+      "descripcion": "Fila de demostración para que veas el Historial en acción. Borra este bloque cuando quieras.",
+      "cantidad": "200 cajas",
+      "origen": "España",
+      "destino": "Cuba",
+      "eta": "Llegada: 01/09/2026",
+      "vigenciaHasta": "2026-09-01",
+      "estado": "en-bodega",
+      "precio": "Cotización por lote",
+      "tags": ["Ejemplo", "Borrar"]
+    }
+  ]
+}

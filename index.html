@@ -1,865 +1,646 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>JAENDA | Proyectos, Soluciones y Servicios</title>
+  <title>JAENDA â€” Proyectos, Soluciones y Servicios</title>
 
   <meta name="description"
-        content="JAENDA. Proyectos, soluciones y servicios que conectan ideas con oportunidades.">
-
-  <style>
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f5f5f2;
-      color: #171717;
-      line-height: 1.6;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    .container {
-      width: 90%;
-      max-width: 1150px;
-      margin: auto;
-    }
-
-    /* =========================
-       NAVEGACIÓN
-       ========================= */
-
-    header {
-      padding: 25px 0;
-      border-bottom: 1px solid #ddd;
-      background: #f5f5f2;
-    }
-
-    nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .logo {
-      font-size: 25px;
-      font-weight: 800;
-      letter-spacing: 4px;
-    }
-
-    .menu {
-      display: flex;
-      gap: 28px;
-      font-size: 14px;
-    }
-
-    .menu a:hover {
-      opacity: .55;
-    }
-
-    /* =========================
-       PORTADA
-       ========================= */
-
-    .hero {
-      min-height: 80vh;
-      display: flex;
-      align-items: center;
-      padding: 90px 0;
-    }
-
-    .hero-content {
-      max-width: 950px;
-    }
-
-    .eyebrow {
-      text-transform: uppercase;
-      letter-spacing: 4px;
-      font-size: 12px;
-      font-weight: bold;
-      margin-bottom: 25px;
-    }
-
-    .hero h1 {
-      font-size: clamp(52px, 9vw, 105px);
-      line-height: .92;
-      letter-spacing: -5px;
-      margin-bottom: 35px;
-    }
-
-    .hero h1 span {
-      display: block;
-      font-weight: 400;
-    }
-
-    .hero-text {
-      max-width: 720px;
-      font-size: 24px;
-      color: #555;
-      margin-bottom: 35px;
-    }
-
-    .buttons {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .button {
-      display: inline-block;
-      padding: 14px 25px;
-      border: 1px solid #171717;
-      font-weight: bold;
-      font-size: 14px;
-    }
-
-    .button:hover {
-      background: #171717;
-      color: white;
-    }
-
-    .button.dark {
-      background: #171717;
-      color: white;
-    }
-
-    .button.dark:hover {
-      background: transparent;
-      color: #171717;
-    }
-
-    /* =========================
-       SECCIONES
-       ========================= */
-
-    section {
-      padding: 100px 0;
-      border-top: 1px solid #ddd;
-    }
-
-    .section-label {
-      text-transform: uppercase;
-      letter-spacing: 3px;
-      font-size: 12px;
-      font-weight: bold;
-      margin-bottom: 20px;
-    }
-
-    h2 {
-      font-size: clamp(38px, 6vw, 65px);
-      line-height: 1;
-      letter-spacing: -3px;
-      margin-bottom: 45px;
-    }
-
-    .large-text {
-      max-width: 850px;
-      font-size: 26px;
-      color: #444;
-    }
-
-    /* =========================
-       PROYECTOS
-       ========================= */
-
-    .projects {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-    }
-
-    .project {
-      background: white;
-      border: 1px solid #ddd;
-      overflow: hidden;
-      transition: transform .2s ease;
-    }
-
-    .project:hover {
-      transform: translateY(-5px);
-    }
-
-    .project-image {
-      width: 100%;
-      height: 220px;
-      object-fit: cover;
-      display: block;
-    }
-
-    .project-content {
-      padding: 30px;
-    }
-
-    .project-number {
-      font-size: 12px;
-      font-weight: bold;
-      letter-spacing: 2px;
-      color: #777;
-    }
-
-    .project h3 {
-      font-size: 25px;
-      margin: 18px 0 12px;
-    }
-
-    .project p {
-      color: #666;
-    }
-
-    .project-link {
-      display: inline-block;
-      margin-top: 22px;
-      font-weight: bold;
-      font-size: 14px;
-    }
-
-    /* =========================
-       SERVICIOS
-       ========================= */
-
-    .services {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1px;
-      background: #ccc;
-      border: 1px solid #ccc;
-    }
-
-    .service {
-      background: #f5f5f2;
-      padding: 40px;
-      min-height: 210px;
-    }
-
-    .service-number {
-      font-size: 13px;
-      color: #777;
-    }
-
-    .service h3 {
-      font-size: 25px;
-      margin: 20px 0 10px;
-    }
-
-    .service p {
-      color: #666;
-    }
-
-    /* =========================
-       MÉTODO
-       ========================= */
-
-    .steps {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 25px;
-    }
-
-    .step {
-      border-top: 3px solid #171717;
-      padding-top: 18px;
-    }
-
-    .step-number {
-      font-size: 12px;
-      color: #777;
-    }
-
-    .step h3 {
-      margin: 15px 0 10px;
-      font-size: 20px;
-    }
-
-    .step p {
-      font-size: 14px;
-      color: #666;
-    }
-
-    /* =========================
-       IDEAS
-       ========================= */
-
-    .ideas {
-      background: #171717;
-      color: white;
-      padding: 100px 8%;
-    }
-
-    .ideas .section-label {
-      color: #aaa;
-    }
-
-    .ideas h2 {
-      max-width: 850px;
-    }
-
-    .ideas p {
-      max-width: 800px;
-      font-size: 23px;
-      color: #ccc;
-    }
-
-    /* =========================
-       CONTACTO
-       ========================= */
-
-    .contact {
-      text-align: center;
-      padding: 120px 0;
-    }
-
-    .contact h2 {
-      max-width: 850px;
-      margin: 0 auto 25px;
-    }
-
-    .contact p {
-      font-size: 22px;
-      color: #666;
-      margin-bottom: 35px;
-    }
-
-    /* =========================
-       FOOTER
-       ========================= */
-
-    footer {
-      border-top: 1px solid #ddd;
-      padding: 30px 0;
-      font-size: 13px;
-      color: #777;
-    }
-
-    .footer-content {
-      display: flex;
-      justify-content: space-between;
-      gap: 20px;
-    }
-
-    /* =========================
-       MÓVIL
-       ========================= */
-
-    @media (max-width: 800px) {
-
-      .menu {
-        display: none;
-      }
-
-      .hero {
-        min-height: 75vh;
-        padding: 60px 0;
-      }
-
-      .hero h1 {
-        font-size: 58px;
-        letter-spacing: -3px;
-      }
-
-      .hero-text {
-        font-size: 20px;
-      }
-
-      section {
-        padding: 70px 0;
-      }
-
-      .projects,
-      .services,
-      .steps {
-        grid-template-columns: 1fr;
-      }
-
-      .service {
-        min-height: auto;
-      }
-
-      .ideas {
-        padding: 70px 5%;
-      }
-
-      .ideas p {
-        font-size: 19px;
-      }
-
-      .footer-content {
-        flex-direction: column;
-      }
-    }
-
-  </style>
+        content="JAENDA. Ideas que encuentran su camino. Proyectos, soluciones y servicios que conectan oportunidades.">
+  <meta name="theme-color" content="#f4f3ef">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="JAENDA â€” Ideas que encuentran su camino">
+  <meta property="og:description"
+        content="Proyectos, soluciones y servicios que nacen de oportunidades concretas.">
+  <meta property="og:site_name" content="JAENDA">
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230a0a0a'/%3E%3Ctext x='16' y='23' font-family='Arial Black' font-size='19' font-weight='900' fill='%23d9a441' text-anchor='middle'%3EJ%3C/text%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css?v=20">
+    <link rel="icon" type="image/svg+xml" href="logo.svg">
 </head>
 
 <body>
 
-  <!-- =========================
-       CABECERA
-       ========================= -->
-
   <header>
-
     <div class="container">
-
       <nav>
+        <div class="logo">JAENDA</div>
 
-        <div class="logo">
-          JAENDA
-        </div>
+        <button id="burger" class="burger" aria-label="Abrir menú" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
 
-        <div class="menu">
+        <div class="menu" id="menu">
           <a href="#proyectos">Proyectos</a>
           <a href="#servicios">Servicios</a>
           <a href="#metodo">Cómo trabajamos</a>
+          <a href="#ofertas">Ofertas</a>
           <a href="#contacto">Contacto</a>
         </div>
-
       </nav>
-
     </div>
-
   </header>
-
 
   <main>
 
-    <!-- =========================
-         PORTADA
-         ========================= -->
+    <!-- ============ PORTADA ============ -->
 
-    <section class="hero">
+<section class="hero">
+      <div class="hero-foto" id="hero-foto" aria-hidden="true"></div>
+      <canvas id="hero-canvas" aria-hidden="true"></canvas>
+      <div class="aurora aurora-a" aria-hidden="true"></div>
+      <div class="aurora aurora-b" aria-hidden="true"></div>
+      <div class="aurora aurora-c" aria-hidden="true"></div>
+      <div class="hero-inner">
+        <div class="wv" id="wv" aria-hidden="true"></div>
+        <div class="container">
+        <div class="reveal in">
+          <div class="eyebrow">Proyectos Â· Oportunidades Â· Alianzas</div>
 
-      <div class="container">
-
-        <div class="hero-content">
-
-          <div class="eyebrow">
-            Proyectos · Soluciones · Servicios
-          </div>
-
-          <h1>
-            JAENDA
-            <span>Ideas que encuentran su camino.</span>
+<h1 id="hero-title" class="hero-title-fx">
+            <span class="jlogo"><img src="logo.svg" alt="Logo JAENDA — mapa del mundo con rutas"></span>
+            <span class="jnombre">JAENDA</span>
+            <span class="thin">Oportunidades que <em class="accent" style="font-style:normal">encuentran a quienes las hacen posibles</em>.</span>
           </h1>
 
           <p class="hero-text">
-            Un espacio para desarrollar proyectos, conectar oportunidades
-            y encontrar las soluciones necesarias para hacerlos avanzar.
+            JAENDA detecta oportunidades y licitaciones, las estructura
+            y las conecta con las capacidades necesarias para hacerlas avanzar.
           </p>
 
           <div class="buttons">
-
-            <a class="button dark" href="#proyectos">
-              VER PROYECTOS
-            </a>
-
-            <a class="button" href="#contacto">
-              CONTACTAR
-            </a>
-
+            <a class="btn gold" href="#proyectos">Ver proyectos</a>
+            <a class="btn ghost" href="#contacto">Contactar</a>
           </div>
 
+          <div class="quick">
+            <span class="quick-label">Ir directo a</span>
+            <div class="quick-links">
+              <a class="qn" href="#necesidades"><i class="qi qi-a"></i>Registra una necesidad</a>
+              <a class="qo" href="#ofertas"><i class="qi qi-b"></i>Ofertas de suministro</a>
+              <a class="qr" href="#aliados"><i class="qi qi-d"></i>Red de aliados</a>
+              <a class="qe" href="#enlace"><i class="qi qi-c"></i>Enlace Cienfuegos</a>
+</div>
         </div>
-
       </div>
-
+      <div class="cinta" aria-hidden="true">
+        <div class="cinta-track">
+          <span>Suministro real</span><i>◆</i><span>Apps por venir</span><i>◆</i><span>Ideas en movimiento</span><i>◆</i><span>Oportunidades</span><i>◆</i><span>Alianzas</span><i>◆</i>
+          <span>Suministro real</span><i>◆</i><span>Apps por venir</span><i>◆</i><span>Ideas en movimiento</span><i>◆</i><span>Oportunidades</span><i>◆</i><span>Alianzas</span><i>◆</i>
+        </div>
+      </div>
     </section>
 
+    <!-- ============ PRESENTACIÁ“N ============ -->
 
-    <!-- =========================
-         PRESENTACIÓN
-         ========================= -->
-
-    <section>
-
+    <section id="quehacemos">
       <div class="container">
-
-        <div class="section-label">
-          Qué hacemos
+        <div class="reveal">
+          <div class="section-tag">Qué hacemos</div>
+          <h2>Las oportunidades son el comienzo.</h2>
+          <p class="lead">
+            JAENDA agrupa unidades y proyectos que nacen de necesidades
+            concretas: las interpreta, las conecta con capacidades y
+            proveedores, y las convierte en suministro, soluciones
+            y proyectos reales.
+          </p>
         </div>
-
-        <h2>
-          Las ideas son el comienzo.
-        </h2>
-
-        <p class="large-text">
-          JAENDA reúne proyectos, soluciones y servicios que nacen de
-          oportunidades concretas y evolucionan mediante la colaboración
-          entre personas, empresas y conocimientos especializados.
-        </p>
-
       </div>
-
     </section>
 
-
-    <!-- =========================
-         PROYECTOS
-         ========================= -->
+    <!-- ============ PROYECTOS ============ -->
 
     <section id="proyectos">
-
       <div class="container">
-
-        <div class="section-label">
-          Proyectos
+        <div class="reveal">
+          <div class="section-tag">Proyectos</div>
+          <h2>Ideas en movimiento.</h2>
         </div>
 
-        <h2>
-          Ideas en movimiento.
-        </h2>
-
-        <div class="projects">
-
-
-          <!-- PROYECTO 1 -->
-
-          <article class="project">
-
-            <img
-              src="volante.jpg"
-              alt="Enlace Cienfuegos del Mayab"
-              class="project-image"
-            >
-
-            <div class="project-content">
-
-              <div class="project-number">
-                01 · PROYECTO EMPRESARIAL
-              </div>
-
-              <h3>
-                Enlace Cienfuegos del Mayab
-              </h3>
-
-              <p>
-                Proyecto empresarial orientado al desarrollo de
-                oportunidades y soluciones entre diferentes mercados.
-              </p>
-
-              <a href="#" class="project-link">
-                CONOCER EL PROYECTO →
-              </a>
-
-            </div>
-
-          </article>
-
-
-          <!-- PROYECTO 2 -->
-
-          <article class="project">
-
-            <div
-              class="project-image"
-              style="
-                background:#ddd;
-                display:flex;
-                align-items:center;
-                justify-content:center;
-                font-weight:bold;
-                letter-spacing:2px;
-              "
-            >
-              TECNOLOGÍA
-            </div>
-
-            <div class="project-content">
-
-              <div class="project-number">
-                02 · SOLUCIONES DIGITALES
-              </div>
-
-              <h3>
-                Tecnología
-              </h3>
-
-              <p>
-                Aplicaciones y herramientas digitales orientadas a
-                resolver necesidades concretas de negocios y organizaciones.
-              </p>
-
-              <a href="#" class="project-link">
-                VER SOLUCIONES →
-              </a>
-
-            </div>
-
-          </article>
-
-
-          <!-- PROYECTO 3 -->
-
-          <article class="project">
-
-            <div
-              class="project-image"
-              style="
-                background:#ddd;
-                display:flex;
-                align-items:center;
-                justify-content:center;
-                font-weight:bold;
-                letter-spacing:2px;
-              "
-            >
-              PRÓXIMAMENTE
-            </div>
-
-            <div class="project-content">
-
-              <div class="project-number">
-                03 · EN DESARROLLO
-              </div>
-
-              <h3>
-                Nuevos proyectos
-              </h3>
-
-              <p>
-                Nuevas ideas y oportunidades que todavía están tomando forma.
-              </p>
-
-              <a href="#" class="project-link">
-                PRÓXIMAMENTE →
-              </a>
-
-            </div>
-
-          </article>
-
+        <div class="projects" id="proyectos-grid">
+          <!-- Generado automáticamente desde proyectos.json -->
         </div>
 
+        <noscript>
+          <p class="lead" style="margin-top:30px">
+            Activa JavaScript para ver los proyectos. Por ahora puedes revisarlos en
+            el archivo <code>proyectos.json</code>.
+          </p>
+        </noscript>
       </div>
-
     </section>
 
+    <!-- ============ IDEARIO ============ -->
 
-    <!-- =========================
-         SERVICIOS
-         ========================= -->
+    <section id="enlace">
+      <div class="container">
+        <div class="flagship reveal">
+          <div class="section-tag">Unidad insignia Â· Enlace Cienfuegos del Mayab</div>
+
+          <div class="flagship-head">
+            <h2>Enlace Cienfuegos del Mayab</h2>
+            <a class="btn gold" href="https://wa.me/524422320360" target="_blank" rel="noopener">Conectar por WhatsApp</a>
+          </div>
+
+          <p class="mission">
+            Enlace gestiona comercio al por mayor con el mundo, con Cuba
+            en el centro. No parte de un producto: parte de las necesidades.
+            Las interpreta, las une a proveedores globales y las convierte
+            en suministro real â€” y cuando hace falta, estructura proyectos
+            y licitaciones que acompañan ese movimiento.
+          </p>
+
+          <div class="pillars">
+            <div class="pillar">
+              <div class="k">Necesidades</div>
+              <h4>Conocer para satisfacer</h4>
+              <p>Escuchar al sector privado en Cuba y a los mercados: saber qué hace falta antes de ofrecer qué hay.</p>
+            </div>
+            <div class="pillar">
+              <div class="k">Comercio al por mayor</div>
+              <h4>Con el mundo, Cuba en el centro</h4>
+              <p>Importación, exportación y distribución con alcance global, priorizando el mercado cubano y sus actores.</p>
+            </div>
+            <div class="pillar">
+              <div class="k">Gestión integral</div>
+              <h4>De la necesidad al suministro</h4>
+              <p>Detectar, proveer, coordinar y acompañar â€” además de proyectos y licitaciones que mueven el comercio.</p>
+            </div>
+          </div>
+
+          <div class="ficha">
+            <div class="stat"><span class="s-num">2024</span><span class="s-k">Fundación</span></div>
+            <div class="stat"><span class="s-num">8</span><span class="s-k">Colaboradores</span></div>
+            <div class="stat"><span class="s-num">Sí</span><span class="s-k">Sucursal en Cuba</span></div>
+            <div class="stat"><span class="s-num">4</span><span class="s-k">Aliados comerciales</span></div>
+          </div>
+
+          <div class="rels">
+            <span class="rels-k">Relaciones comerciales en Cuba:</span>
+            Maquimport Â· Consumimport Â· Maprinter Â· Eslabón S.R.L.
+          </div>
+
+          <div class="opps-head">
+            <h3>Oportunidades en curso</h3>
+            <span class="opps-sub">El estado real del puente comercial</span>
+          </div>
+          <div class="opps" id="oportunidades">
+            <!-- Generado desde proyectos.json -->
+          </div>
+
+          <div class="flagship-cta">
+            <a class="btn gold" href="#necesidades">Registra una necesidad</a>
+            <a class="btn ghost" href="mailto:kikeyucatan64@gmail.com">Presenta tu oportunidad</a>
+            <a class="btn ghost" href="#aliados">Ášnete a la red de aliados</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ OFERTAS DE SUMINISTRO ============ -->
+
+    <section id="ofertas">
+      <div class="container">
+        <div class="reveal">
+          <div class="section-tag">Ofertas de suministro</div>
+          <h2>Suministro real, en viaje, en puerto o en plaza.</h2>
+          <p class="lead">
+            Enlace promueve lotes reales al por mayor â€” ya sea en tránsito,
+            esperando en puerto o listos en almacén. Si te interesa algo,
+            regístralo: queda archivado en la cantera y se gestiona junto
+            con las demás necesidades.
+          </p>
+          <div class="gestion-cta">
+            <button id="btn-gestion" type="button" class="btn ghost">
+              Presenta una oferta de suministro
+            </button>
+            <span class="gestion-cta-note">Para la administración de la página</span>
+          </div>
+        </div>
+
+        <div class="oferta-categorias" id="oferta-categorias"></div>
+
+        <div class="vitrina">
+          <button type="button" class="vitrina-nav vitrina-prev" id="vitrina-prev" aria-label="Anterior">â€¹</button>
+          <div class="vitrina-pista" id="vitrina-pista"></div>
+          <button type="button" class="vitrina-nav vitrina-next" id="vitrina-next" aria-label="Siguiente">â€º</button>
+          <div class="vitrina-pagina" id="vitrina-pagina"></div>
+        </div>
+
+        <div class="oferta-busca">
+          <input type="search" id="oferta-busqueda" placeholder="Buscar por producto, origen, destino..." autocomplete="off">
+          <span class="oferta-conteo" id="oferta-conteo"></span>
+        </div>
+
+        <div class="ofertas" id="ofertas-grid">
+          <!-- Generado desde proyectos.json -->
+        </div>
+
+        <div class="ofertas-historial" id="ofertas-historial" style="display:none;">
+          <details>
+            <summary><span id="ofertas-historial-resumen">Historial de ofertas</span></summary>
+            <div class="ofertas pasadas" id="ofertas-historial-list">
+              <!-- Ofertas caducadas, archivadas -->
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ NECESIDADES ============ -->
+
+    <section id="necesidades">
+      <div class="container">
+        <div class="aliados reveal">
+          <div class="aliados-copy">
+            <div class="section-tag">Necesidades</div>
+            <h2>¿Qué hace falta? Cuéntanoslo y lo gestioneamos.</h2>
+            <p>
+              Enlace trabaja desde lo que el mercado necesita. Si eres
+              cuentapropista, MIPyME, cooperativa o empresa privada,
+              dinos qué te falta conseguir: lo archivamos, lo analizamos
+              y buscamos la vía para acercártelo al por mayor.
+            </p>
+            <div class="aliados-sectores">
+              <span class="tag">Insumos y materias primas</span>
+              <span class="tag">Alimentos y bebidas</span>
+              <span class="tag">Equipos y herramientas</span>
+              <span class="tag">Repuestos y accesorios</span>
+              <span class="tag">Otros</span>
+            </div>
+          </div>
+
+          <form id="necesidades-form" class="contact-form aliados-form" data-email="kikeyucatan64@gmail.com">
+            <div>
+              <label for="n-codigo">¿Ya tienes un código de JAENDA? (opcional)</label>
+              <input type="text" id="n-codigo" name="codigoAnterior" placeholder="ej. NEC-0001 â€” para repetir o cambiar tu necesidad" autocomplete="off">
+            </div>
+            <div id="n-modo-wrap" style="display:none;">
+              <label for="n-modo">Al enviar con tu código, quieroâ€¦</label>
+              <select id="n-modo" name="modo">
+                <option value="repetir">Más de lo mismo (sumar cantidad)</option>
+                <option value="nueva">Otra necesidad (misma persona, nuevo registro)</option>
+              </select>
+            </div>
+            <div>
+              <label for="n-quien">¿Quién eres?</label>
+              <select id="n-quien" name="quien" required>
+                <option value="">Selecciona</option>
+                <option>Cuentapropista</option>
+                <option>MIPyME</option>
+                <option>Cooperativa</option>
+                <option>Empresa privada</option>
+                <option>Particular</option>
+              </select>
+            </div>
+            <div>
+              <label for="n-sector">¿En qué rubro?</label>
+              <select id="n-sector" name="sector" required>
+                <option value="">Selecciona</option>
+                <option>Agroalimentario</option>
+                <option>Gastronomía y servicios</option>
+                <option>Comercio y distribución</option>
+                <option>Industria y manufactura</option>
+                <option>Logística y transporte</option>
+                <option>Construcción e instalaciones</option>
+                <option>Tecnología</option>
+                <option>Otro</option>
+              </select>
+            </div>
+            <div>
+              <label for="n-descripcion">¿Qué necesitas?</label>
+              <textarea id="n-descripcion" name="descripcion" placeholder="Describe con detalle lo que hace falta..." required></textarea>
+            </div>
+            <div>
+              <label for="n-cantidad">Volumen o frecuencia (opcional)</label>
+              <input type="text" id="n-cantidad" name="cantidad" placeholder="ej. 50 cajas al mes">
+            </div>
+            <div>
+              <label for="n-contacto">Correo o teléfono</label>
+              <input type="text" id="n-contacto" name="contacto" placeholder="cómo podemos darte seguimiento" required>
+            </div>
+            <div>
+              <button type="submit" class="btn gold">Registrar necesidad</button>
+            </div>
+            <div id="n-resultado" class="needs-result" role="status" aria-live="polite"></div>
+            <p class="note">Con Google Sheets conectado, cada registro se archiva y te entrega un código. Sin conexión, el formulario abre tu correo (lee el README).</p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ RED DE ALIADOS ============ -->
+
+    <section id="aliados">
+      <div class="container">
+        <div class="aliados reveal">
+          <div class="aliados-copy">
+            <div class="section-tag">Red de aliados</div>
+            <h2>Ášnete a quienes hacen posible el puente.</h2>
+            <p>
+              Enlace detecta y estructura oportunidades. Las empresas
+              especializadas las ejecutan. Si tu empresa tiene capacidades
+              en logística, construcción, tecnología o comercio, queremos
+              conocerla.
+            </p>
+            <div class="aliados-sectores">
+              <span class="tag">Logística</span>
+              <span class="tag">Construcción</span>
+              <span class="tag">Tecnología</span>
+              <span class="tag">Agroalimentario</span>
+              <span class="tag">Comercialización</span>
+            </div>
+          </div>
+
+          <form id="aliados-form" class="contact-form aliados-form" data-email="kikeyucatan64@gmail.com">
+            <div>
+              <label for="a-empresa">Empresa</label>
+              <input type="text" id="a-empresa" name="empresa" placeholder="Nombre de tu empresa" required>
+            </div>
+            <div>
+              <label for="a-sector">Sector</label>
+              <select id="a-sector" name="sector" required>
+                <option value="">Selecciona un sector</option>
+                <option>Logística y transporte</option>
+                <option>Construcción e instalaciones</option>
+                <option>Tecnología y aplicaciones</option>
+                <option>Agroalimentario</option>
+                <option>Comercialización y distribución</option>
+                <option>Otro</option>
+              </select>
+            </div>
+            <div>
+              <label for="a-capacidades">Capacidades / experiencia</label>
+              <textarea id="a-capacidades" name="capacidades" placeholder="¿Qué sabes hacer y en qué trabajas hoy?" required></textarea>
+            </div>
+            <div>
+              <label for="a-contacto">Correo o teléfono</label>
+              <input type="text" id="a-contacto" name="contacto" placeholder="cómo podemos contactarte" required>
+            </div>
+            <div>
+              <button type="submit" class="btn gold">
+                Solicitar unirme a la red
+              </button>
+            </div>
+            <p class="note">El formulario abre tu programa de correo. Para recibirlo directo en tu bandeja sin pasos extra, conéctalo con Formspree (instrucciones en el README).</p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SERVICIOS ============ -->
 
     <section id="servicios">
-
       <div class="container">
-
-        <div class="section-label">
-          Servicios
+        <div class="reveal">
+          <div class="section-tag">Servicios</div>
+          <h2>Capacidades que se conectan.</h2>
         </div>
-
-        <h2>
-          Capacidades que se conectan.
-        </h2>
 
         <div class="services">
-
-          <div class="service">
-            <div class="service-number">01</div>
+          <div class="service reveal">
+            <div class="service-num">01</div>
             <h3>Desarrollo de proyectos</h3>
-            <p>
-              Análisis, estructuración y desarrollo de oportunidades
-              hasta convertirlas en propuestas concretas.
-            </p>
+            <p>Análisis, estructuración y desarrollo de oportunidades hasta convertirlas en propuestas concretas.</p>
           </div>
-
-          <div class="service">
-            <div class="service-number">02</div>
+          <div class="service reveal">
+            <div class="service-num">02</div>
             <h3>Coordinación</h3>
-            <p>
-              Conexión y coordinación entre clientes, proveedores,
-              especialistas y colaboradores.
-            </p>
+            <p>Conexión y coordinación entre clientes, proveedores, especialistas y colaboradores.</p>
           </div>
-
-          <div class="service">
-            <div class="service-number">03</div>
+          <div class="service reveal">
+            <div class="service-num">03</div>
             <h3>Soluciones empresariales</h3>
-            <p>
-              Servicios y herramientas diseñados alrededor de
-              necesidades específicas.
-            </p>
+            <p>Servicios y herramientas diseñados alrededor de necesidades específicas.</p>
           </div>
-
-          <div class="service">
-            <div class="service-number">04</div>
+          <div class="service reveal">
+            <div class="service-num">04</div>
             <h3>Tecnología</h3>
-            <p>
-              Aplicaciones y soluciones digitales destinadas a
-              mejorar procesos y operaciones.
-            </p>
+            <p>Aplicaciones y soluciones digitales destinadas a mejorar procesos y operaciones.</p>
           </div>
-
         </div>
-
       </div>
-
     </section>
 
-
-    <!-- =========================
-         MÉTODO
-         ========================= -->
+    <!-- ============ MÁ‰TODO ============ -->
 
     <section id="metodo">
-
       <div class="container">
-
-        <div class="section-label">
-          Cómo trabajamos
+        <div class="reveal">
+          <div class="section-tag">Cómo trabajamos</div>
+          <h2>De la oportunidad al proyecto.</h2>
         </div>
-
-        <h2>
-          De la oportunidad al proyecto.
-        </h2>
 
         <div class="steps">
-
-          <div class="step">
-            <div class="step-number">01</div>
-            <h3>Detectar</h3>
-            <p>
-              Encontrar una necesidad u oportunidad.
-            </p>
-          </div>
-
-          <div class="step">
-            <div class="step-number">02</div>
-            <h3>Analizar</h3>
-            <p>
-              Comprender qué hace falta para desarrollarla.
-            </p>
-          </div>
-
-          <div class="step">
-            <div class="step-number">03</div>
-            <h3>Conectar</h3>
-            <p>
-              Encontrar capacidades y colaboradores adecuados.
-            </p>
-          </div>
-
-          <div class="step">
-            <div class="step-number">04</div>
-            <h3>Coordinar</h3>
-            <p>
-              Integrar las diferentes capacidades.
-            </p>
-          </div>
-
-          <div class="step">
-            <div class="step-number">05</div>
-            <h3>Desarrollar</h3>
-            <p>
-              Convertir la propuesta en una solución.
-            </p>
-          </div>
-
+          <div class="step reveal"><div class="n">01</div><h3>Detectar</h3><p>Encontrar una necesidad u oportunidad.</p></div>
+          <div class="step reveal"><div class="n">02</div><h3>Analizar</h3><p>Comprender qué hace falta para desarrollarla.</p></div>
+          <div class="step reveal"><div class="n">03</div><h3>Conectar</h3><p>Encontrar capacidades y colaboradores adecuados.</p></div>
+          <div class="step reveal"><div class="n">04</div><h3>Coordinar</h3><p>Integrar las diferentes capacidades.</p></div>
+          <div class="step reveal"><div class="n">05</div><h3>Desarrollar</h3><p>Convertir la propuesta en una solución.</p></div>
         </div>
-
       </div>
-
     </section>
 
+    <!-- ============ CONTACTO ============ -->
 
-    <!-- =========================
-         IDEAS EN DESARROLLO
-         ========================= -->
-
-    <section class="ideas">
-
+    <section id="contacto">
       <div class="container">
+        <div class="contact-grid">
+          <div class="reveal">
+            <div class="section-tag">Contacto</div>
+            <h2>¿Tienes un proyecto o una oportunidad?</h2>
+          </div>
 
-        <div class="section-label">
-          Ideas en desarrollo
+          <div class="contact-aside reveal">
+            <p>Hablemos y veamos hasta dónde puede llegar.</p>
+
+            <form id="contact-form" class="contact-form" data-email="kikeyucatan64@gmail.com">
+              <div>
+                <label for="email">Tu correo</label>
+                <input type="email" id="email" name="email" placeholder="tu@correo.com" required>
+              </div>
+              <div>
+                <label for="asunto">Asunto</label>
+                <input type="text" id="asunto" name="asunto" placeholder="Un proyecto, una oportunidad..." required>
+              </div>
+              <div>
+                <label for="mensaje">Mensaje</label>
+                <textarea id="mensaje" name="mensaje" placeholder="Cuéntame qué tienes en mente..." required></textarea>
+              </div>
+              <div>
+                <button type="submit" class="btn gold">
+                  Enviar mensaje
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/>
+                  </svg>
+                </button>
+              </div>
+            </form>
+
+            <div class="contact-channels">
+              <a class="channel" href="https://wa.me/524422320360" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                </svg>
+                WhatsApp Â· +52 442 232 0360
+              </a>
+
+              <a class="channel" href="mailto:kikeyucatan64@gmail.com">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="2" y="4" width="20" height="16" rx="2"/>
+                  <path d="m22 7-10 6L2 7"/>
+                </svg>
+                kikeyucatan64@gmail.com
+              </a>
+            </div>
+
+            <p class="note">El formulario abre tu programa de correo. Para que funcione como email real, conecta el formulario con Formspree (instrucciones incluidas en el README).</p>
+          </div>
         </div>
-
-        <h2>
-          No todo tiene que estar terminado para empezar.
-        </h2>
-
-        <p>
-          Algunos proyectos están consolidados.
-          Otros están comenzando.
-          Otros todavía son solamente una idea.
-          JAENDA está diseñada para que todos puedan evolucionar.
-        </p>
-
       </div>
-
-    </section>
-
-
-    <!-- =========================
-         CONTACTO
-         ========================= -->
-
-    <section id="contacto" class="contact">
-
-      <div class="container">
-
-        <div class="section-label">
-          Contacto
-        </div>
-
-        <h2>
-          ¿Tienes un proyecto o una oportunidad?
-        </h2>
-
-        <p>
-          Hablemos y veamos hasta dónde puede llegar.
-        </p>
-
-        <a
-          class="button dark"
-          href="mailto:contacto@ejemplo.com"
-        >
-          CONTACTAR
-        </a>
-
-      </div>
-
     </section>
 
   </main>
 
-
-  <!-- =========================
-       PIE
-       ========================= -->
-
   <footer>
-
     <div class="container">
-
       <div class="footer-content">
-
-        <div>
-          JAENDA
-        </div>
-
-        <div>
-          Proyectos · Soluciones · Servicios
-        </div>
-
+        <div class="wordmark">JAENDA</div>
+        <div>Proyectos Â· Soluciones Â· Servicios</div>
+        <div>Â© <span id="anio">2026</span> JAENDA</div>
       </div>
-
     </div>
-
   </footer>
 
+  <!-- ============ DETALLE DE OFERTA ============ -->
 
+  <div class="detalle-panel" id="oferta-detalle">
+    <div class="detalle-modal" role="dialog" aria-modal="true" aria-label="Detalle de la oferta">
+      <button id="oferta-detalle-cerrar" class="detalle-cerrar" aria-label="Cerrar">Á—</button>
+      <div id="oferta-detalle-contenido" class="detalle-cuerpo"></div>
+      <div id="oferta-detalle-acciones" class="detalle-acciones"></div>
+    </div>
+  </div>
+
+  <!-- ============ PANEL DE GESTIÁ“N DE OFERTAS ============ -->
+
+  <div class="gestion-panel" id="gestion-panel">
+    <div class="gestion-modal">
+      <div class="gestion-head">
+        <div>
+          <div class="section-tag">Panel privado</div>
+          <h3>Registrar oferta</h3>
+        </div>
+        <button id="gestion-cerrar" class="gestion-cerrar" aria-label="Cerrar">Á—</button>
+      </div>
+
+      <div id="gestion-espera" class="needs-result err" style="display:none;"></div>
+
+      <form id="gestion-form" class="contact-form">
+        <div>
+          <label for="g-clave">Clave de gestión</label>
+          <input type="password" id="g-clave" name="clave" placeholder="La de la hoja Config (celda B3)" required>
+        </div>
+        <div>
+          <label for="g-titulo">Producto</label>
+          <input type="text" id="g-titulo" name="titulo" placeholder="ej. Paneles solares fotovoltaicos" required>
+        </div>
+        <div>
+          <label for="g-descripcion">Descripción</label>
+          <textarea id="g-descripcion" name="descripcion" placeholder="Qué es, para quién, de qué se trata..." required></textarea>
+        </div>
+        <div class="gestion-fila">
+          <div>
+            <label for="g-cantidad">Cantidad / lote</label>
+            <input type="text" id="g-cantidad" name="cantidad" placeholder="ej. 500 unidades">
+          </div>
+          <div>
+            <label for="g-precio">Precio</label>
+            <input type="text" id="g-precio" name="precio" placeholder="ej. Cotización por lote">
+          </div>
+        </div>
+        <div class="gestion-fila">
+          <div>
+            <label for="g-origen">Origen</label>
+            <input type="text" id="g-origen" name="origen" placeholder="ej. China">
+          </div>
+          <div>
+            <label for="g-destino">Destino</label>
+            <input type="text" id="g-destino" name="destino" placeholder="ej. Cuba">
+          </div>
+        </div>
+        <div class="gestion-fila">
+          <div>
+            <label for="g-eta">Llegada (texto)</label>
+            <input type="text" id="g-eta" name="eta" placeholder="ej. Llegada estimada: 12 días">
+          </div>
+          <div>
+            <label for="g-vigencia">Vigencia hasta</label>
+            <input type="date" id="g-vigencia" name="vigenciaHasta">
+          </div>
+        </div>
+        <div class="gestion-fila">
+          <div>
+            <label for="g-departamento">Departamento</label>
+            <select id="g-departamento" name="departamento">
+              <option value="ALIMENTOS">ALIMENTOS</option>
+              <option value="FERRETERÁA">FERRETERÁA</option>
+              <option value="MATERIAS PRIMAS">MATERIAS PRIMAS</option>
+              <option value="ELECTRÁ“NICA">ELECTRÁ“NICA</option>
+              <option value="EQUIPOS ELÁ‰CTRICOS">EQUIPOS ELÁ‰CTRICOS</option>
+              <option value="TRANSPORTE">TRANSPORTE</option>
+              <option value="SALUD Y HIGIENE">SALUD Y HIGIENE</option>
+              <option value="ENVASES Y EMBALAJES">ENVASES Y EMBALAJES</option>
+              <option value="TEXTIL Y VESTUARIO">TEXTIL Y VESTUARIO</option>
+              <option value="AGRICULTURA E INSUMOS">AGRICULTURA E INSUMOS</option>
+              <option value="OTROS">OTROS</option>
+            </select>
+          </div>
+          <div>
+            <label for="g-estado">Estado</label>
+            <select id="g-estado" name="estado">
+              <option value="en-transito">En tránsito</option>
+              <option value="en-bodega">Disponible</option>
+              <option value="en-demanda">En demanda</option>
+              <option value="agotado">Agotado</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label for="g-tags">Etiquetas (separadas por coma)</label>
+          <input type="text" id="g-tags" name="tags" placeholder="ej. Energía, Embarque real">
+        </div>
+        <div class="gestion-acciones">
+          <button type="submit" class="btn gold">Guardar oferta</button>
+          <button type="button" id="gestion-recargar" class="btn ghost">Recargar ofertas</button>
+        </div>
+      </form>
+
+      <p class="note">
+        La página pública muestra lo que hay en la hoja "Ofertas". Al guardar, la oferta
+        aparece sola en el sitio. La clave se cambia en la hoja Config (celda B3).
+      </p>
+    </div>
+  </div>
+
+  <script src="script.js?v=20"></script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
