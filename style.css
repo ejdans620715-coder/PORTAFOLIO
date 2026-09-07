@@ -1697,6 +1697,20 @@ footer {
 
 .g-imagen-vista.visible { display: block; }
 
+.fb-pill {
+  position: fixed;
+  bottom: 18px;
+  right: 18px;
+  z-index: 120;
+}
+
+.fb-pill a.btn { box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22); }
+
+@media (max-width: 560px) {
+  .fb-pill { left: 18px; right: 18px; bottom: 14px; }
+  .fb-pill a.btn { width: 100%; }
+}
+
 .gestion-modal .note { font-size: 12px; }
 
 @media (max-width: 560px) {

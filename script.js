@@ -930,6 +930,19 @@ function inicializarDetalleOfertas() {
 
 /* -------- Panel de gestión de ofertas -------- */
 
+const SITIO_PUBLICO = "https://enchanting-buttercream-8f67f2.netlify.app/";
+
+function mostrarAvisoFacebook(titulo, precio) {
+  const pill = document.getElementById("fb-pill");
+  if (!pill) return;
+  const texto = `Nuevo producto en JAENDA: ${titulo}${precio ? " — " + precio : ""}. ¡Míralo aquí!`;
+  const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(SITIO_PUBLICO)}&quote=${encodeURIComponent(texto)}`;
+  pill.innerHTML = `<a class="btn gold" href="${url}" target="_blank" rel="noopener">📢 AVISAR EN FACEBOOK</a>`;
+  pill.style.display = "block";
+  clearTimeout(pill._t);
+  pill._t = setTimeout(() => { pill.style.display = "none"; }, 25000);
+}
+
 function mostrarGestionMensaje(contenedor, error, mensaje) {
   if (!contenedor) return;
   contenedor.className = "needs-result " + (error ? "err" : "ok");
@@ -1190,9 +1203,11 @@ function inicializarGestion() {
       const respuesta = await enviarPost(payload);
       if (respuesta.ok) {
         mostrarGestionMensaje(espera, false, (respuesta.mensaje || "Oferta guardada.") + " Se actualizó la página.");
+        const fueNueva = document.getElementById("g-modo").value === "crear";
         resetearGestion();
         cerrar();
         await cargarOfertas();
+        if (fueNueva) mostrarAvisoFacebook((payload.titulo || "").trim(), payload.precio || "");
       } else {
         mostrarGestionMensaje(espera, true, respuesta.error || "No se pudo guardar la oferta.");
       }
