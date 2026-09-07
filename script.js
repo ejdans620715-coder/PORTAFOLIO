@@ -956,6 +956,8 @@ function mostrarGestionMensaje(contenedor, error, mensaje) {
 
 let ofertaGestionActual = null;
 let imagenSugerenciaManual = false;
+let gestionDesbloqueado = false;
+let toquesLogo = [];
 
 async function proponerImagenesOferta(titulo, departamento) {
   try {
@@ -1168,8 +1170,22 @@ function inicializarGestion() {
     window.open(enlaceCompartirFacebook(texto), "_blank", "noopener");
   });
 
-  botonAbrir.addEventListener("click", abrir);
+  botonAbrir.addEventListener("click", () => { if (!gestionDesbloqueado) return; abrir(); });
+  const logoEl = document.querySelector("a.logo");
+  if (logoEl) logoEl.addEventListener("click", () => {
+    const ahora = Date.now();
+    toquesLogo = toquesLogo.filter((t) => ahora - t <= 2500);
+    toquesLogo.push(ahora);
+    if (toquesLogo.length >= 5) {
+      toquesLogo = [];
+      gestionDesbloqueado = true;
+      const gear = document.getElementById("btn-gestion-flotante");
+      if (gear) gear.classList.add("visible");
+      abrir();
+    }
+  });
   document.getElementById("btn-gestion-flotante")?.addEventListener("click", () => {
+    if (!gestionDesbloqueado) return;
     if (panel.classList.contains("abierto")) { cerrar(); return; }
     resetearGestion();
     panel.classList.add("abierto");

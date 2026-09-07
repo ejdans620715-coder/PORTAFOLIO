@@ -1721,10 +1721,12 @@ footer {
   cursor: pointer;
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
   transition: transform 0.2s ease;
-  display: flex;
   align-items: center;
   justify-content: center;
+  display: none;
 }
+
+.btn-gestion-flotante.visible { display: flex; }
 
 .btn-gestion-flotante:hover { transform: scale(1.08); }
 
