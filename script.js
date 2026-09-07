@@ -681,7 +681,7 @@ let ofertasActivas = [];
 let ofertasPasadas = [];
 let vitrinaLista = [];
 let vitrinaPagina = 0;
-const OFERTAS_POR_PAGINA = 4;
+const OFERTAS_POR_PAGINA = 3;
 const DEPARTAMENTOS_OFERTA = [
   "ALIMENTOS",
   "FERRETERÍA",
