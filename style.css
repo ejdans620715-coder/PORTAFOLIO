@@ -2499,3 +2499,23 @@ body.modal-abierto { overflow:hidden; }
     font-size: 11px;
   }
 }
+
+/* ============================================================
+   JAENDA v4.3 — portada completa en móvil
+   La imagen panorámica ya no se recorta (cover): se muestra
+   entera como franja arriba y el cartel queda debajo.
+   ============================================================ */
+@media (max-width: 900px) {
+  .hero-foto.lista {
+    top: 0 !important;
+    height: 56.3vw !important;
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
+    background-position: center center !important;
+    background-color: #eaf5fb !important;
+  }
+
+  .hero-inner {
+    padding-top: calc(56.3vw + 64px) !important;
+  }
+}
