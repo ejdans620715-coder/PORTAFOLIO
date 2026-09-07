@@ -969,7 +969,8 @@ function cargarOfertaEnGestion(oferta, duplicar = false) {
   set("g-departamento", oferta.departamento || "OTROS");
   set("g-estado", oferta.estado || "en-transito");
   set("g-tags", Array.isArray(oferta.tags) ? oferta.tags.join(", ") : (oferta.tags || ""));
-  set("g-imagen", oferta.imagen);
+  const imagenVisible = oferta.imagen || imagenesOfertas[(oferta.titulo + " " + (oferta.departamento || "")).trim()] || "";
+  set("g-imagen", imagenVisible);
   panel.classList.add("abierto");
   const lista = document.getElementById("gestion-lista");
   if (lista) lista.style.display = "none";
