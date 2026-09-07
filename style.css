@@ -2462,3 +2462,40 @@ body.modal-abierto { overflow:hidden; }
     width: 100% !important;
   }
 }
+
+/* ============================================================
+   JAENDA v4.2 — ajustes de móvil (auditoría con Chrome MCP)
+   La cápsula del precio ya no se corta en la cuadrícula de 2
+   columnas y las tarjetas respiran mejor a ese ancho.
+   ============================================================ */
+@media (max-width: 560px) {
+  .vitrina-pista .oferta-precio {
+    max-width: 100%;
+    white-space: normal;
+    line-height: 1.3;
+    font-size: 11px;
+    letter-spacing: 0.2px;
+    padding: 5px 10px;
+    overflow-wrap: anywhere;
+  }
+
+  .vitrina-pista .oferta-media { height: 118px; }
+
+  .vitrina-pista .oferta-body { padding: 14px; gap: 8px; }
+
+  .vitrina-pista .oferta-body h3 { font-size: 15px; }
+
+  .vitrina-pista .oferta-body > p { font-size: 13px; }
+
+  .vitrina-pista .params { margin-top: 12px; padding: 10px 12px; }
+
+  .vitrina-pista .param { font-size: 12px; }
+
+  .vitrina-pista .oferta-cta { gap: 7px; }
+
+  .vitrina-pista .oferta-cta .btn {
+    flex: 1 1 100%;
+    padding: 10px 12px;
+    font-size: 11px;
+  }
+}
