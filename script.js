@@ -1170,7 +1170,15 @@ function inicializarGestion() {
     window.open(enlaceCompartirFacebook(texto), "_blank", "noopener");
   });
 
-  botonAbrir.addEventListener("click", () => { if (!gestionDesbloqueado) return; abrir(); });
+  // El botón visible abre la administración de fichas existentes.
+  // Editar/eliminar/duplicar siguen protegidos por la clave de gestión.
+  botonAbrir.addEventListener("click", () => {
+    abrir();
+    const nueva = document.getElementById("gestion-nueva");
+    if (nueva) nueva.style.display = gestionDesbloqueado ? "inline-flex" : "none";
+  });
+
+  // Cinco toques sobre el logo habilitan la publicación de una ficha nueva.
   const logoEl = document.querySelector("a.logo");
   if (logoEl) logoEl.addEventListener("click", () => {
     const ahora = Date.now();
@@ -1182,6 +1190,11 @@ function inicializarGestion() {
       const gear = document.getElementById("btn-gestion-flotante");
       if (gear) gear.classList.add("visible");
       abrir();
+      const nueva = document.getElementById("gestion-nueva");
+      if (nueva) nueva.style.display = "inline-flex";
+      document.getElementById("gestion-lista").style.display = "none";
+      formulario.style.display = "grid";
+      document.getElementById("gestion-titulo").textContent = "NUEVA FICHA";
     }
   });
   document.getElementById("btn-gestion-flotante")?.addEventListener("click", () => {
@@ -1190,6 +1203,8 @@ function inicializarGestion() {
     resetearGestion();
     panel.classList.add("abierto");
     renderizarListaGestion();
+    const nueva = document.getElementById("gestion-nueva");
+    if (nueva) nueva.style.display = "inline-flex";
     document.body.style.overflow = "hidden";
   });
   botonCerrar.addEventListener("click", cerrar);
@@ -1394,6 +1409,101 @@ function anio() {
   if (destino) destino.textContent = new Date().getFullYear();
 }
 
+
+
+/* -------- Soluciones móviles -------- */
+const SOLUCIONES_MOVILES = {
+  tiendas: {
+    etiqueta: "01 · OPERACIÓN EN TIENDA",
+    titulo: "Gestión Móvil para Tiendas",
+    clase: "tienda-screen",
+    subtitulo: "Tiendas",
+    resumen: "Una herramienta móvil para apoyar tareas operativas directamente en el punto de venta, evitando trasladar al escritorio trabajos que pueden resolverse en el momento.",
+    funciones: [
+      "Captura e identificación de productos desde el teléfono.",
+      "Apoyo al control y revisión de inventario.",
+      "Registro de operaciones directamente en el área de trabajo.",
+      "Diseñada para un uso práctico en dispositivos Android.",
+      "Adaptable a procesos concretos de cada tienda o negocio."
+    ],
+    pie: "La aplicación puede adaptarse al flujo operativo y a los sistemas que ya utilice el negocio."
+  },
+  distribucion: {
+    etiqueta: "02 · VENTA EN RUTA",
+    titulo: "Gestión Móvil para Distribución",
+    clase: "ruta-screen",
+    subtitulo: "Distribución",
+    resumen: "Una solución para vendedores y distribuidores que realizan su operación fuera de un establecimiento fijo y necesitan llevar clientes, productos, ventas y entregas en el móvil.",
+    funciones: [
+      "Gestión de clientes, productos y recorrido de venta.",
+      "Registro de ventas y entregas durante la ruta.",
+      "Preparada para impresión de tickets desde la operación móvil.",
+      "Devoluciones configurables para negocios cuyo modelo las requiera.",
+      "Adaptable a distintos productos, rutas y formas de distribución."
+    ],
+    pie: "Las devoluciones se presentan como una capacidad configurable: no forman parte obligatoria del flujo de un distribuidor."
+  }
+};
+
+function mockupSolucion(sol) {
+  const filas = sol === SOLUCIONES_MOVILES.tiendas
+    ? [["▦","Captura de productos"],["✓","Inventario"],["⌁","Operación en punto de venta"]]
+    : [["◎","Clientes y ruta"],["$","Ventas y entregas"],["↶","Devoluciones configurables"]];
+  return `
+    <div class="phone-mock" aria-hidden="true">
+      <div class="phone-top"></div>
+      <div class="phone-screen ${sol.clase}">
+        <div class="app-bar">Gestión Móvil</div>
+        <div class="app-title">${sol.subtitulo}</div>
+        ${filas.map(([i,t]) => `<div class="app-tile"><b>${i}</b><span>${t}</span></div>`).join("")}
+        <div class="app-bottom">${sol === SOLUCIONES_MOVILES.distribucion ? "Preparada para imprimir tickets" : "Trabajo directo desde el móvil"}</div>
+      </div>
+    </div>`;
+}
+
+function abrirSolucion(clave) {
+  const sol = SOLUCIONES_MOVILES[clave];
+  const panel = document.getElementById("solucion-panel");
+  const contenido = document.getElementById("solucion-modal-contenido");
+  if (!sol || !panel || !contenido) return;
+  contenido.innerHTML = `
+    <div class="solucion-ficha">
+      <div class="solucion-ficha-visual">${mockupSolucion(sol)}</div>
+      <div class="solucion-ficha-copy">
+        <div class="section-tag">${sol.etiqueta}</div>
+        <h2 id="solucion-modal-titulo">${sol.titulo}</h2>
+        <p>${sol.resumen}</p>
+        <div class="solucion-funciones">
+          ${sol.funciones.map((f,i) => `<div class="solucion-funcion"><b>${String(i+1).padStart(2,"0")}</b><span>${f}</span></div>`).join("")}
+        </div>
+        <p><strong>${sol.pie}</strong></p>
+        <div class="solucion-ficha-cta">
+          <a class="btn gold" href="https://wa.me/524422320360?text=${encodeURIComponent(`Me interesa conocer más sobre ${sol.titulo}`)}" target="_blank" rel="noopener">Consultar solución</a>
+        </div>
+      </div>
+    </div>`;
+  panel.classList.add("abierto");
+  panel.setAttribute("aria-hidden", "false");
+  document.body.classList.add("modal-abierto");
+  document.getElementById("solucion-cerrar")?.focus();
+}
+
+function cerrarSolucion() {
+  const panel = document.getElementById("solucion-panel");
+  if (!panel) return;
+  panel.classList.remove("abierto");
+  panel.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("modal-abierto");
+}
+
+function inicializarSolucionesMoviles() {
+  document.querySelectorAll(".solucion-ver").forEach((b) => b.addEventListener("click", () => abrirSolucion(b.dataset.solucion)));
+  document.getElementById("solucion-cerrar")?.addEventListener("click", cerrarSolucion);
+  document.getElementById("solucion-panel")?.addEventListener("click", (e) => { if (e.target.id === "solucion-panel") cerrarSolucion(); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") cerrarSolucion(); });
+}
+
+
 document.addEventListener("DOMContentLoaded", () => {
   inicializarMenu();
   inicializarExperienciaPagina();
@@ -1405,6 +1515,7 @@ document.addEventListener("DOMContentLoaded", () => {
   inicializarBusquedaOfertas();
   inicializarSelectorMoneda();
   inicializarDetalleOfertas();
+  inicializarSolucionesMoviles();
   anio();
   observarRevelados();
   cargarProyectos();
