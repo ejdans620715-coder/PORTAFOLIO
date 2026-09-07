@@ -930,7 +930,7 @@ function inicializarDetalleOfertas() {
 
 /* -------- Panel de gestión de ofertas -------- */
 
-const SITIO_PUBLICO = "https://enchanting-buttercream-8f67f2.netlify.app/";
+const SITIO_PUBLICO = "https://ejdans620715-coder.github.io/PORTAFOLIO/";
 
 function enlaceCompartirFacebook(texto) {
   return `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(SITIO_PUBLICO)}&quote=${encodeURIComponent(texto)}`;
