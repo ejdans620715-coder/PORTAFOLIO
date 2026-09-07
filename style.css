@@ -1549,7 +1549,8 @@ footer {
 @media (max-width: 560px) {
   .vitrina-prev { left: -6px; }
   .vitrina-next { right: -6px; }
-  .vitrina-pista .oferta { flex: 0 0 275px; }
+  .vitrina-pista { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; overflow: visible; scroll-snap-type: none; }
+  .vitrina-pista .oferta { flex: none; width: auto; }
 }
 
 /* -------- Búsqueda de ofertas -------- */
