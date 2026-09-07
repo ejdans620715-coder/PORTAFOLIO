@@ -1508,7 +1508,7 @@ footer {
 .vitrina-pista::-webkit-scrollbar { display: none; }
 
 .vitrina-pista .oferta {
-  flex: 0 0 clamp(210px, 22vw, 320px);
+  flex: 0 1 clamp(210px, 22vw, 320px);
   scroll-snap-align: start;
 }
 
@@ -1549,7 +1549,7 @@ footer {
 @media (max-width: 560px) {
   .vitrina-prev { left: -6px; }
   .vitrina-next { right: -6px; }
-  .vitrina-pista .oferta { flex-basis: 275px; }
+  .vitrina-pista .oferta { flex: 0 0 275px; }
 }
 
 /* -------- Búsqueda de ofertas -------- */
