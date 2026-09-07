@@ -264,6 +264,12 @@ function tarjetaOferta(oferta, indice, pasada) {
 /* Foto automática desde Wikipedia Media (gratis y abierta) */
 async function obtenerFotoOferta(oferta, img) {
   const clave = (oferta.titulo + " " + (oferta.departamento || "")).trim();
+  if (oferta.imagen) {
+    imagenesOfertas[clave] = oferta.imagen;
+    img.src = oferta.imagen;
+    img.classList.add("cargada");
+    return;
+  }
   if (imagenesOfertas[clave]) {
     img.src = imagenesOfertas[clave];
     img.classList.add("cargada");
@@ -525,7 +531,7 @@ function inicializarAliados() {
 
 /* -------- Formulario de necesidades: Google Sheets + respaldo por correo -------- */
 
-const GOOGLE_APP_URL = "https://script.google.com/macros/s/AKfycbyC3uf5XA_lDVXeAfvko9dz1EtjQPU-AWXEtQMLvUE5bR5WaLYLhPIZmJPDKmU4JoUIQA/exec";
+const GOOGLE_APP_URL = "https://script.google.com/macros/s/AKfycbyiIRusCfL96OS1oDWohc1KjWX_Phy_URv3RkUr08hJKv8yAoAxnPBwnqm7aiEbrAk6Yw/exec";
 // Pega aquí la URL de tu Aplicación Web de Google Apps Script
 // (ver google_apps_script/code.gs). Con ella, los registros se archivan
 // solos en tu hoja y se devuelve un código. Si queda vacía, se usa mailto.
@@ -867,7 +873,7 @@ function inicializarDetalleOfertas() {
     if (!oferta) return;
 
     const clave = (oferta.titulo + " " + (oferta.departamento || "")).trim();
-    const foto = imagenesOfertas[clave] || "";
+    const foto = oferta.imagen || imagenesOfertas[clave] || "";
     const iniciales = oferta.titulo.split(" ").slice(0, 2).map((p) => p[0]).join("").toUpperCase();
     const mercado = oferta.mercado || "Cuba";
     const mensaje = encodeURIComponent(
@@ -963,6 +969,7 @@ function cargarOfertaEnGestion(oferta, duplicar = false) {
   set("g-departamento", oferta.departamento || "OTROS");
   set("g-estado", oferta.estado || "en-transito");
   set("g-tags", Array.isArray(oferta.tags) ? oferta.tags.join(", ") : (oferta.tags || ""));
+  set("g-imagen", oferta.imagen);
   panel.classList.add("abierto");
   const lista = document.getElementById("gestion-lista");
   if (lista) lista.style.display = "none";
@@ -1070,7 +1077,8 @@ function inicializarGestion() {
       unidadPrecio: d.get("unidadPrecio"),
       precio: `$${Number(d.get("precioUSD")).toFixed(2)} USD / ${d.get("unidadPrecio")}`,
       tags: d.get("tags"),
-      departamento: d.get("departamento")
+      departamento: d.get("departamento"),
+      imagen: d.get("imagen") || ""
     };
 
     if (!GOOGLE_APP_URL) {
