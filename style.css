@@ -1508,7 +1508,7 @@ footer {
 .vitrina-pista::-webkit-scrollbar { display: none; }
 
 .vitrina-pista .oferta {
-  flex: 0 0 320px;
+  flex: 0 0 clamp(210px, 22vw, 320px);
   scroll-snap-align: start;
 }
 
