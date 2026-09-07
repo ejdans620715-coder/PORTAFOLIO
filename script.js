@@ -939,6 +939,73 @@ function mostrarGestionMensaje(contenedor, error, mensaje) {
 
 
 let ofertaGestionActual = null;
+let imagenSugerenciaManual = false;
+
+async function proponerImagenOferta(titulo, departamento) {
+  try {
+    const clave = ((titulo || "") + " " + (departamento || "")).trim();
+    if (!clave) return "";
+    const termino = encodeURIComponent(clave);
+    const res = await fetch(
+      `https://es.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=${termino}&gsrlimit=1&prop=pageimages&piprop=thumbnail&pithumbsize=480&format=json&origin=*`
+    );
+    const datos = await res.json();
+    const paginas = datos.query && datos.query.pages ? Object.values(datos.query.pages) : [];
+    return paginas.length && paginas[0].thumbnail ? paginas[0].thumbnail.source : "";
+  } catch (error) {
+    return "";
+  }
+}
+
+function configurarSugerenciaImagenGestion() {
+  const tituloEl = document.getElementById("g-titulo");
+  const deptoEl = document.getElementById("g-departamento");
+  const imagenEl = document.getElementById("g-imagen");
+  const ayudaEl = document.getElementById("g-imagen-ayuda");
+  if (!tituloEl || !deptoEl || !imagenEl) return;
+  const avisar = (texto) => { if (ayudaEl) { ayudaEl.textContent = texto; ayudaEl.style.display = "block"; } };
+
+  let temporizador = null;
+  const auto = () => {
+    clearTimeout(temporizador);
+    temporizador = setTimeout(async () => {
+      const titulo = (tituloEl.value || "").trim();
+      if (!titulo) { avisar("Escribe el título de la ficha para proponer una foto."); return; }
+      if (imagenSugerenciaManual) { avisar("Guardarás la imagen escrita. Con ✨ PROBAR FOTO propones otra según el título."); return; }
+      avisar("Buscando una foto para el título…");
+      const propuesta = await proponerImagenOferta(titulo, deptoEl.value || "");
+      if (propuesta && !imagenSugerenciaManual) {
+        imagenEl.value = propuesta;
+        avisar("Se propuso una foto automática. Puedes guardarla o cambiarla.");
+      } else if (!propuesta) {
+        avisar("No encontramos foto sugerida: puedes escribir la URL a mano o dejarlo vacío (se verá inicial del producto).");
+      }
+    }, 900);
+  };
+
+  tituloEl.addEventListener("input", auto);
+  deptoEl.addEventListener("input", auto);
+  imagenEl.addEventListener("input", () => {
+    imagenSugerenciaManual = !!(imagenEl.value || "").trim();
+    if (imagenSugerenciaManual) avisar("Guardarás esta imagen. ✨ PROBAR FOTO propone otra según el título.");
+    else avisar("Escribe el título para proponer una foto automática.");
+  });
+
+  const boton = document.getElementById("g-imagen-probar");
+  if (boton) boton.addEventListener("click", async () => {
+    const titulo = (tituloEl.value || "").trim();
+    if (!titulo) { avisar("Primero escribe el título de la ficha y luego pulsa la sugerencia."); return; }
+    imagenSugerenciaManual = false;
+    avisar("Buscando una foto…");
+    const propuesta = await proponerImagenOferta(titulo, deptoEl.value || "");
+    if (propuesta) {
+      imagenEl.value = propuesta;
+      avisar("Se propuso una foto automática. Puedes guardarla o cambiarla.");
+    } else {
+      avisar("No encontramos foto sugerida: escribe la URL a mano o déjalo vacío.");
+    }
+  });
+}
 
 function idOferta(oferta) {
   return String(oferta.id || oferta.ID || oferta.codigo || oferta.titulo || "").trim();
@@ -971,6 +1038,7 @@ function cargarOfertaEnGestion(oferta, duplicar = false) {
   set("g-tags", Array.isArray(oferta.tags) ? oferta.tags.join(", ") : (oferta.tags || ""));
   const imagenVisible = oferta.imagen || imagenesOfertas[(oferta.titulo + " " + (oferta.departamento || "")).trim()] || "";
   set("g-imagen", imagenVisible);
+  imagenSugerenciaManual = !!imagenVisible;
   panel.classList.add("abierto");
   const lista = document.getElementById("gestion-lista");
   if (lista) lista.style.display = "none";
@@ -991,6 +1059,7 @@ function resetearGestion() {
   document.getElementById("gestion-guardar").textContent="GUARDAR OFERTA";
   document.getElementById("gestion-cancelar-edicion").style.display="none";
   ofertaGestionActual=null;
+  imagenSugerenciaManual = false;
 }
 
 
@@ -1023,6 +1092,7 @@ function inicializarGestion() {
   const formulario = document.getElementById("gestion-form");
   const espera = document.getElementById("gestion-espera");
   if (!botonAbrir || !panel || !formulario) return;
+  configurarSugerenciaImagenGestion();
 
   const abrir = () => {
     resetearGestion();

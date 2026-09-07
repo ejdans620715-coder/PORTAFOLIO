@@ -22,7 +22,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="style.css?v=45">
+<link rel="stylesheet" href="style.css?v=47">
     <link rel="icon" type="image/svg+xml" href="logo.svg">
 </head>
 
@@ -666,7 +666,11 @@
         </div>
         <div>
           <label for="g-imagen">Imagen de la ficha (URL)</label>
-          <input type="url" id="g-imagen" name="imagen" placeholder="ej. https://…/foto.jpg — opcional">
+          <div class="g-imagen-fila">
+            <input type="url" id="g-imagen" name="imagen" placeholder="Escribe el título y te proponemos una foto">
+            <button type="button" id="g-imagen-probar" class="btn admin-mini" title="Proponer una foto automática según el título">✨ PROBAR FOTO</button>
+          </div>
+          <p class="g-imagen-ayuda" id="g-imagen-ayuda">Escribe el título de la ficha y te sugerimos una imagen automáticamente. Puedes guardarla o cambiarla.</p>
         </div>
         <div class="gestion-acciones">
           <button type="submit" id="gestion-guardar" class="btn gold">GUARDAR OFERTA</button>
@@ -681,7 +685,7 @@
     </div>
   </div>
 
-  <script src="script.js?v=46" defer></script>
+  <script src="script.js?v=47" defer></script>
 </body>
 </html>
 
