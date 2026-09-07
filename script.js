@@ -1170,6 +1170,7 @@ function inicializarGestion() {
 
   botonAbrir.addEventListener("click", abrir);
   document.getElementById("btn-gestion-flotante")?.addEventListener("click", () => {
+    if (panel.classList.contains("abierto")) { cerrar(); return; }
     resetearGestion();
     panel.classList.add("abierto");
     renderizarListaGestion();
