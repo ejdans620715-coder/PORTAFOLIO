@@ -932,12 +932,15 @@ function inicializarDetalleOfertas() {
 
 const SITIO_PUBLICO = "https://enchanting-buttercream-8f67f2.netlify.app/";
 
+function enlaceCompartirFacebook(texto) {
+  return `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(SITIO_PUBLICO)}&quote=${encodeURIComponent(texto)}`;
+}
+
 function mostrarAvisoFacebook(titulo, precio) {
   const pill = document.getElementById("fb-pill");
   if (!pill) return;
   const texto = `Nuevo producto en JAENDA: ${titulo}${precio ? " — " + precio : ""}. ¡Míralo aquí!`;
-  const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(SITIO_PUBLICO)}&quote=${encodeURIComponent(texto)}`;
-  pill.innerHTML = `<a class="btn gold" href="${url}" target="_blank" rel="noopener">📢 AVISAR EN FACEBOOK</a>`;
+  pill.innerHTML = `<a class="btn gold" href="${enlaceCompartirFacebook(texto)}" target="_blank" rel="noopener">📢 AVISAR EN FACEBOOK</a>`;
   pill.style.display = "block";
   clearTimeout(pill._t);
   pill._t = setTimeout(() => { pill.style.display = "none"; }, 25000);
@@ -1159,6 +1162,10 @@ function inicializarGestion() {
   document.getElementById("gestion-ver-fichas")?.addEventListener("click", () => {
     resetearGestion();
     renderizarListaGestion();
+  });
+  document.getElementById("gestion-compartir-fb")?.addEventListener("click", () => {
+    const texto = "JAENDA — Proyectos, soluciones y servicios que conectan oportunidades. ¡Descubre todo aquí!";
+    window.open(enlaceCompartirFacebook(texto), "_blank", "noopener");
   });
 
   botonAbrir.addEventListener("click", abrir);
