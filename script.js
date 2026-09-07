@@ -941,19 +941,19 @@ function mostrarGestionMensaje(contenedor, error, mensaje) {
 let ofertaGestionActual = null;
 let imagenSugerenciaManual = false;
 
-async function proponerImagenOferta(titulo, departamento) {
+async function proponerImagenesOferta(titulo, departamento) {
   try {
     const clave = ((titulo || "") + " " + (departamento || "")).trim();
-    if (!clave) return "";
+    if (!clave) return [];
     const termino = encodeURIComponent(clave);
     const res = await fetch(
-      `https://es.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=${termino}&gsrlimit=1&prop=pageimages&piprop=thumbnail&pithumbsize=480&format=json&origin=*`
+      `https://es.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=${termino}&gsrlimit=5&prop=pageimages&piprop=thumbnail&pithumbsize=480&format=json&origin=*`
     );
     const datos = await res.json();
     const paginas = datos.query && datos.query.pages ? Object.values(datos.query.pages) : [];
-    return paginas.length && paginas[0].thumbnail ? paginas[0].thumbnail.source : "";
+    return paginas.filter((p) => p.thumbnail && p.thumbnail.source).map((p) => p.thumbnail.source);
   } catch (error) {
-    return "";
+    return [];
   }
 }
 
@@ -962,49 +962,78 @@ function configurarSugerenciaImagenGestion() {
   const deptoEl = document.getElementById("g-departamento");
   const imagenEl = document.getElementById("g-imagen");
   const ayudaEl = document.getElementById("g-imagen-ayuda");
+  const vistaEl = document.getElementById("g-imagen-vista");
+  const boton = document.getElementById("g-imagen-probar");
   if (!tituloEl || !deptoEl || !imagenEl) return;
+  let candidatas = [];
+  let indice = -1;
   const avisar = (texto) => { if (ayudaEl) { ayudaEl.textContent = texto; ayudaEl.style.display = "block"; } };
 
-  let temporizador = null;
-  const auto = () => {
-    clearTimeout(temporizador);
-    temporizador = setTimeout(async () => {
-      const titulo = (tituloEl.value || "").trim();
-      if (!titulo) { avisar("Escribe el título de la ficha para proponer una foto."); return; }
-      if (imagenSugerenciaManual) { avisar("Guardarás la imagen escrita. Con ✨ PROBAR FOTO propones otra según el título."); return; }
-      avisar("Buscando una foto para el título…");
-      const propuesta = await proponerImagenOferta(titulo, deptoEl.value || "");
-      if (propuesta && !imagenSugerenciaManual) {
-        imagenEl.value = propuesta;
-        avisar("Se propuso una foto automática. Puedes guardarla o cambiarla.");
-      } else if (!propuesta) {
-        avisar("No encontramos foto sugerida: puedes escribir la URL a mano o dejarlo vacío (se verá inicial del producto).");
-      }
-    }, 900);
+  const pintarVista = () => {
+    if (!vistaEl) return;
+    const valor = (imagenEl.value || "").trim();
+    if (/^https?:\/\/.+/.test(valor)) {
+      vistaEl.src = valor;
+      vistaEl.classList.add("visible");
+      vistaEl.onerror = () => vistaEl.classList.remove("visible");
+    } else {
+      vistaEl.classList.remove("visible");
+      vistaEl.removeAttribute("src");
+    }
   };
 
-  tituloEl.addEventListener("input", auto);
-  deptoEl.addEventListener("input", auto);
+  const aceptarFoto = (url, texto) => {
+    if (!url) return false;
+    imagenEl.value = url;
+    imagenSugerenciaManual = true;
+    pintarVista();
+    avisar(texto);
+    return true;
+  };
+
+  const cargarCandidatas = async () => {
+    const titulo = (tituloEl.value || "").trim();
+    if (!titulo) { avisar("Escribe el título de la ficha para proponer una foto."); return; }
+    avisar("Buscando fotos para el título…");
+    candidatas = await proponerImagenesOferta(titulo, deptoEl.value || "");
+    indice = -1;
+    if (!candidatas.length) {
+      avisar("No encontramos fotos para ese título: escribe una URL a mano o déjalo vacío.");
+      return;
+    }
+    if (!imagenSugerenciaManual) aceptarFoto(candidatas[0], "Se propuso una foto. Pulsa ✨ PROBAR FOTO para ver las demás.");
+  };
+
+  const siguienteFoto = async () => {
+    const titulo = (tituloEl.value || "").trim();
+    if (!titulo) { avisar("Primero escribe el título de la ficha."); return; }
+    if (!candidatas.length) {
+      avisar("Buscando fotos…");
+      candidatas = await proponerImagenesOferta(titulo, deptoEl.value || "");
+      indice = -1;
+      if (!candidatas.length) { avisar("No hay más fotos para ese título. También puedes pegar la dirección de tu propia foto."); return; }
+    }
+    indice++;
+    if (indice < candidatas.length) {
+      aceptarFoto(candidatas[indice], `Foto ${indice + 1} de ${candidatas.length}. ✨ PROBAR FOTO va a la siguiente.`);
+    } else {
+      indice = -1;
+      candidatas = [];
+      avisar("No hay más fotos para ese título. También puedes pegar la dirección de tu propia foto.");
+    }
+  };
+
+  let temporizador = null;
+  tituloEl.addEventListener("input", () => { clearTimeout(temporizador); temporizador = setTimeout(cargarCandidatas, 900); });
+  deptoEl.addEventListener("input", () => { clearTimeout(temporizador); temporizador = setTimeout(cargarCandidatas, 900); });
   imagenEl.addEventListener("input", () => {
     imagenSugerenciaManual = !!(imagenEl.value || "").trim();
-    if (imagenSugerenciaManual) avisar("Guardarás esta imagen. ✨ PROBAR FOTO propone otra según el título.");
+    pintarVista();
+    if (imagenSugerenciaManual) avisar("Guardarás esta imagen. ✨ PROBAR FOTO busca otras para el título.");
     else avisar("Escribe el título para proponer una foto automática.");
   });
-
-  const boton = document.getElementById("g-imagen-probar");
-  if (boton) boton.addEventListener("click", async () => {
-    const titulo = (tituloEl.value || "").trim();
-    if (!titulo) { avisar("Primero escribe el título de la ficha y luego pulsa la sugerencia."); return; }
-    imagenSugerenciaManual = false;
-    avisar("Buscando una foto…");
-    const propuesta = await proponerImagenOferta(titulo, deptoEl.value || "");
-    if (propuesta) {
-      imagenEl.value = propuesta;
-      avisar("Se propuso una foto automática. Puedes guardarla o cambiarla.");
-    } else {
-      avisar("No encontramos foto sugerida: escribe la URL a mano o déjalo vacío.");
-    }
-  });
+  if (boton) boton.addEventListener("click", siguienteFoto);
+  pintarVista();
 }
 
 function idOferta(oferta) {

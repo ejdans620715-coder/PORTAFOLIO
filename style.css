@@ -1682,6 +1682,20 @@ footer {
   line-height: 1.45;
 }
 
+.g-imagen-vista {
+  display: none;
+  margin-top: 8px;
+  width: 150px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid var(--line, #e3e6ea);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  background: var(--bg-soft, #f4f6fb);
+}
+
+.g-imagen-vista.visible { display: block; }
+
 .gestion-modal .note { font-size: 12px; }
 
 @media (max-width: 560px) {
