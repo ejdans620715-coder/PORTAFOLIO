@@ -1169,6 +1169,12 @@ function inicializarGestion() {
   });
 
   botonAbrir.addEventListener("click", abrir);
+  document.getElementById("btn-gestion-flotante")?.addEventListener("click", () => {
+    resetearGestion();
+    panel.classList.add("abierto");
+    renderizarListaGestion();
+    document.body.style.overflow = "hidden";
+  });
   botonCerrar.addEventListener("click", cerrar);
   panel.addEventListener("click", (evento) => {
     if (evento.target === panel) cerrar();
