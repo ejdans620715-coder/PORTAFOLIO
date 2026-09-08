@@ -365,20 +365,54 @@ function inicializarMenu() {
   const menu = document.getElementById("menu");
   if (!burger || !menu) return;
 
-  burger.addEventListener("click", () => {
-    const abierto = !menu.classList.contains("open");
+  const setEstado = (abierto) => {
     burger.classList.toggle("open", abierto);
     menu.classList.toggle("open", abierto);
     burger.setAttribute("aria-expanded", String(abierto));
+    document.body.classList.toggle("menu-abierto", abierto);
+  };
+
+  burger.addEventListener("click", () => {
+    setEstado(!menu.classList.contains("open"));
   });
 
   menu.querySelectorAll("a").forEach((enlace) => {
-    enlace.addEventListener("click", () => {
-      burger.classList.remove("open");
-      menu.classList.remove("open");
-      burger.setAttribute("aria-expanded", "false");
-    });
+    enlace.addEventListener("click", () => setEstado(false));
   });
+
+  // Cierra al tocar el fondo del overlay o con Escape.
+  menu.addEventListener("click", (e) => {
+    if (e.target === menu) setEstado(false);
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && menu.classList.contains("open")) setEstado(false);
+  });
+}
+
+// En móvil (modo libro) el header se retira al bajar y vuelve al subir.
+function inicializarHeaderInteligente() {
+  const menu = document.getElementById("menu");
+  if (!menu) return;
+  const esMovil = () => window.matchMedia("(max-width: 820px)").matches;
+  let ultimoScroll = window.scrollY;
+
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (!esMovil()) return;
+      const y = window.scrollY;
+      const bajando = y > ultimoScroll;
+      ultimoScroll = y;
+      const menuAbierto = menu.classList.contains("open");
+
+      if (y > 160 && bajando && !menuAbierto) {
+        document.body.classList.add("ocultar-header");
+      } else {
+        document.body.classList.remove("ocultar-header");
+      }
+    },
+    { passive: true }
+  );
 }
 
 /* -------- Formulario de contacto (compone el mailto) -------- */
@@ -1506,6 +1540,7 @@ function inicializarSolucionesMoviles() {
 
 document.addEventListener("DOMContentLoaded", () => {
   inicializarMenu();
+  inicializarHeaderInteligente();
   inicializarExperienciaPagina();
   inicializarContacto();
   inicializarAliados();
