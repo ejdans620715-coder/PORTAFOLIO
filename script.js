@@ -1495,8 +1495,8 @@ const SOLUCIONES_MOVILES = {
 
 function mockupSolucion(sol) {
   const filas = sol === SOLUCIONES_MOVILES.tiendas
-    ? [["▦","Captura de productos"],["✓","Inventario"],["⌁","Operación en punto de venta"]]
-    : [["◎","Clientes y ruta"],["$","Ventas y entregas"],["↶","Devoluciones configurables"]];
+    ? [["▦","Captura"],["✓","Inventario"],["⌁","Punto de venta"]]
+    : [["◎","Clientes"],["$","Ventas"],["↶","Devoluciones"]];
   return `
     <div class="phone-mock" aria-hidden="true">
       <div class="phone-top"></div>
