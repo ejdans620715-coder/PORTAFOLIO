@@ -279,214 +279,81 @@
             <div class="solucion-body">
               <div class="solucion-num">02 · VENTA EN RUTA</div>
               <h3>Gestión Móvil para Distribución</h3>
-              <p>Organiza clientes, productos, ventas, entregas y recorridos de un distribuidor que trabaja directamente en la calle, con soporte para impresión de tickets.</p>
-              <div class="solucion-tags"><span>Clientes</span><span>Venta en ruta</span><span>Entregas</span><span>Tickets</span></div>
+              <p>Facilita la operación de distribución y venta en ruta: gestión de clientes, entregas, ventas, impresión de tickets y control opcional de devoluciones cuando el modelo de negocio lo requiere.</p>
+              <div class="solucion-tags"><span>Distribución</span><span>Ventas</span><span>Tickets</span><span>Devoluciones configurables</span></div>
               <button type="button" class="btn gold solucion-ver" data-solucion="distribucion">Ver solución</button>
             </div>
           </article>
         </div>
-
-        <div class="soluciones-note reveal">
-          <strong>Una misma idea:</strong> llevar la operación al teléfono para reducir pasos, capturar información en el momento y adaptar el flujo a la realidad de cada negocio.
-        </div>
       </div>
     </section>
 
-    <!-- ============ OFERTAS DE SUMINISTRO ============ -->
+    <!-- ============ OFERTAS ============ -->
 
-    <section id="ofertas">
+    <section id="ofertas" class="ofertas-section">
       <div class="container">
         <div class="reveal">
           <div class="section-tag">Ofertas de suministro</div>
-          <h2>Suministro real, en viaje, en puerto o en plaza.</h2>
-          <p class="lead">
-            JAENDA presenta oportunidades de suministro como soporte a Enlace Cienfuegos del Mayab. Las cotizaciones, contratos y operaciones comerciales se gestionan formalmente a través de Enlace Cienfuegos del Mayab S.R.L. de C.V.
-          </p>
-          <div class="gestion-cta">
-            <button id="btn-gestion" type="button" class="btn ghost">
-              Presenta una oferta de suministro
-            </button>
-            <span class="gestion-cta-note">Para la administración de la página</span>
-          </div>
+          <h2>Productos y oportunidades disponibles.</h2>
+          <p class="lead">Explora ofertas vigentes y consulta sus condiciones. Los precios se muestran en USD como referencia base y pueden visualizarse en otras monedas aplicando la tasa de cambio correspondiente.</p>
         </div>
 
-        <div class="ofertas-toolbar">
-          <div class="oferta-categorias" id="oferta-categorias"></div>
+        <div class="ofertas-toolbar reveal">
           <div class="moneda-control">
-            <label for="moneda-selector">Ver precios en</label>
-            <select id="moneda-selector" aria-label="Seleccionar moneda">
-              <option value="USD">USD · $</option>
-              <option value="EUR">EUR · €</option>
-              <option value="MXN">MXN · $</option>
-            </select>
-            <span id="moneda-estado" class="moneda-estado">Base: USD</span>
+            <label for="moneda-selector">Moneda</label>
+            <select id="moneda-selector" aria-label="Seleccionar moneda"></select>
+          </div>
+          <div class="ofertas-busqueda">
+            <label for="ofertas-search">Buscar</label>
+            <input id="ofertas-search" type="search" placeholder="Producto, categoría o proveedor">
           </div>
         </div>
 
-        <div class="vitrina">
-          <button type="button" class="vitrina-nav vitrina-prev" id="vitrina-prev" aria-label="Anterior">‹</button>
-          <div class="vitrina-pista" id="vitrina-pista"></div>
-          <button type="button" class="vitrina-nav vitrina-next" id="vitrina-next" aria-label="Siguiente">›</button>
-          <div class="vitrina-pagina" id="vitrina-pagina"></div>
-        </div>
-
-        <div class="oferta-busca">
-          <input type="search" id="oferta-busqueda" placeholder="Buscar por producto, origen, destino..." autocomplete="off">
-          <span class="oferta-conteo" id="oferta-conteo"></span>
-        </div>
-
-        <div class="ofertas" id="ofertas-grid">
-          <!-- Generado desde proyectos.json -->
-        </div>
-
-        <div class="ofertas-historial" id="ofertas-historial" style="display:none;">
-          <details>
-            <summary><span id="ofertas-historial-resumen">Historial de ofertas</span></summary>
-            <div class="ofertas pasadas" id="ofertas-historial-list">
-              <!-- Ofertas caducadas, archivadas -->
-            </div>
-          </details>
-        </div>
+        <div id="ofertas-grid" class="ofertas-grid"></div>
       </div>
     </section>
 
     <!-- ============ NECESIDADES ============ -->
 
-    <section id="necesidades">
+    <section id="necesidades" class="necesidades-section">
       <div class="container">
-        <div class="aliados reveal">
-          <div class="aliados-copy">
-            <div class="section-tag">Necesidades</div>
-            <h2>¿Qué hace falta? Cuéntanoslo y lo gestionamos.</h2>
-            <p>
-              Enlace trabaja desde lo que el mercado necesita. Si eres
-              cuentapropista, MIPyME, cooperativa o empresa privada,
-              dinos qué te falta conseguir: lo archivamos, lo analizamos
-              y buscamos la vía para acercártelo al por mayor.
-            </p>
-            <div class="aliados-sectores">
-              <span class="tag">Insumos y materias primas</span>
-              <span class="tag">Alimentos y bebidas</span>
-              <span class="tag">Equipos y herramientas</span>
-              <span class="tag">Repuestos y accesorios</span>
-              <span class="tag">Otros</span>
-            </div>
-          </div>
-
-          <form id="necesidades-form" class="contact-form aliados-form" data-email="kikeyucatan64@gmail.com">
-            <div>
-              <label for="n-codigo">¿Ya tienes un código de JAENDA? (opcional)</label>
-              <input type="text" id="n-codigo" name="codigoAnterior" placeholder="ej. NEC-0001 — para repetir o cambiar tu necesidad" autocomplete="off">
-            </div>
-            <div id="n-modo-wrap" style="display:none;">
-              <label for="n-modo">Al enviar con tu código, quiero…</label>
-              <select id="n-modo" name="modo">
-                <option value="repetir">Más de lo mismo (sumar cantidad)</option>
-                <option value="nueva">Otra necesidad (misma persona, nuevo registro)</option>
-              </select>
-            </div>
-            <div>
-              <label for="n-quien">¿Quién eres?</label>
-              <select id="n-quien" name="quien" required>
-                <option value="">Selecciona</option>
-                <option>Cuentapropista</option>
-                <option>MIPyME</option>
-                <option>Cooperativa</option>
-                <option>Empresa privada</option>
-                <option>Particular</option>
-              </select>
-            </div>
-            <div>
-              <label for="n-sector">¿En qué rubro?</label>
-              <select id="n-sector" name="sector" required>
-                <option value="">Selecciona</option>
-                <option>Agroalimentario</option>
-                <option>Gastronomía y servicios</option>
-                <option>Comercio y distribución</option>
-                <option>Industria y manufactura</option>
-                <option>Logística y transporte</option>
-                <option>Construcción e instalaciones</option>
-                <option>Tecnología</option>
-                <option>Otro</option>
-              </select>
-            </div>
-            <div>
-              <label for="n-descripcion">¿Qué necesitas?</label>
-              <textarea id="n-descripcion" name="descripcion" placeholder="Describe con detalle lo que hace falta..." required></textarea>
-            </div>
-            <div>
-              <label for="n-cantidad">Volumen o frecuencia (opcional)</label>
-              <input type="text" id="n-cantidad" name="cantidad" placeholder="ej. 50 cajas al mes">
-            </div>
-            <div>
-              <label for="n-contacto">Correo o teléfono</label>
-              <input type="text" id="n-contacto" name="contacto" placeholder="cómo podemos darte seguimiento" required>
-            </div>
-            <div>
-              <button type="submit" class="btn gold">Registrar necesidad</button>
-            </div>
-            <div id="n-resultado" class="needs-result" role="status" aria-live="polite"></div>
-            <p class="note">Con Google Sheets conectado, cada registro se archiva y recibe un código de seguimiento. Sin conexión, el formulario utiliza tu correo como respaldo.</p>
-          </form>
+        <div class="reveal">
+          <div class="section-tag">Necesidades</div>
+          <h2>¿Qué hace falta?</h2>
+          <p class="lead">Cuéntanos qué producto, servicio, solución o capacidad estás buscando. JAENDA ayuda a estructurar la necesidad y conectarla con proveedores, aliados o capacidades que puedan responder.</p>
         </div>
+
+        <form id="necesidades-form" class="necesidades-form reveal">
+          <div class="form-grid">
+            <label>Nombre o entidad
+              <input type="text" name="nombre" required>
+            </label>
+            <label>Correo o teléfono
+              <input type="text" name="contacto" required>
+            </label>
+            <label class="full">Necesidad
+              <textarea name="necesidad" rows="5" required placeholder="Describe qué necesitas, cantidades aproximadas, destino o cualquier dato útil."></textarea>
+            </label>
+          </div>
+          <button class="btn gold" type="submit">Enviar necesidad</button>
+        </form>
       </div>
     </section>
 
-    <!-- ============ RED DE ALIADOS ============ -->
+    <!-- ============ ALIADOS ============ -->
 
     <section id="aliados">
       <div class="container">
-        <div class="aliados reveal">
-          <div class="aliados-copy">
-            <div class="section-tag">Red de aliados</div>
-            <h2>Únete a quienes hacen posible el puente.</h2>
-            <p>
-              Enlace detecta y estructura oportunidades. Las empresas
-              especializadas las ejecutan. Si tu empresa tiene capacidades
-              en logística, construcción, tecnología o comercio, queremos
-              conocerla.
-            </p>
-            <div class="aliados-sectores">
-              <span class="tag">Logística</span>
-              <span class="tag">Construcción</span>
-              <span class="tag">Tecnología</span>
-              <span class="tag">Agroalimentario</span>
-              <span class="tag">Comercialización</span>
-            </div>
-          </div>
+        <div class="reveal">
+          <div class="section-tag">Red de aliados</div>
+          <h2>Capacidades que pueden encontrarse.</h2>
+          <p class="lead">Empresas, profesionales, proveedores y ejecutores pueden formar parte de una red que se activa cuando una oportunidad necesita su experiencia.</p>
+        </div>
 
-          <form id="aliados-form" class="contact-form aliados-form" data-email="kikeyucatan64@gmail.com">
-            <div>
-              <label for="a-empresa">Empresa</label>
-              <input type="text" id="a-empresa" name="empresa" placeholder="Nombre de tu empresa" required>
-            </div>
-            <div>
-              <label for="a-sector">Sector</label>
-              <select id="a-sector" name="sector" required>
-                <option value="">Selecciona un sector</option>
-                <option>Logística y transporte</option>
-                <option>Construcción e instalaciones</option>
-                <option>Tecnología y aplicaciones</option>
-                <option>Agroalimentario</option>
-                <option>Comercialización y distribución</option>
-                <option>Otro</option>
-              </select>
-            </div>
-            <div>
-              <label for="a-capacidades">Capacidades / experiencia</label>
-              <textarea id="a-capacidades" name="capacidades" placeholder="¿Qué sabes hacer y en qué trabajas hoy?" required></textarea>
-            </div>
-            <div>
-              <label for="a-contacto">Correo o teléfono</label>
-              <input type="text" id="a-contacto" name="contacto" placeholder="cómo podemos contactarte" required>
-            </div>
-            <div>
-              <button type="submit" class="btn gold">
-                Solicitar unirme a la red
-              </button>
-            </div>
-            <p class="note">El formulario abre tu programa de correo. Para recibirlo directo en tu bandeja sin pasos extra, conéctalo con Formspree (instrucciones en el README).</p>
-          </form>
+        <div class="aliados-grid reveal">
+          <article><span>01</span><h3>Proveedores</h3><p>Productos, suministros y capacidades comerciales.</p></article>
+          <article><span>02</span><h3>Ejecutores</h3><p>Empresas y equipos capaces de convertir proyectos en resultados.</p></article>
+          <article><span>03</span><h3>Especialistas</h3><p>Conocimiento técnico y profesional para estructurar mejores soluciones.</p></article>
         </div>
       </div>
     </section>
@@ -497,30 +364,13 @@
       <div class="container">
         <div class="reveal">
           <div class="section-tag">Servicios</div>
-          <h2>Capacidades que se conectan.</h2>
+          <h2>Organizar, presentar, conectar y acompañar.</h2>
         </div>
 
-        <div class="services">
-          <div class="service reveal">
-            <div class="service-num">01</div>
-            <h3>Desarrollo de proyectos</h3>
-            <p>Análisis, estructuración y desarrollo de oportunidades hasta convertirlas en propuestas concretas.</p>
-          </div>
-          <div class="service reveal">
-            <div class="service-num">02</div>
-            <h3>Coordinación</h3>
-            <p>Conexión y coordinación entre clientes, proveedores, especialistas y colaboradores.</p>
-          </div>
-          <div class="service reveal">
-            <div class="service-num">03</div>
-            <h3>Soluciones empresariales</h3>
-            <p>Servicios y herramientas diseñados alrededor de necesidades específicas.</p>
-          </div>
-          <div class="service reveal">
-            <div class="service-num">04</div>
-            <h3>Tecnología</h3>
-            <p>Aplicaciones y soluciones digitales destinadas a mejorar procesos y operaciones.</p>
-          </div>
+        <div class="services reveal">
+          <article><h3>Presentación de oportunidades</h3><p>Estructuración clara de propuestas, necesidades y proyectos para facilitar su comprensión y evaluación.</p></article>
+          <article><h3>Conexión comercial y técnica</h3><p>Búsqueda y vinculación con proveedores, aliados, especialistas y ejecutores adecuados para cada oportunidad.</p></article>
+          <article><h3>Soporte digital</h3><p>Soluciones móviles, herramientas de información y presencia digital orientadas a necesidades concretas de operación.</p></article>
         </div>
       </div>
     </section>
@@ -531,15 +381,14 @@
       <div class="container">
         <div class="reveal">
           <div class="section-tag">Cómo trabajamos</div>
-          <h2>De la oportunidad al proyecto.</h2>
+          <h2>Del problema a una oportunidad estructurada.</h2>
         </div>
 
-        <div class="steps">
-          <div class="step reveal"><div class="n">01</div><h3>Detectar</h3><p>Encontrar una necesidad u oportunidad.</p></div>
-          <div class="step reveal"><div class="n">02</div><h3>Analizar</h3><p>Comprender qué hace falta para desarrollarla.</p></div>
-          <div class="step reveal"><div class="n">03</div><h3>Conectar</h3><p>Encontrar capacidades y colaboradores adecuados.</p></div>
-          <div class="step reveal"><div class="n">04</div><h3>Coordinar</h3><p>Integrar las diferentes capacidades.</p></div>
-          <div class="step reveal"><div class="n">05</div><h3>Desarrollar</h3><p>Convertir la propuesta en una solución.</p></div>
+        <div class="steps reveal">
+          <article><b>01</b><h3>Detectar</h3><p>Entender la necesidad real antes de proponer una respuesta.</p></article>
+          <article><b>02</b><h3>Estructurar</h3><p>Ordenar información, requisitos y alcance para que la oportunidad sea comprensible.</p></article>
+          <article><b>03</b><h3>Conectar</h3><p>Encontrar capacidades, aliados y proveedores que puedan responder.</p></article>
+          <article><b>04</b><h3>Acompañar</h3><p>Dar seguimiento a la comunicación y al desarrollo de la oportunidad.</p></article>
         </div>
       </div>
     </section>
@@ -548,251 +397,101 @@
 
     <section id="contacto">
       <div class="container">
-        <div class="contact-grid">
-          <div class="reveal">
+        <div class="contact-card reveal">
+          <div>
             <div class="section-tag">Contacto</div>
-            <h2>¿Tienes un proyecto o una oportunidad?</h2>
+            <h2>¿Tienes una necesidad, una oportunidad o una capacidad que ofrecer?</h2>
+            <p>JAENDA puede ser el punto de encuentro.</p>
           </div>
-
-          <div class="contact-aside reveal">
-            <p>Hablemos y veamos hasta dónde puede llegar.</p>
-
-            <form id="contact-form" class="contact-form" data-email="kikeyucatan64@gmail.com">
-              <div>
-                <label for="email">Tu correo</label>
-                <input type="email" id="email" name="email" placeholder="tu@correo.com" required>
-              </div>
-              <div>
-                <label for="asunto">Asunto</label>
-                <input type="text" id="asunto" name="asunto" placeholder="Un proyecto, una oportunidad..." required>
-              </div>
-              <div>
-                <label for="mensaje">Mensaje</label>
-                <textarea id="mensaje" name="mensaje" placeholder="Cuéntame qué tienes en mente..." required></textarea>
-              </div>
-              <div>
-                <button type="submit" class="btn gold">
-                  Enviar mensaje
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/>
-                  </svg>
-                </button>
-              </div>
-            </form>
-
-            <div class="contact-channels">
-              <a class="channel" href="https://wa.me/524422320360" target="_blank" rel="noopener">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-                </svg>
-                WhatsApp · +52 442 232 0360
-              </a>
-
-              <a class="channel" href="mailto:kikeyucatan64@gmail.com">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <rect x="2" y="4" width="20" height="16" rx="2"/>
-                  <path d="m22 7-10 6L2 7"/>
-                </svg>
-                kikeyucatan64@gmail.com
-              </a>
-            </div>
-
-            <p class="note">El formulario puede enviarse por correo o conectarse a un servicio de formularios cuando quieras automatizar la recepción.</p>
+          <div class="contact-actions">
+            <a class="btn gold" href="https://wa.me/524422320360" target="_blank" rel="noopener">WhatsApp</a>
+            <a class="btn ghost" href="mailto:kikeyucatan64@gmail.com">Correo</a>
           </div>
         </div>
       </div>
     </section>
-
   </main>
 
   <footer>
-    <div class="container">
-      <div class="footer-content">
-        <div class="wordmark">JAENDA</div>
-        <div>Proyectos · Soluciones · Servicios</div>
-        <div class="footer-links"><a href="#proyectos">Proyectos</a><a href="#soluciones">Soluciones móviles</a><a href="#servicios">Servicios</a><a href="#contacto">Contacto</a></div>
-        <div>© <span id="anio">2026</span> JAENDA</div>
-      </div>
+    <div class="container footer-inner">
+      <span>JAENDA</span>
+      <span>Proyectos · Oportunidades · Alianzas</span>
     </div>
   </footer>
 
-  <button class="back-top" id="back-top" type="button" aria-label="Volver arriba">↑</button>
-
-
-  <!-- ============ DETALLE DE SOLUCIÓN MÓVIL ============ -->
-
-  <div class="solucion-panel" id="solucion-panel" aria-hidden="true">
-    <div class="solucion-modal" role="dialog" aria-modal="true" aria-labelledby="solucion-modal-titulo">
-      <button id="solucion-cerrar" class="detalle-cerrar" type="button" aria-label="Cerrar">×</button>
-      <div id="solucion-modal-contenido"></div>
+  <!-- ============ MODAL SOLUCIONES ============ -->
+  <div id="solucion-modal" class="modal" aria-hidden="true">
+    <div class="modal-backdrop" data-close-solucion></div>
+    <div class="modal-card solucion-modal-card" role="dialog" aria-modal="true" aria-labelledby="solucion-modal-title">
+      <button class="modal-close" type="button" data-close-solucion aria-label="Cerrar">×</button>
+      <div id="solucion-modal-content"></div>
     </div>
   </div>
 
-  <!-- ============ DETALLE DE OFERTA ============ -->
+  <!-- ============ ADMIN PRIVADO ============ -->
+  <button id="admin-trigger" class="admin-trigger" type="button" aria-label="Administración privada">•••••</button>
 
-  <div class="detalle-panel" id="oferta-detalle">
-    <div class="detalle-modal" role="dialog" aria-modal="true" aria-label="Detalle de la oferta">
-      <button id="oferta-detalle-cerrar" class="detalle-cerrar" aria-label="Cerrar">×</button>
-      <div id="oferta-detalle-contenido" class="detalle-cuerpo"></div>
-      <div id="oferta-detalle-acciones" class="detalle-acciones"></div>
-    </div>
-  </div>
+  <div id="admin-modal" class="modal admin-modal" aria-hidden="true">
+    <div class="modal-backdrop" data-close-admin></div>
+    <div class="modal-card admin-card" role="dialog" aria-modal="true" aria-labelledby="admin-title">
+      <button class="modal-close" type="button" data-close-admin aria-label="Cerrar">×</button>
 
-  <!-- ============ PANEL DE GESTIÓN DE OFERTAS ============ -->
-
-  <div class="gestion-panel" id="gestion-panel">
-    <div class="gestion-modal">
-      <div class="gestion-head">
+      <div class="admin-head">
         <div>
-          <div class="section-tag">Panel privado</div>
-          <h3 id="gestion-titulo">Administrar fichas</h3>
+          <div class="section-tag">Administración privada</div>
+          <h2 id="admin-title">Gestión de ofertas</h2>
         </div>
-        <button id="gestion-cerrar" class="gestion-cerrar" aria-label="Cerrar">×</button>
+        <div class="admin-top-actions">
+          <button id="admin-nueva" type="button" class="btn gold">+ Nueva ficha</button>
+          <button id="admin-listar" type="button" class="btn ghost">Mis fichas</button>
+          <button id="admin-facebook" type="button" class="btn ghost">📢 Compartir en Facebook</button>
+        </div>
       </div>
 
-      <div id="gestion-espera" class="needs-result err" style="display:none;"></div>
+      <div id="admin-listado" class="admin-listado"></div>
 
-      <div class="admin-toolbar">
-        <button type="button" id="gestion-nueva" class="btn gold">+ Nueva ficha</button>
-        <button type="button" id="gestion-ver-fichas" class="btn ghost">MIS FICHAS</button>
-        <button type="button" id="gestion-compartir-fb" class="btn ghost">📢 COMPARTIR EN FACEBOOK</button>
-      </div>
-      <div id="gestion-lista" class="gestion-lista" style="display:none;"></div>
+      <form id="admin-form" class="admin-form">
+        <input type="hidden" name="id">
+        <div class="form-grid">
+          <label>Nombre del producto
+            <input type="text" name="nombre" required>
+          </label>
+          <label>Departamento / categoría
+            <input type="text" name="departamento" placeholder="Ej. Alimentos, Tecnología, Hogar">
+          </label>
+          <label>Precio base (USD)
+            <input type="number" name="precio" min="0" step="0.01" required>
+          </label>
+          <label>Unidad de medida
+            <input type="text" name="unidad" placeholder="kg, unidad, caja, litro..." required>
+          </label>
+          <label>Disponibilidad
+            <input type="text" name="disponibilidad" placeholder="Disponible, sobre pedido, etc.">
+          </label>
+          <label>Proveedor / origen
+            <input type="text" name="proveedor">
+          </label>
+          <label class="full">Descripción
+            <textarea name="descripcion" rows="4"></textarea>
+          </label>
+          <label class="full">Imagen (URL o nombre de archivo)
+            <input type="text" name="imagen" placeholder="https://... o producto.jpg">
+          </label>
+          <div class="full admin-foto-tools">
+            <button id="admin-sugerir-foto" class="btn ghost" type="button">Sugerir foto</button>
+            <span id="admin-foto-status"></span>
+          </div>
+        </div>
 
-      <form id="gestion-form" class="contact-form">
-        <input type="hidden" id="g-modo" value="crear">
-        <input type="hidden" id="g-id" name="id" value="">
-        <input type="hidden" id="g-titulo-original" name="tituloOriginal" value="">
-        <div>
-          <label for="g-clave">Clave de gestión</label>
-          <input type="password" id="g-clave" name="clave" placeholder="La de la hoja Config (celda B3)" required>
-        </div>
-        <div>
-          <label for="g-titulo">Producto</label>
-          <input type="text" id="g-titulo" name="titulo" placeholder="ej. Paneles solares fotovoltaicos" required>
-        </div>
-        <div>
-          <label for="g-descripcion">Descripción</label>
-          <textarea id="g-descripcion" name="descripcion" placeholder="Qué es, para quién, de qué se trata..." required></textarea>
-        </div>
-        <div class="gestion-fila">
-          <div>
-            <label for="g-cantidad">Cantidad / lote</label>
-            <input type="text" id="g-cantidad" name="cantidad" placeholder="ej. 500 unidades">
-          </div>
-          <div>
-            <label for="g-precio">Precio base (USD)</label>
-            <input type="number" id="g-precio" name="precioUSD" min="0" step="0.01" inputmode="decimal" placeholder="ej. 12.50" required>
-          </div>
-        </div>
-        <div class="gestion-fila">
-          <div>
-            <label for="g-unidad">Unidad del precio</label>
-            <select id="g-unidad" name="unidadPrecio" required>
-              <option value="unidad">unidad</option>
-              <option value="kg">kg</option>
-              <option value="tonelada">tonelada</option>
-              <option value="litro">litro</option>
-              <option value="caja">caja</option>
-              <option value="saco">saco</option>
-              <option value="paquete">paquete</option>
-              <option value="lote">lote</option>
-              <option value="metro">metro</option>
-              <option value="m²">m²</option>
-              <option value="m³">m³</option>
-            </select>
-          </div>
-          <div>
-            <label for="g-moneda-base">Moneda registrada</label>
-            <input type="text" id="g-moneda-base" value="USD · dólar estadounidense" disabled>
-          </div>
-        </div>
-        <div class="gestion-fila">
-          <div>
-            <label for="g-origen">Origen</label>
-            <input type="text" id="g-origen" name="origen" placeholder="ej. China">
-          </div>
-          <div>
-            <label for="g-destino">Destino</label>
-            <input type="text" id="g-destino" name="destino" placeholder="ej. Cuba">
-          </div>
-        </div>
-        <div class="gestion-fila">
-          <div>
-            <label for="g-eta">Llegada (texto)</label>
-            <input type="text" id="g-eta" name="eta" placeholder="ej. Llegada estimada: 12 días">
-          </div>
-          <div>
-            <label for="g-vigencia">Vigencia hasta</label>
-            <input type="date" id="g-vigencia" name="vigenciaHasta">
-          </div>
-        </div>
-        <div class="gestion-fila">
-          <div>
-            <label for="g-departamento">Departamento</label>
-            <select id="g-departamento" name="departamento">
-              <option value="ALIMENTOS">ALIMENTOS</option>
-              <option value="FERRETERÍA">FERRETERÍA</option>
-              <option value="MATERIAS PRIMAS">MATERIAS PRIMAS</option>
-              <option value="ELECTRÓNICA">ELECTRÓNICA</option>
-              <option value="EQUIPOS ELÉCTRICOS">EQUIPOS ELÉCTRICOS</option>
-              <option value="TRANSPORTE">TRANSPORTE</option>
-              <option value="SALUD Y HIGIENE">SALUD Y HIGIENE</option>
-              <option value="ENVASES Y EMBALAJES">ENVASES Y EMBALAJES</option>
-              <option value="TEXTIL Y VESTUARIO">TEXTIL Y VESTUARIO</option>
-              <option value="AGRICULTURA E INSUMOS">AGRICULTURA E INSUMOS</option>
-              <option value="OTROS">OTROS</option>
-            </select>
-          </div>
-          <div>
-            <label for="g-estado">Estado</label>
-            <select id="g-estado" name="estado">
-              <option value="en-transito">En tránsito</option>
-              <option value="en-bodega">Disponible</option>
-              <option value="en-demanda">En demanda</option>
-              <option value="agotado">Agotado</option>
-            </select>
-          </div>
-        </div>
-        <div>
-          <label for="g-tags">Etiquetas (separadas por coma)</label>
-          <input type="text" id="g-tags" name="tags" placeholder="ej. Energía, Embarque real">
-        </div>
-        <div>
-          <label for="g-imagen">Imagen de la ficha (URL)</label>
-          <div class="g-imagen-fila">
-            <input type="url" id="g-imagen" name="imagen" placeholder="Escribe el título y te proponemos una foto">
-            <button type="button" id="g-imagen-probar" class="btn admin-mini" title="Proponer una foto automática según el título">✨ PROBAR FOTO</button>
-          </div>
-          <p class="g-imagen-ayuda" id="g-imagen-ayuda">Escribe el título de la ficha y te sugerimos una imagen automáticamente. Pulsa ✨ PROBAR FOTO para ver otras opciones. También puedes pegar la dirección de tu propia foto.</p>
-          <img id="g-imagen-vista" class="g-imagen-vista" alt="Vista previa de la imagen">
-        </div>
-        <div class="gestion-acciones">
-          <button type="submit" id="gestion-guardar" class="btn gold">GUARDAR OFERTA</button>
-          <button type="button" id="gestion-cancelar-edicion" class="btn ghost" style="display:none;">CANCELAR EDICIÓN</button>
-          <button type="button" id="gestion-recargar" class="btn ghost">RECARGAR OFERTAS</button>
+        <div class="admin-form-actions">
+          <button class="btn gold" type="submit">Guardar oferta</button>
+          <button id="admin-cancelar" class="btn ghost" type="button">Cancelar edición</button>
+          <button id="admin-recargar" class="btn ghost" type="button">Recargar ofertas</button>
         </div>
       </form>
-
-      <p class="note">
-        La página pública muestra lo que hay en la fuente de ofertas. Al guardar, la oferta aparece automáticamente en el sitio.
-      </p>
     </div>
   </div>
 
-  <div id="fb-pill" class="fb-pill" style="display:none;"></div>
-
-  <script src="script.js?v=60" defer></script>
+  <script src="script.js?v=60"></script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
