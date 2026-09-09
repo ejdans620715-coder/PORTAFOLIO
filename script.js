@@ -263,12 +263,36 @@ function tarjetaOferta(oferta, indice, pasada) {
 
 /* Foto automática desde Wikipedia Media (gratis y abierta) */
 async function obtenerFotoOferta(oferta, img) {
-  const origen = await resolverImagenOferta(oferta);
-  if (origen) {
-    img.src = origen;
+  const clave = (oferta.titulo + " " + (oferta.departamento || "")).trim();
+  if (oferta.imagen) {
+    imagenesOfertas[clave] = oferta.imagen;
+    img.src = oferta.imagen;
     img.classList.add("cargada");
+    return;
+  }
+  if (imagenesOfertas[clave]) {
+    img.src = imagenesOfertas[clave];
+    img.classList.add("cargada");
+    return;
+  }
+  try {
+    const termino = encodeURIComponent(clave);
+    const res = await fetch(
+      `https://es.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=${termino}&gsrlimit=1&prop=pageimages&piprop=thumbnail&pithumbsize=480&format=json&origin=*`
+    );
+    const datos = await res.json();
+    const paginas = datos.query && datos.query.pages ? Object.values(datos.query.pages) : [];
+    const origen = paginas.length && paginas[0].thumbnail ? paginas[0].thumbnail.source : "";
+    if (origen) {
+      imagenesOfertas[clave] = origen;
+      img.src = origen;
+      img.classList.add("cargada");
+    }
+  } catch (error) {
+    /* sin foto → se queda el degradado con iniciales */
   }
 }
+
 function asignarFotosOfertas() {
   document.querySelectorAll(".vitrina-pista .oferta-foto").forEach((img) => {
     const titulo = img.dataset.busqueda || "";
@@ -341,20 +365,54 @@ function inicializarMenu() {
   const menu = document.getElementById("menu");
   if (!burger || !menu) return;
 
-  burger.addEventListener("click", () => {
-    const abierto = !menu.classList.contains("open");
+  const setEstado = (abierto) => {
     burger.classList.toggle("open", abierto);
     menu.classList.toggle("open", abierto);
     burger.setAttribute("aria-expanded", String(abierto));
+    document.body.classList.toggle("menu-abierto", abierto);
+  };
+
+  burger.addEventListener("click", () => {
+    setEstado(!menu.classList.contains("open"));
   });
 
   menu.querySelectorAll("a").forEach((enlace) => {
-    enlace.addEventListener("click", () => {
-      burger.classList.remove("open");
-      menu.classList.remove("open");
-      burger.setAttribute("aria-expanded", "false");
-    });
+    enlace.addEventListener("click", () => setEstado(false));
   });
+
+  // Cierra al tocar el fondo del overlay o con Escape.
+  menu.addEventListener("click", (e) => {
+    if (e.target === menu) setEstado(false);
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && menu.classList.contains("open")) setEstado(false);
+  });
+}
+
+// En móvil (modo libro) el header se retira al bajar y vuelve al subir.
+function inicializarHeaderInteligente() {
+  const menu = document.getElementById("menu");
+  if (!menu) return;
+  const esMovil = () => window.matchMedia("(max-width: 820px)").matches;
+  let ultimoScroll = window.scrollY;
+
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (!esMovil()) return;
+      const y = window.scrollY;
+      const bajando = y > ultimoScroll;
+      ultimoScroll = y;
+      const menuAbierto = menu.classList.contains("open");
+
+      if (y > 160 && bajando && !menuAbierto) {
+        document.body.classList.add("ocultar-header");
+      } else {
+        document.body.classList.remove("ocultar-header");
+      }
+    },
+    { passive: true }
+  );
 }
 
 /* -------- Formulario de contacto (compone el mailto) -------- */
@@ -507,7 +565,7 @@ function inicializarAliados() {
 
 /* -------- Formulario de necesidades: Google Sheets + respaldo por correo -------- */
 
-const GOOGLE_APP_URL = "https://script.google.com/macros/s/AKfycbyC3uf5XA_lDVXeAfvko9dz1EtjQPU-AWXEtQMLvUE5bR5WaLYLhPIZmJPDKmU4JoUIQA/exec";
+const GOOGLE_APP_URL = "https://script.google.com/macros/s/AKfycbyiIRusCfL96OS1oDWohc1KjWX_Phy_URv3RkUr08hJKv8yAoAxnPBwnqm7aiEbrAk6Yw/exec";
 // Pega aquí la URL de tu Aplicación Web de Google Apps Script
 // (ver google_apps_script/code.gs). Con ella, los registros se archivan
 // solos en tu hoja y se devuelve un código. Si queda vacía, se usa mailto.
@@ -543,6 +601,13 @@ function inicializarNecesidades() {
     if (resultado) {
       resultado.className = "needs-result";
       resultado.innerHTML = "";
+    }
+
+    if (!String(payload.contacto || "").trim()) {
+      mostrarError("Escribe tu correo o teléfono para darte seguimiento.", resultado);
+      const campoContacto = document.getElementById("n-contacto");
+      if (campoContacto) campoContacto.focus();
+      return;
     }
 
     if (GOOGLE_APP_URL) {
@@ -650,13 +715,7 @@ let ofertasActivas = [];
 let ofertasPasadas = [];
 let vitrinaLista = [];
 let vitrinaPagina = 0;
-function ofertasPorPagina() {
-  const ancho = window.innerWidth || document.documentElement.clientWidth || 1200;
-  if (ancho >= 1500) return 4;
-  if (ancho >= 900) return 3;
-  if (ancho >= 620) return 2;
-  return 1;
-}
+const OFERTAS_POR_PAGINA = 3;
 const DEPARTAMENTOS_OFERTA = [
   "ALIMENTOS",
   "FERRETERÍA",
@@ -671,49 +730,6 @@ const DEPARTAMENTOS_OFERTA = [
   "OTROS"
 ];
 const imagenesOfertas = {};
-const promesasImagenesOfertas = {};
-
-async function resolverImagenOferta(oferta) {
-  if (!oferta) return "";
-  if (oferta.imagen) return oferta.imagen;
-
-  const clave = (oferta.titulo + " " + (oferta.departamento || "")).trim();
-  if (imagenesOfertas[clave]) {
-    oferta.imagen = imagenesOfertas[clave];
-    return oferta.imagen;
-  }
-
-  try {
-    if (!promesasImagenesOfertas[clave]) {
-      promesasImagenesOfertas[clave] = (async () => {
-        const termino = encodeURIComponent(clave);
-        const res = await fetch(
-          `https://es.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=${termino}&gsrlimit=1&prop=pageimages&piprop=thumbnail&pithumbsize=900&format=json&origin=*`
-        );
-        if (!res.ok) return "";
-        const data = await res.json();
-        const paginas = data && data.query && data.query.pages
-          ? Object.values(data.query.pages)
-          : [];
-        return paginas.length && paginas[0].thumbnail
-          ? paginas[0].thumbnail.source
-          : "";
-      })();
-    }
-    const origen = await promesasImagenesOfertas[clave];
-    if (origen) {
-      imagenesOfertas[clave] = origen;
-      oferta.imagen = origen;
-      return origen;
-    }
-  } catch (e) {
-    return "";
-  } finally {
-    delete promesasImagenesOfertas[clave];
-  }
-  return "";
-}
-
 
 function normalizarBusqueda(t) {
   return String(t || "")
@@ -769,13 +785,12 @@ function renderizarVitrinaPagina() {
   if (!pista) return;
 
   const total = vitrinaLista.length;
-  const totalPaginas = Math.max(1, Math.ceil(total / ofertasPorPagina()));
+  const totalPaginas = Math.max(1, Math.ceil(total / OFERTAS_POR_PAGINA));
   if (vitrinaPagina >= totalPaginas) vitrinaPagina = totalPaginas - 1;
   if (vitrinaPagina < 0) vitrinaPagina = 0;
 
-  const porPagina = ofertasPorPagina();
-  const desde = vitrinaPagina * porPagina;
-  const trozo = vitrinaLista.slice(desde, desde + porPagina);
+  const desde = vitrinaPagina * OFERTAS_POR_PAGINA;
+  const trozo = vitrinaLista.slice(desde, desde + OFERTAS_POR_PAGINA);
 
   pista.innerHTML = trozo.length
     ? trozo.map((o, i) => tarjetaOferta(o, i)).join("")
@@ -795,19 +810,10 @@ function renderizarVitrinaPagina() {
 }
 
 function irAPagina(direccion) {
-  const totalPaginas = Math.max(1, Math.ceil(vitrinaLista.length / ofertasPorPagina()));
+  const totalPaginas = Math.max(1, Math.ceil(vitrinaLista.length / OFERTAS_POR_PAGINA));
   vitrinaPagina = Math.min(Math.max(0, vitrinaPagina + direccion), totalPaginas - 1);
   renderizarVitrinaPagina();
 }
-
-
-let temporizadorVitrinaResize = null;
-window.addEventListener("resize", () => {
-  clearTimeout(temporizadorVitrinaResize);
-  temporizadorVitrinaResize = setTimeout(() => {
-    if (document.getElementById("vitrina-pista")) renderizarVitrinaPagina();
-  }, 180);
-});
 
 function aplicarFiltros() {
   const historial = document.getElementById("ofertas-historial");
@@ -901,7 +907,7 @@ function inicializarDetalleOfertas() {
     if (!oferta) return;
 
     const clave = (oferta.titulo + " " + (oferta.departamento || "")).trim();
-    const foto = imagenesOfertas[clave] || "";
+    const foto = oferta.imagen || imagenesOfertas[clave] || "";
     const iniciales = oferta.titulo.split(" ").slice(0, 2).map((p) => p[0]).join("").toUpperCase();
     const mercado = oferta.mercado || "Cuba";
     const mensaje = encodeURIComponent(
@@ -958,6 +964,22 @@ function inicializarDetalleOfertas() {
 
 /* -------- Panel de gestión de ofertas -------- */
 
+const SITIO_PUBLICO = "https://ejdans620715-coder.github.io/PORTAFOLIO/";
+
+function enlaceCompartirFacebook(texto) {
+  return `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(SITIO_PUBLICO)}&quote=${encodeURIComponent(texto)}`;
+}
+
+function mostrarAvisoFacebook(titulo, precio) {
+  const pill = document.getElementById("fb-pill");
+  if (!pill) return;
+  const texto = `Nuevo producto en JAENDA: ${titulo}${precio ? " — " + precio : ""}. ¡Míralo aquí!`;
+  pill.innerHTML = `<a class="btn gold" href="${enlaceCompartirFacebook(texto)}" target="_blank" rel="noopener">📢 AVISAR EN FACEBOOK</a>`;
+  pill.style.display = "block";
+  clearTimeout(pill._t);
+  pill._t = setTimeout(() => { pill.style.display = "none"; }, 25000);
+}
+
 function mostrarGestionMensaje(contenedor, error, mensaje) {
   if (!contenedor) return;
   contenedor.className = "needs-result " + (error ? "err" : "ok");
@@ -967,14 +989,110 @@ function mostrarGestionMensaje(contenedor, error, mensaje) {
 
 
 let ofertaGestionActual = null;
+let imagenSugerenciaManual = false;
 let gestionDesbloqueado = false;
 let toquesLogo = [];
+
+async function proponerImagenesOferta(titulo, departamento) {
+  try {
+    const clave = ((titulo || "") + " " + (departamento || "")).trim();
+    if (!clave) return [];
+    const termino = encodeURIComponent(clave);
+    const res = await fetch(
+      `https://es.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=${termino}&gsrlimit=5&prop=pageimages&piprop=thumbnail&pithumbsize=480&format=json&origin=*`
+    );
+    const datos = await res.json();
+    const paginas = datos.query && datos.query.pages ? Object.values(datos.query.pages) : [];
+    return paginas.filter((p) => p.thumbnail && p.thumbnail.source).map((p) => p.thumbnail.source);
+  } catch (error) {
+    return [];
+  }
+}
+
+function configurarSugerenciaImagenGestion() {
+  const tituloEl = document.getElementById("g-titulo");
+  const deptoEl = document.getElementById("g-departamento");
+  const imagenEl = document.getElementById("g-imagen");
+  const ayudaEl = document.getElementById("g-imagen-ayuda");
+  const vistaEl = document.getElementById("g-imagen-vista");
+  const boton = document.getElementById("g-imagen-probar");
+  if (!tituloEl || !deptoEl || !imagenEl) return;
+  let candidatas = [];
+  let indice = -1;
+  const avisar = (texto) => { if (ayudaEl) { ayudaEl.textContent = texto; ayudaEl.style.display = "block"; } };
+
+  const pintarVista = () => {
+    if (!vistaEl) return;
+    const valor = (imagenEl.value || "").trim();
+    if (/^https?:\/\/.+/.test(valor)) {
+      vistaEl.src = valor;
+      vistaEl.classList.add("visible");
+      vistaEl.onerror = () => vistaEl.classList.remove("visible");
+    } else {
+      vistaEl.classList.remove("visible");
+      vistaEl.removeAttribute("src");
+    }
+  };
+
+  const aceptarFoto = (url, texto) => {
+    if (!url) return false;
+    imagenEl.value = url;
+    imagenSugerenciaManual = true;
+    pintarVista();
+    avisar(texto);
+    return true;
+  };
+
+  const cargarCandidatas = async () => {
+    const titulo = (tituloEl.value || "").trim();
+    if (!titulo) { avisar("Escribe el título de la ficha para proponer una foto."); return; }
+    avisar("Buscando fotos para el título…");
+    candidatas = await proponerImagenesOferta(titulo, deptoEl.value || "");
+    indice = -1;
+    if (!candidatas.length) {
+      avisar("No encontramos fotos para ese título: escribe una URL a mano o déjalo vacío.");
+      return;
+    }
+    if (!imagenSugerenciaManual) aceptarFoto(candidatas[0], "Se propuso una foto. Pulsa ✨ PROBAR FOTO para ver las demás.");
+  };
+
+  const siguienteFoto = async () => {
+    const titulo = (tituloEl.value || "").trim();
+    if (!titulo) { avisar("Primero escribe el título de la ficha."); return; }
+    if (!candidatas.length) {
+      avisar("Buscando fotos…");
+      candidatas = await proponerImagenesOferta(titulo, deptoEl.value || "");
+      indice = -1;
+      if (!candidatas.length) { avisar("No hay más fotos para ese título. También puedes pegar la dirección de tu propia foto."); return; }
+    }
+    indice++;
+    if (indice < candidatas.length) {
+      aceptarFoto(candidatas[indice], `Foto ${indice + 1} de ${candidatas.length}. ✨ PROBAR FOTO va a la siguiente.`);
+    } else {
+      indice = -1;
+      candidatas = [];
+      avisar("No hay más fotos para ese título. También puedes pegar la dirección de tu propia foto.");
+    }
+  };
+
+  let temporizador = null;
+  tituloEl.addEventListener("input", () => { clearTimeout(temporizador); temporizador = setTimeout(cargarCandidatas, 900); });
+  deptoEl.addEventListener("input", () => { clearTimeout(temporizador); temporizador = setTimeout(cargarCandidatas, 900); });
+  imagenEl.addEventListener("input", () => {
+    imagenSugerenciaManual = !!(imagenEl.value || "").trim();
+    pintarVista();
+    if (imagenSugerenciaManual) avisar("Guardarás esta imagen. ✨ PROBAR FOTO busca otras para el título.");
+    else avisar("Escribe el título para proponer una foto automática.");
+  });
+  if (boton) boton.addEventListener("click", siguienteFoto);
+  pintarVista();
+}
 
 function idOferta(oferta) {
   return String(oferta.id || oferta.ID || oferta.codigo || oferta.titulo || "").trim();
 }
 
-async function cargarOfertaEnGestion(oferta, duplicar = false) {
+function cargarOfertaEnGestion(oferta, duplicar = false) {
   const panel = document.getElementById("gestion-panel");
   const form = document.getElementById("gestion-form");
   if (!panel || !form || !oferta) return;
@@ -987,10 +1105,6 @@ async function cargarOfertaEnGestion(oferta, duplicar = false) {
   document.getElementById("gestion-cancelar-edicion").style.display = "inline-flex";
 
   const set = (id, valor) => { const e=document.getElementById(id); if(e) e.value = valor ?? ""; };
-
-  // Fichas antiguas: captura la imagen que JAENDA está usando antes de editar/duplicar.
-  // Así, al guardar la copia, esa URL queda persistida en Google Sheets.
-  const imagenPersistible = await resolverImagenOferta(oferta);
   set("g-titulo", duplicar ? `${oferta.titulo || ""} — copia` : oferta.titulo);
   set("g-descripcion", oferta.descripcion);
   set("g-cantidad", oferta.cantidad);
@@ -1001,9 +1115,11 @@ async function cargarOfertaEnGestion(oferta, duplicar = false) {
   set("g-eta", oferta.eta);
   set("g-vigencia", /^\d{4}-\d{2}-\d{2}$/.test(String(oferta.vigenciaHasta||"")) ? oferta.vigenciaHasta : "");
   set("g-departamento", oferta.departamento || "OTROS");
-  set("g-imagen", imagenPersistible || oferta.imagen || "");
   set("g-estado", oferta.estado || "en-transito");
   set("g-tags", Array.isArray(oferta.tags) ? oferta.tags.join(", ") : (oferta.tags || ""));
+  const imagenVisible = oferta.imagen || imagenesOfertas[(oferta.titulo + " " + (oferta.departamento || "")).trim()] || "";
+  set("g-imagen", imagenVisible);
+  imagenSugerenciaManual = !!imagenVisible;
   panel.classList.add("abierto");
   const lista = document.getElementById("gestion-lista");
   if (lista) lista.style.display = "none";
@@ -1024,9 +1140,7 @@ function resetearGestion() {
   document.getElementById("gestion-guardar").textContent="GUARDAR OFERTA";
   document.getElementById("gestion-cancelar-edicion").style.display="none";
   ofertaGestionActual=null;
-  const imgCampo = document.getElementById("g-imagen");
-  if (imgCampo) imgCampo.value = "";
-
+  imagenSugerenciaManual = false;
 }
 
 
@@ -1059,6 +1173,7 @@ function inicializarGestion() {
   const formulario = document.getElementById("gestion-form");
   const espera = document.getElementById("gestion-espera");
   if (!botonAbrir || !panel || !formulario) return;
+  configurarSugerenciaImagenGestion();
 
   const abrir = () => {
     resetearGestion();
@@ -1084,8 +1199,20 @@ function inicializarGestion() {
     resetearGestion();
     renderizarListaGestion();
   });
+  document.getElementById("gestion-compartir-fb")?.addEventListener("click", () => {
+    const texto = "JAENDA — Proyectos, soluciones y servicios que conectan oportunidades. ¡Descubre todo aquí!";
+    window.open(enlaceCompartirFacebook(texto), "_blank", "noopener");
+  });
 
-  botonAbrir.addEventListener("click", () => { if (!gestionDesbloqueado) return; abrir(); });
+  // El botón visible abre la administración de fichas existentes.
+  // Editar/eliminar/duplicar siguen protegidos por la clave de gestión.
+  botonAbrir.addEventListener("click", () => {
+    abrir();
+    const nueva = document.getElementById("gestion-nueva");
+    if (nueva) nueva.style.display = gestionDesbloqueado ? "inline-flex" : "none";
+  });
+
+  // Cinco toques sobre el logo habilitan la publicación de una ficha nueva.
   const logoEl = document.querySelector("a.logo");
   if (logoEl) logoEl.addEventListener("click", () => {
     const ahora = Date.now();
@@ -1094,8 +1221,25 @@ function inicializarGestion() {
     if (toquesLogo.length >= 5) {
       toquesLogo = [];
       gestionDesbloqueado = true;
+      const gear = document.getElementById("btn-gestion-flotante");
+      if (gear) gear.classList.add("visible");
       abrir();
+      const nueva = document.getElementById("gestion-nueva");
+      if (nueva) nueva.style.display = "inline-flex";
+      document.getElementById("gestion-lista").style.display = "none";
+      formulario.style.display = "grid";
+      document.getElementById("gestion-titulo").textContent = "NUEVA FICHA";
     }
+  });
+  document.getElementById("btn-gestion-flotante")?.addEventListener("click", () => {
+    if (!gestionDesbloqueado) return;
+    if (panel.classList.contains("abierto")) { cerrar(); return; }
+    resetearGestion();
+    panel.classList.add("abierto");
+    renderizarListaGestion();
+    const nueva = document.getElementById("gestion-nueva");
+    if (nueva) nueva.style.display = "inline-flex";
+    document.body.style.overflow = "hidden";
   });
   botonCerrar.addEventListener("click", cerrar);
   panel.addEventListener("click", (evento) => {
@@ -1123,10 +1267,10 @@ function inicializarGestion() {
       precioUSD: Number(d.get("precioUSD")),
       monedaBase: "USD",
       unidadPrecio: d.get("unidadPrecio"),
-      imagen: d.get("imagen") || "",
       precio: `$${Number(d.get("precioUSD")).toFixed(2)} USD / ${d.get("unidadPrecio")}`,
       tags: d.get("tags"),
-      departamento: d.get("departamento")
+      departamento: d.get("departamento"),
+      imagen: d.get("imagen") || ""
     };
 
     if (!GOOGLE_APP_URL) {
@@ -1138,9 +1282,11 @@ function inicializarGestion() {
       const respuesta = await enviarPost(payload);
       if (respuesta.ok) {
         mostrarGestionMensaje(espera, false, (respuesta.mensaje || "Oferta guardada.") + " Se actualizó la página.");
+        const fueNueva = document.getElementById("g-modo").value === "crear";
         resetearGestion();
         cerrar();
         await cargarOfertas();
+        if (fueNueva) mostrarAvisoFacebook((payload.titulo || "").trim(), payload.precio || "");
       } else {
         mostrarGestionMensaje(espera, true, respuesta.error || "No se pudo guardar la oferta.");
       }
@@ -1297,8 +1443,104 @@ function anio() {
   if (destino) destino.textContent = new Date().getFullYear();
 }
 
+
+
+/* -------- Soluciones móviles -------- */
+const SOLUCIONES_MOVILES = {
+  tiendas: {
+    etiqueta: "01 · OPERACIÓN EN TIENDA",
+    titulo: "Gestión Móvil para Tiendas",
+    clase: "tienda-screen",
+    subtitulo: "Tiendas",
+    resumen: "Una herramienta móvil para apoyar tareas operativas directamente en el punto de venta, evitando trasladar al escritorio trabajos que pueden resolverse en el momento.",
+    funciones: [
+      "Captura e identificación de productos desde el teléfono.",
+      "Apoyo al control y revisión de inventario.",
+      "Registro de operaciones directamente en el área de trabajo.",
+      "Diseñada para un uso práctico en dispositivos Android.",
+      "Adaptable a procesos concretos de cada tienda o negocio."
+    ],
+    pie: "La aplicación puede adaptarse al flujo operativo y a los sistemas que ya utilice el negocio."
+  },
+  distribucion: {
+    etiqueta: "02 · VENTA EN RUTA",
+    titulo: "Gestión Móvil para Distribución",
+    clase: "ruta-screen",
+    subtitulo: "Distribución",
+    resumen: "Una solución para vendedores y distribuidores que realizan su operación fuera de un establecimiento fijo y necesitan llevar clientes, productos, ventas y entregas en el móvil.",
+    funciones: [
+      "Gestión de clientes, productos y recorrido de venta.",
+      "Registro de ventas y entregas durante la ruta.",
+      "Preparada para impresión de tickets desde la operación móvil.",
+      "Devoluciones configurables para negocios cuyo modelo las requiera.",
+      "Adaptable a distintos productos, rutas y formas de distribución."
+    ],
+    pie: "Las devoluciones se presentan como una capacidad configurable: no forman parte obligatoria del flujo de un distribuidor."
+  }
+};
+
+function mockupSolucion(sol) {
+  const filas = sol === SOLUCIONES_MOVILES.tiendas
+    ? [["▦","Captura de productos"],["✓","Inventario"],["⌁","Operación en punto de venta"]]
+    : [["◎","Clientes y ruta"],["$","Ventas y entregas"],["↶","Devoluciones configurables"]];
+  return `
+    <div class="phone-mock" aria-hidden="true">
+      <div class="phone-top"></div>
+      <div class="phone-screen ${sol.clase}">
+        <div class="app-bar">Gestión Móvil</div>
+        <div class="app-title">${sol.subtitulo}</div>
+        ${filas.map(([i,t]) => `<div class="app-tile"><b>${i}</b><span>${t}</span></div>`).join("")}
+        <div class="app-bottom">${sol === SOLUCIONES_MOVILES.distribucion ? "Preparada para imprimir tickets" : "Trabajo directo desde el móvil"}</div>
+      </div>
+    </div>`;
+}
+
+function abrirSolucion(clave) {
+  const sol = SOLUCIONES_MOVILES[clave];
+  const panel = document.getElementById("solucion-panel");
+  const contenido = document.getElementById("solucion-modal-contenido");
+  if (!sol || !panel || !contenido) return;
+  contenido.innerHTML = `
+    <div class="solucion-ficha">
+      <div class="solucion-ficha-visual">${mockupSolucion(sol)}</div>
+      <div class="solucion-ficha-copy">
+        <div class="section-tag">${sol.etiqueta}</div>
+        <h2 id="solucion-modal-titulo">${sol.titulo}</h2>
+        <p>${sol.resumen}</p>
+        <div class="solucion-funciones">
+          ${sol.funciones.map((f,i) => `<div class="solucion-funcion"><b>${String(i+1).padStart(2,"0")}</b><span>${f}</span></div>`).join("")}
+        </div>
+        <p><strong>${sol.pie}</strong></p>
+        <div class="solucion-ficha-cta">
+          <a class="btn gold" href="https://wa.me/524422320360?text=${encodeURIComponent(`Me interesa conocer más sobre ${sol.titulo}`)}" target="_blank" rel="noopener">Consultar solución</a>
+        </div>
+      </div>
+    </div>`;
+  panel.classList.add("abierto");
+  panel.setAttribute("aria-hidden", "false");
+  document.body.classList.add("modal-abierto");
+  document.getElementById("solucion-cerrar")?.focus();
+}
+
+function cerrarSolucion() {
+  const panel = document.getElementById("solucion-panel");
+  if (!panel) return;
+  panel.classList.remove("abierto");
+  panel.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("modal-abierto");
+}
+
+function inicializarSolucionesMoviles() {
+  document.querySelectorAll(".solucion-ver").forEach((b) => b.addEventListener("click", () => abrirSolucion(b.dataset.solucion)));
+  document.getElementById("solucion-cerrar")?.addEventListener("click", cerrarSolucion);
+  document.getElementById("solucion-panel")?.addEventListener("click", (e) => { if (e.target.id === "solucion-panel") cerrarSolucion(); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") cerrarSolucion(); });
+}
+
+
 document.addEventListener("DOMContentLoaded", () => {
   inicializarMenu();
+  inicializarHeaderInteligente();
   inicializarExperienciaPagina();
   inicializarContacto();
   inicializarAliados();
@@ -1308,6 +1550,7 @@ document.addEventListener("DOMContentLoaded", () => {
   inicializarBusquedaOfertas();
   inicializarSelectorMoneda();
   inicializarDetalleOfertas();
+  inicializarSolucionesMoviles();
   anio();
   observarRevelados();
   cargarProyectos();
