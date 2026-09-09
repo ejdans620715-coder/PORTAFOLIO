@@ -1508,7 +1508,7 @@ footer {
 .vitrina-pista::-webkit-scrollbar { display: none; }
 
 .vitrina-pista .oferta {
-  flex: 0 1 clamp(210px, 22vw, 320px);
+  flex: 0 0 320px;
   scroll-snap-align: start;
 }
 
@@ -1549,8 +1549,7 @@ footer {
 @media (max-width: 560px) {
   .vitrina-prev { left: -6px; }
   .vitrina-next { right: -6px; }
-  .vitrina-pista { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; overflow: visible; scroll-snap-type: none; }
-  .vitrina-pista .oferta { flex: none; width: auto; }
+  .vitrina-pista .oferta { flex-basis: 275px; }
 }
 
 /* -------- Búsqueda de ofertas -------- */
@@ -1669,73 +1668,6 @@ footer {
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
-}
-
-.g-imagen-fila {
-  display: flex;
-  gap: 8px;
-}
-
-.g-imagen-fila input { flex: 1; }
-
-.g-imagen-ayuda {
-  font-size: 11px;
-  color: var(--text-dim, #5b6472);
-  margin: 5px 0 0;
-  line-height: 1.45;
-}
-
-.g-imagen-vista {
-  display: none;
-  margin-top: 8px;
-  width: 150px;
-  height: 100px;
-  object-fit: cover;
-  border-radius: 8px;
-  border: 1px solid var(--line, #e3e6ea);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  background: var(--bg-soft, #f4f6fb);
-}
-
-.g-imagen-vista.visible { display: block; }
-
-.fb-pill {
-  position: fixed;
-  bottom: 18px;
-  right: 18px;
-  z-index: 120;
-}
-
-.fb-pill a.btn { box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22); }
-
-.btn-gestion-flotante {
-  position: fixed;
-  bottom: 20px;
-  left: 20px;
-  z-index: 110;
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  border: 1px solid var(--line, #e3e6ea);
-  background: linear-gradient(135deg, #0a0a0a, #24242c);
-  color: #ffd166;
-  font-size: 22px;
-  cursor: pointer;
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
-  transition: transform 0.2s ease;
-  align-items: center;
-  justify-content: center;
-  display: none;
-}
-
-.btn-gestion-flotante.visible { display: flex; }
-
-.btn-gestion-flotante:hover { transform: scale(1.08); }
-
-@media (max-width: 560px) {
-  .btn-gestion-flotante { bottom: 70px; width: 46px; height: 46px; }
-  .fb-pill { left: 18px; right: 18px; bottom: 14px; }
-  .fb-pill a.btn { width: 100%; }
 }
 
 .gestion-modal .note { font-size: 12px; }
@@ -2245,4 +2177,39 @@ button,
 .btn,
 a.btn {
   text-transform: uppercase !important;
+}
+
+/* JAENDA v3.12 — vitrina de productos adaptable */
+.vitrina-pista {
+  overflow-x: hidden !important;
+}
+
+@media (min-width: 1500px) {
+  .vitrina-pista .oferta {
+    flex: 0 0 calc((100% - 54px) / 4) !important;
+  }
+}
+
+@media (min-width: 900px) and (max-width: 1499px) {
+  .vitrina-pista .oferta {
+    flex: 0 0 calc((100% - 36px) / 3) !important;
+  }
+}
+
+@media (min-width: 620px) and (max-width: 899px) {
+  .vitrina-pista .oferta {
+    flex: 0 0 calc((100% - 18px) / 2) !important;
+  }
+}
+
+@media (max-width: 619px) {
+  .vitrina-pista .oferta {
+    flex: 0 0 100% !important;
+  }
+}
+
+.vitrina-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

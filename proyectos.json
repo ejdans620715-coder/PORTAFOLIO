@@ -20,24 +20,23 @@
     },
     {
       "numero": "02",
-      "titulo": "Soluciones móviles para negocios",
-      "categoria": "Tecnología · Aplicaciones móviles",
-      "descripcion": "Aplicaciones móviles creadas para resolver operaciones concretas de tiendas y negocios de distribución: captura, inventario, venta en ruta, clientes y control desde el teléfono.",
-      "imagen": "soluciones-moviles-jaenda.png",
-      "estado": "en-operacion",
+      "titulo": "Tecnología",
+      "categoria": "Soluciones digitales",
+      "descripcion": "Aplicaciones y herramientas digitales orientadas a resolver necesidades concretas de negocios y organizaciones.",
+      "imagen": "",
+      "estado": "en-desarrollo",
       "tags": [
-        "Aplicaciones móviles",
-        "Operación en campo",
-        "Negocios"
+        "Aplicaciones",
+        "Procesos"
       ],
-      "enlace": "#soluciones"
+      "enlace": ""
     },
     {
       "numero": "03",
       "titulo": "Nuevos proyectos",
       "categoria": "En desarrollo",
       "descripcion": "Nuevas ideas y oportunidades que todavía están tomando forma.",
-      "imagen": "proximamente-jaenda.png",
+      "imagen": "",
       "estado": "proximamente",
       "tags": [
         "Ideas",
