@@ -951,6 +951,7 @@ function inicializarDetalleOfertas() {
     panel.classList.add("abierto");
     document.body.style.overflow = "hidden";
     contenido.scrollTop = 0;
+    ocultarAvisoFacebook();
   });
 
   botonCerrar.addEventListener("click", cerrar);
@@ -978,6 +979,13 @@ function mostrarAvisoFacebook(titulo, precio) {
   pill.style.display = "block";
   clearTimeout(pill._t);
   pill._t = setTimeout(() => { pill.style.display = "none"; }, 25000);
+}
+
+function ocultarAvisoFacebook() {
+  const pill = document.getElementById("fb-pill");
+  if (!pill) return;
+  clearTimeout(pill._t);
+  pill.style.display = "none";
 }
 
 function mostrarGestionMensaje(contenedor, error, mensaje) {
@@ -1120,6 +1128,7 @@ function cargarOfertaEnGestion(oferta, duplicar = false) {
   const imagenVisible = oferta.imagen || imagenesOfertas[(oferta.titulo + " " + (oferta.departamento || "")).trim()] || "";
   set("g-imagen", imagenVisible);
   imagenSugerenciaManual = !!imagenVisible;
+  ocultarAvisoFacebook();
   panel.classList.add("abierto");
   const lista = document.getElementById("gestion-lista");
   if (lista) lista.style.display = "none";
@@ -1177,6 +1186,7 @@ function inicializarGestion() {
 
   const abrir = () => {
     resetearGestion();
+    ocultarAvisoFacebook();
     panel.classList.add("abierto");
     renderizarListaGestion();
     document.body.style.overflow = "hidden";
@@ -1235,6 +1245,7 @@ function inicializarGestion() {
     if (!gestionDesbloqueado) return;
     if (panel.classList.contains("abierto")) { cerrar(); return; }
     resetearGestion();
+    ocultarAvisoFacebook();
     panel.classList.add("abierto");
     renderizarListaGestion();
     const nueva = document.getElementById("gestion-nueva");
@@ -1516,6 +1527,7 @@ function abrirSolucion(clave) {
         </div>
       </div>
     </div>`;
+  ocultarAvisoFacebook();
   panel.classList.add("abierto");
   panel.setAttribute("aria-hidden", "false");
   document.body.classList.add("modal-abierto");
