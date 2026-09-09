@@ -1188,7 +1188,10 @@ function inicializarGestion() {
     resetearGestion();
     ocultarAvisoFacebook();
     panel.classList.add("abierto");
-    renderizarListaGestion();
+    const lista = document.getElementById("gestion-lista");
+    if (lista) lista.style.display = "none";
+    formulario.style.display = "grid";
+    document.getElementById("gestion-titulo").textContent = "NUEVA FICHA";
     document.body.style.overflow = "hidden";
     const primerCampo = formulario.querySelector("input, select");
     if (primerCampo) primerCampo.focus();
