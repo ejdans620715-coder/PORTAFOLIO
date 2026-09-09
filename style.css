@@ -1703,7 +1703,7 @@ footer {
   position: fixed;
   bottom: 18px;
   right: 18px;
-  z-index: 120;
+  z-index: 90;
 }
 
 .fb-pill a.btn { box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22); }
@@ -1743,6 +1743,19 @@ footer {
 @media (max-width: 560px) {
   .gestion-fila { grid-template-columns: 1fr; }
   .gestion-modal { padding: 22px; }
+}
+
+@media (min-width: 561px) {
+  .gestion-panel { padding: 0; }
+  .gestion-modal {
+    max-width: 720px;
+    width: 100%;
+    max-height: none;
+    overflow-y: visible;
+    border-radius: 0;
+    margin: auto;
+    padding: 32px 40px;
+  }
 }
 
 /* -------- Detalle de oferta (clic en la imagen) -------- */
