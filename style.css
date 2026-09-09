@@ -1745,6 +1745,14 @@ footer {
   .gestion-modal { padding: 22px; }
 }
 
+@media (min-width: 561px) {
+  .gestion-modal {
+    max-height: none;
+    overflow-y: visible;
+    margin: auto;
+  }
+}
+
 /* -------- Detalle de oferta (clic en la imagen) -------- */
 
 .oferta-img {
