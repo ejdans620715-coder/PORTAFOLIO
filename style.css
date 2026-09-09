@@ -2066,12 +2066,18 @@ header { box-shadow: 0 8px 30px rgba(20,20,25,.035); }
 .hero h1 .jnombre { letter-spacing: .14em; }
 .hero-text { max-width: 690px; font-size: clamp(17px, 2vw, 20px); }
 .hero-stats {
-  position: absolute; z-index: 4; left: 4%; right: 4%; bottom: 76px;
-  max-width: 1180px; margin: auto; display: grid; grid-template-columns: repeat(3,1fr);
-  border-top: 1px solid rgba(255,255,255,.2); padding-top: 18px; color: rgba(255,255,255,.75);
+  position: static;
+  z-index: 4;
+  width: 100%;
+  max-width: 1180px;
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  border-top: 1px solid rgba(30, 30, 40, 0.16);
+  padding-top: 18px;
+  color: var(--text-dim);
 }
 .hero-stats div { display:flex; gap:12px; align-items:baseline; padding-right: 20px; }
-.hero-stats strong { font: 700 18px var(--font-display); color: #fff; }
+.hero-stats strong { font: 700 18px var(--font-display); color: var(--gold-dark); }
 .hero-stats span { font-size: 12px; text-transform: uppercase; letter-spacing: .14em; }
 
 section { scroll-margin-top: 84px; }
