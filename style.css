@@ -1612,7 +1612,7 @@ footer {
   background: rgba(20, 20, 25, 0.45);
   backdrop-filter: blur(6px);
   display: none;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   padding: 24px;
   overflow-y: auto;
