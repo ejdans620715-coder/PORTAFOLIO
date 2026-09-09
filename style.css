@@ -1615,6 +1615,7 @@ footer {
   align-items: center;
   justify-content: center;
   padding: 24px;
+  overflow-y: auto;
 }
 
 .gestion-panel.abierto { display: flex; }
@@ -1622,12 +1623,13 @@ footer {
 .gestion-modal {
   width: 100%;
   max-width: 680px;
-  max-height: calc(100vh - 48px);
-  overflow-y: auto;
+  max-height: none;
+  overflow-y: visible;
   background: var(--bg);
   border: 1px solid var(--line);
   border-radius: 18px;
   padding: 32px;
+  margin: auto;
 }
 
 .gestion-head {
