@@ -16,7 +16,7 @@
   --teal-soft: rgba(57, 213, 184, 0.26);
   --violet: #8f5bf7;
   --violet-soft: rgba(176, 123, 255, 0.26);
-  --grad: linear-gradient(120deg, #c9922e, #f0453a 55%, #8f5bf7);
+  --grad: linear-gradient(120deg, #c9922e, #e7b14a 50%, #c9922e);
   --radius: 14px;
   --font-display: "Space Grotesk", "Arial Black", sans-serif;
   --font-body: "Inter", Arial, sans-serif;
@@ -214,6 +214,7 @@ nav {
 .menu {
   position: fixed;
   inset: 0;
+  z-index: 5;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -224,8 +225,43 @@ nav {
   transition: opacity 0.3s ease;
 }
 
+.menu::before {
+  content: "JAENDA";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-display);
+  font-size: clamp(120px, 22vw, 360px);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: transparent;
+  background: linear-gradient(180deg, rgba(193, 146, 46, 0.12), rgba(193, 146, 46, 0.02));
+  -webkit-background-clip: text;
+  background-clip: text;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.menu::after {
+  content: "Oportunidades que encuentran a quienes las hacen posibles";
+  position: absolute;
+  bottom: 44px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(420px, 80%);
+  text-align: center;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(91, 89, 102, 0.55);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.menu a { font-size: 24px; position: relative; z-index: 1; }
+
 .menu.open { opacity: 1; pointer-events: auto; }
-.menu a { font-size: 24px; }
 
 .burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
 .burger.open span:nth-child(2) { opacity: 0; }
@@ -474,11 +510,11 @@ nav {
 }
 .hero h1 .jnombre {
   letter-spacing: -4px;
-  background: linear-gradient(92deg, #ffffff 10%, #ffd97a 42%, #ff8a5c 68%, #ffffff 95%);
+  background: linear-gradient(92deg, #ffffff 15%, #f2d489 42%, #d5a343 70%, #ffffff 95%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  filter: drop-shadow(0 2px 22px rgba(255, 179, 107, 0.35));
+  filter: drop-shadow(0 2px 22px rgba(193, 146, 46, 0.35));
 }
 .hero h1 .thin { flex-basis: 100%; }
 
@@ -583,15 +619,12 @@ nav {
   font-weight: 700;
   letter-spacing: 0.3px;
   color: #111117;
-  background: linear-gradient(120deg, #ffd166, #ff6d5a);
-  box-shadow: 0 10px 30px rgba(255, 109, 90, 0.38);
+  background: linear-gradient(120deg, #e7b14a, #c9922e);
+  box-shadow: 0 10px 30px rgba(193, 146, 46, 0.38);
   transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
-.quick-links .qn { background: linear-gradient(120deg, #ffd166, #ff6d5a); box-shadow: 0 10px 30px rgba(255, 109, 90, 0.42); }
-.quick-links .qo { background: linear-gradient(120deg, #ff6d5a, #b07bff); box-shadow: 0 10px 30px rgba(176, 123, 255, 0.44); }
-.quick-links .qr { background: linear-gradient(120deg, #b07bff, #39d5b8); box-shadow: 0 10px 30px rgba(57, 213, 184, 0.42); }
-.quick-links .qe { background: linear-gradient(120deg, #39d5b8, #ffd166); box-shadow: 0 10px 30px rgba(217, 164, 65, 0.42); }
+.quick-links .qn, .quick-links .qo, .quick-links .qr, .quick-links .qe { background: linear-gradient(120deg, #e7b14a, #c9922e); box-shadow: 0 10px 30px rgba(193, 146, 46, 0.38); }
 
 .quick-links a::before {
   content: "";
@@ -1099,9 +1132,9 @@ nav {
   transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.oferta.acc-0 { border-top: 3px solid var(--coral); }
-.oferta.acc-1 { border-top: 3px solid var(--teal); }
-.oferta.acc-2 { border-top: 3px solid var(--violet); }
+.oferta.acc-0 { border-top: 3px solid var(--accent); }
+.oferta.acc-1 { border-top: 3px solid var(--accent); }
+.oferta.acc-2 { border-top: 3px solid var(--accent); }
 .oferta.acc-3 { border-top: 3px solid var(--accent); }
 
 .oferta:hover {
@@ -1142,10 +1175,10 @@ nav {
   letter-spacing: 1.5px;
   text-transform: uppercase;
   color: #1d1d22;
-  background: linear-gradient(135deg, #ffd166, #ffb347);
+  background: linear-gradient(135deg, #e7b14a, #c9922e);
   border-radius: 999px;
   padding: 8px 16px;
-  box-shadow: 0 10px 22px rgba(255, 179, 71, 0.35);
+  box-shadow: 0 10px 22px rgba(193, 146, 46, 0.35);
   transition: transform 0.2s ease;
   white-space: nowrap;
 }
@@ -1242,7 +1275,7 @@ nav {
   letter-spacing: 0.6px;
   text-transform: uppercase;
   color: #1d1d22;
-  background: linear-gradient(135deg, #ffd166, #ffb347);
+  background: linear-gradient(135deg, #e7b14a, #c9922e);
   border-radius: 999px;
   padding: 6px 14px;
   white-space: nowrap;
@@ -2205,14 +2238,14 @@ section[id="proyectos"] h2 { color: #fff; }
 @media (min-width: 900px) {
   .hero-foto.lista {
     top: 0;
-    height: min(56.3vw, 520px);
+    height: min(45vw, 380px);
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center center;
     background-color: #eaf5fb;
   }
   .hero-inner {
-    padding-top: min(56.3vw, 520px);
+    padding-top: min(45vw, 405px);
   }
 }
 
